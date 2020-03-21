@@ -1,0 +1,305 @@
+\documentclass[10pt]{beamer}
+\usetheme{CambridgeUS}
+\usecolortheme{seahorse}
+    
+\usepackage[utf8]{inputenc}	
+\usepackage{mathtools}
+\usepackage[english,ngerman,ukrainian]{babel}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\makeatletter
+
+\newcases{rightcases}{\quad}{%
+  \hfil$\m@th\displaystyle{##}$}{$\m@th\displaystyle{##}$\hfil}{\lbrace}{.}
+\makeatother
+ 
+ 
+%Information to be included in the title page:
+\title[М-д інтегральних р-нь]{Метод інтегральних рівнянь для крайових задач для бігармонійного рівняння}
+\author{Багрій Анна}
+\institute[ЛНУ]{Львівський національний університет імені Івана Франка}
+\date{2019}
+ 
+ 
+ 
+\begin{document}
+ 
+\frame{\titlepage}
+ 
+\begin{frame}
+\frametitle{Фізичний зміст задачі}
+	Розглянемо таке рівняння
+	\begin{equation}
+		\rho u\textsubscript{tt}(x,t)+D\Delta^{2} u(x,t)=0,
+		\quad x\in \Omega\subseteq R^2,t>0,
+	\end{equation}
+	\begin{center}
+		$\Omega$ - деяка пластина,
+	\end{center} 
+	$$\Delta^{2}=\bigg(\frac{\partial^{2}}{\partial x\textsubscript{1}^2}+\frac{\partial^{2}}{\partial x\textsubscript{2}^2}\bigg)^2 \textrm{- бігармонійний оператор}$$
+\end{frame}
+
+\begin{frame}
+\frametitle{Постановка задачі}
+\begin{equation}
+	\label{mainSys}
+	\left\{
+	\begin{split}
+		&\Delta^2 u(x)=0, \quad x\in\Omega, \\
+		&u(x)=f_1(x), \quad x\in\partial\Omega_1, \\
+		&u(x)=f_2(x), \quad x\in\partial\Omega_2, \\
+		&\frac{\partial u(x)}{\partial n}=g_1(x) \quad x\in\partial\Omega_1, \\
+		&\frac{\partial u(x)}{\partial n}=g_2(x) \quad x\in\partial\Omega_2. \\
+	\end{split}
+	\right.
+\end{equation}
+
+Знайти таку функцію $u\in C^4( \overline{\Omega})$, що заводовольняє бігармонійне рівняння і крайові умови.
+\end{frame}
+
+%Непрямий метод інтегральних рівнянь
+\begin{frame}
+\frametitle{Непрямий метод інтегральних рівнянь}
+Фундаментальний розв'язок $G$ бігармонійного рівняння
+\begin{equation}
+	\Delta_x^2 G(x, y)=\Delta_y^2 G(x, y)=\delta(x-y), \quad x,\ y \in R^2
+\end{equation}
+ має вигляд
+\begin{equation}
+	G(x, y)=\frac{1}{8\pi}|x-y|^2\ln|x-y|.
+\end{equation}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Непрямий метод інтегральних рівнянь}
+Об'ємні потенціали відповідно простого та подвійного шару мають вигляд
+\begin{equation}
+\begin{split}
+\label{poten}
+	V_1(\varphi)(x)=\int_\Omega G(x,y)\varphi(y)d\sigma_y, \\
+	V_2(\psi)(x)=\int_\Omega\frac{\partial}{\partial n_y}G(x,y)\psi(y) d\sigma_y,
+\end{split}
+\end{equation}
+$\varphi$ i $\psi$ - густини потенціалів.
+Розв'язок з-чі \eqref{mainSys} можна подати як
+\begin{gather}
+ \label{w}
+ 	 u(x)=\int_{\partial\Omega}(G(x,y)\varphi(y)+\frac{\partial G(x,y)}{\partial n_y}\psi(y))d\sigma_y, \quad x\in\Omega.
+ \end{gather}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Непрямий метод інтегральних рівнянь}
+Ядра в потенціалах \eqref{poten} мають вигляд
+ \begin{equation}
+ 	\frac{\partial G(x,y)}{\partial n_x}=\frac{1}{8\pi}n(x)\cdot(x-y)(1+2\ln|x-y|),
+ \end{equation}
+ \begin{equation}
+ 	\frac{\partial G(x,y)}{\partial n_y}=-\frac{1}{8\pi}n(y)\cdot(x-y)(1+2\ln|x-y|),
+ \end{equation}
+ \begin{gather}
+ 	\frac{\partial^2 G(x,y)}{\partial n_x\partial n_y}=\frac{\partial^2 G(x,y)}{\partial n_y\partial n_x}=-\frac{1}{8\pi}\bigg(2\frac{n(x)\cdot(x-y)n(y)\cdot(x-y)}{|x-y|^2} \\
+	+n(x)\cdot n(y)(1+2\ln|x-y|)\bigg) \nonumber.
+ \end{gather}
+\end{frame}
+
+\begin{frame}
+\frametitle{Непрямий метод інтегральних рівнянь}
+Теорема. Розв'язок крайової задачі \eqref{mainSys} можна подати у вигляді
+\begin{equation}
+	 	u(x)=\sum_{k=1}^{2}\int_{\partial\Omega_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x), \quad x\in \Omega,
+\end{equation}
+$\omega(x) = \alpha_0+\alpha_1x_1+\alpha_2x_2 \ ((\alpha_0,\alpha_1,\alpha_2)\in R^3), \varphi_k,\psi_k\in C(\partial\Omega_k), k=1,2,$
+і є єдиним для с-ми
+\begin{equation}
+	 \left\{
+	 	\begin{split}
+		\label{system}
+	 		&\sum_{k=1}^{2}\int_{\partial\Omega_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x)=f(x), \\
+			&\sum_{k=1}^{2}\int_{\partial\Omega_k}\bigg(\frac{\partial G(x,y)}{\partial n_x}\varphi_k(y)+\frac{\partial^2 G(x,y)}{\partial n_y\partial n_x}\psi_k(y)\bigg)d\sigma_y+\frac{\partial\omega(x)}{\partial n}=g(x), \\
+		\end{split}
+	\right.
+	 \end{equation}
+	 $$ x\in\partial\Omega_l, \ l=1,2,$$
+\end{frame}
+
+\begin{frame}
+\frametitle{Непрямий метод інтегральних рівнянь}
+разом з рівняннями
+\begin{equation}
+	 \left\{
+	 	\begin{split}
+		\label{system}
+			&\sum_{k=1}^{2}\int_{\partial\Omega_k}\varphi_k(y)d\sigma_y=A_0, \\
+			&\sum_{k=1}^{2}\int_{\partial\Omega_k}(y_1\varphi_k(y)+n_1(y)\psi_k(y))d\sigma_y=A_1, \\
+			&\sum_{k=1}^{2}\int_{\partial\Omega_k}(y_2\varphi_k(y)+n_2(y)\psi_k(y))d\sigma_y=A_2
+		\end{split}
+	\right.
+	 \end{equation}
+	 для заданих $(A_0,A_1,A_2)\in R^3$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Параметризація}
+$$\partial\Omega_l=\left\{x_l(s)=(x_1{_l}(s),x_2{_l}(s)) \ : \ s\in [0,2\pi]\right\}.$$
+ \begin{equation}
+ 		\left\{
+	 	\begin{split}
+		\label{paramSystem}
+	 		&\frac{1}{2\pi}\sum_{k=1}^{2}\int_{0}^{2\pi}\bigg(H_l{_k}(s, \sigma)\varphi_k(\sigma)+\tilde{H}_l{_k}(s, \sigma)\psi_k(\sigma)\bigg)d\sigma+\omega(x_l(s))=f(x_l(s)), \\
+			&\frac{1}{2\pi}\sum_{k=1}^{2}\int_{0}^{2\pi}\bigg(\tilde{\tilde{H}}_l{_k}(s, \sigma)\varphi_k(\sigma)+\hat{H}_l{_k}(s, \sigma)\psi_k(\sigma)\bigg)d\sigma+\frac{\partial\omega(x_l(s))}{\partial n_l}=g(x_l(s)), \\
+			&\sum_{k=1}^{2}\int_{0}^{2\pi}\varphi_k(\sigma)d\sigma=A_0, \\
+			&\sum_{k=1}^{2}\int_{0}^{2\pi}(x_1{_k}\varphi_k(\sigma)+n_1(x_k(\sigma))\psi_k(\sigma))d\sigma=A_1, \\
+			&\sum_{k=1}^{2}\int_{0}^{2\pi}(x_2{_k}\varphi_k(\sigma)+n_2(x_k(\sigma))\psi_k(\sigma))d\sigma=A_2, \\
+		\end{split}
+		\right.
+\end{equation}
+$\ l=1,2, \ s\in [0,2\pi]$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Параметризація}
+Тут $ \label{kernels} \varphi_l(s) :=\varphi_k(x_l(s))|x'_l(s)|,  \psi_l(s) :=\psi_k(x_l(s))|x'_l(s)| - \textrm{невідомі густини} $ і ядра мають вигляд
+ 
+ \begin{equation}
+ \begin{split}
+	&H_l{_k}(s, \sigma) = G(x_l(s),x_k(\sigma)), \quad \tilde{H}_l{_k}(s, \sigma)=\frac{\partial G(x_l(s),x_k(\sigma))}{\partial n_y}, \\
+	&\tilde{\tilde{H}}_l{_k}(s, \sigma)=\frac{\partial G(x_l(s),x_k(\sigma))}{\partial n_x}, \quad \hat{H}_l{_k}(s, \sigma)=\frac{\partial^2 G(x_l(s),x_k(\sigma))}{\partial n_y\partial n_x}, \\
+	&n(x(s))=\Big(\frac{x'_2(s)}{|x'(s)|},-\frac{x'_1(s)}{|x'(s)|}\Big) - \textrm{зовнішня нормаль.} \nonumber
+ \end{split}
+ \end{equation}
+\end{frame}
+
+\begin{frame}
+\frametitle{Параметризація}
+При $l=k$ ядра мають логарифімічну особливість. Після її виділення отримаємо такий вигляд для кожного з ядер
+$$
+H_{ll}(s, \sigma)=H^{(1)}_{ll}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+H^{(2)}_{ll}(s, \sigma),
+$$
+$$
+H^{(1)}_{ll}(s, \sigma)=\frac{1}{8}|x_l(s)-x_l(\sigma)|^2,
+$$
+$$
+H^{(2)}_{ll}(s, \sigma)=\frac{1}{8}|x_l(s)-x_l(\sigma)|, \ s\in [0,2\pi].
+$$
+Аналогічно для інших ядер.
+\end{frame}
+ 
+ \begin{frame}
+\frametitle{Чисельне розв'язування}
+Застосуємо квадратурні формули 
+ \begin{gather}
+ 	\frac{1}{2\pi}\int_{0}^{2\pi}f(\sigma)d\sigma\approx\frac{1}{2m}\sum_{j=0}^{2m-1}f(s_j), \\
+	\frac{1}{2\pi}\int_{0}^{2\pi}f(\sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)d\sigma\approx\frac{1}{2m}\sum_{j=0}^{2m-1}R_j(s)f(s_j) \\
+	s_k=kh, \ k=0,...,2m-1, \ h=\frac{\pi}{m}, \nonumber \\
+	R_k(s)=-\frac{1}{m}\bigg(\frac{1}{2}+\sum_{j=1}^{m-1}\frac{1}{j}\cos \frac{jk\pi}{m}+ \frac{(-1)^k}{2m}\bigg) - \textrm{ваги} \nonumber ,
+ \end{gather}
+  до параметризованої системи \eqref{paramSystem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Чисельне розв'язування}
+\begin{equation} \label{lastSys}
+  \left\{
+  \begin{split}
+  	&\sum_{j=0}^{2m-1}\bigg((H^{(1)}_{ll}(s_i, s_j)R_{|i-j|}+\frac{1}{2m}H^{(2)}_{ll}(s_i, s_j))\varphi_{lj}+\frac{1}{2m}H_{l,3-l}(s_i, s_j)\varphi_{3-l,j} \\ 
+	&+(\tilde{H}^{(1)}_{ll}(s_i, s_j)R_{|i-j|} +\frac{1}{2m}\tilde{H}^{(2)}_{ll}(s_i, s_j))\psi_{lj}+\frac{1}{2m}\tilde{H}_{l,3-l}(s_i, s_j)\psi_{3-l,j}\bigg) + \omega_{li}=f_{li},\\
+	 &\sum_{j=0}^{2m-1}\bigg(\frac{1}{2m}\tilde{\tilde{H}}_{l,3-l}\varphi_{3-lj}+(\tilde{\tilde{H}}^{(1)}_{ll}(s_i, s_j)R_{|i-j|}+\frac{1}{2m}\tilde{\tilde{H}}^{(2)}_{ll}(s_i, s_j))\varphi_{lj} + \frac{1}{2m}\hat{H}_{l,3-l}\psi_{3-lj}\\
+	 &+(\hat{H}^{(1)}_{ll}(s_i, s_j)R_{|i-j|}+\frac{1}{2m}\hat{H}^{(2)}_{ll}(s_i, s_j))\psi_{lj}\bigg) +\frac{\partial\omega_{li}}{\partial n_l}=f_{li},\ l=1,2,
+\end{split}
+\right.
+\end{equation}
+\end{frame}
+
+\begin{frame}
+\frametitle{Чисельне розв'язування}
+\begin{equation} \label{lastSys}
+  \left\{
+  \begin{split}
+	 &h\sum_{k=1}^{2}\sum_{j=0}^{2m-1}\varphi_{kj}=A_0, \\
+	 &h\sum_{k=1}^{2}\sum_{j=0}^{2m-1}(x_{1k}(s_j)\varphi_{kj}+n_1(x_k(s_j))\psi_{kj})=A_1, \\
+	 &h\sum_{k=1}^{2}\sum_{j=0}^{2m-1}(x_{2k}(s_j)\varphi_{kj}+n_2(x_k(s_j))\psi_{kj})=A_2
+\end{split}
+\right.
+\end{equation}
+\end{frame}
+
+\begin{frame}
+\frametitle{Чисельне розв'язування}
+Розв'язок має вигляд
+ \begin{equation} \label{solutionEq}
+ \begin{split}
+ 	u(x) \approx\sum_{k=1}^{2}\sum_{j=0}^{2m-1}\bigg(H_k(x,s_j)\varphi_{kj}+\tilde{H}_k(x,s_j)\psi_{kj}\bigg) +a_0+a_1x_1+a_2x_2,\\
+ 	x\in\Omega, \ \varphi_{kj}\approx\varphi_k(s_j), \ \psi_{kj}\approx\psi_k(s_j), \ j=0,...,2m-1.
+ \end{split}
+ \end{equation}
+\end{frame}
+ 
+ %Приклад 1
+\begin{frame}
+\frametitle{Чисельні експерименти}
+\framesubtitle{Приклад 1}
+\begin{equation}
+ \begin{split}
+ \label{bound}
+	&f(x_k)=x_{1k}-2x_{2k}, \ x\in\partial\Omega_k, \\
+	&g(x_k)=\frac{f(x_k)}{\partial n_k}, \ x\in\partial\Omega_k, \quad k =1,2. 
+ \end{split}
+ \end{equation}
+ \begin{figure}[h!]
+\centering
+	\includegraphics[scale=.5]{domain4.pdf}
+	\vspace*{-1cm}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Чисельні експерименти}
+
+\end{frame}
+
+ %Приклад 2
+\begin{frame}
+\frametitle{Чисельні експерименти}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Чисельні експерименти}
+
+\end{frame}
+
+%Висновки
+\begin{frame}
+\frametitle{Висновок}
+
+\end{frame}
+
+
+%Висновки
+\begin{frame}
+\frametitle{Список літератури}
+\begin{thebibliography}{99}
+ \addcontentsline{toc}{chapter}{Література}
+\bibitem{chen} 
+Chen G., Boundary Element Methods with Applications to Nonlinear Problems / Goong Chen, Jianxin Zhou. - Atlantis Press, 2010. - 715 p.
+
+\bibitem{chapko} 
+Chapko R. Integral Equations for Biharmonic Data Completion / Roman Chapko, B. Tomas Johansson. - 2019. - 16 p.
+ 
+\bibitem{kress} 
+Kress R. Linear Integral Equations / Rainer Kress. - New York : Springer, 1989. - 412 p.
+
+\end{thebibliography}
+\end{frame}
+
+\begin{frame}{}
+  \centering \huge
+  Дякую за увагу
+\end{frame}
+ 
+\end{document}

@@ -1,0 +1,698 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+\documentclass[12pt]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,ukrainian]{babel}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{pdfpages}
+\usepackage[a4paper,margin=2cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{systeme}
+\usepackage{titletoc}
+\usepackage{array}
+\usepackage{subfig}
+\usepackage[font=small,labelfont=bf]{caption}
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\thebibliography}{%
+  \chapter*{\bibname}\@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}}{%
+  \chapter*{Література}}{}{}
+\makeatother
+
+\newtheorem{definition}{Означення}
+\newtheorem{theorem}{Теорема}
+\newtheorem{lema}{Лема}
+\newtheorem{collocation}{Наслідок}
+
+\setlength\abovecaptionskip{-5pt}
+
+%\numberwithin{theorem}{section}
+%\numberwithin{collocation}{theorem}
+
+%\titleformat*{\section}{\huge\bfseries}
+%\titleformat*{\subsection}{\large\bfseries}
+
+%\renewcommand{\thesection}{\arabic{section} }
+%\renewcommand{\thesubsection}{\arabic{section}.\value{thesubsection} }
+%\renewcommand\bibname{Література}
+\makeindex
+\begin{document}
+\begin{titlepage}
+		\begin{center}
+			{\largeЛЬВІВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ ІМЕНІ ІВАНА ФРАНКА}\\
+			{\Large Факультет прикладної математики та інформатики \\
+			 Кафедра обчислювальної математики}
+		\end{center}
+	    \leavevmode \\
+	    \leavevmode \\
+	    \leavevmode \\
+	    \leavevmode \\
+		\begin{center}
+			{\LARGE  Курсова робота\\}
+			 на тему: \\
+			\leavevmode \\
+		    {\Huge \textbf{Метод інтегральних рівнянь для крайових задач для бігармонійного рівняння}}			
+		\end{center}
+	    \leavevmode \\
+	    \leavevmode \\
+	    \leavevmode \\
+	    \leavevmode \\	
+	    \leavevmode \\
+	    \leavevmode \\
+	    \leavevmode \\
+	    \leavevmode \\     
+	        \begin{tabular}{p{7cm}p{12cm}}
+	    	    \, & {\large Студентки III курсу групи ПМП-31} \\
+	    	    \, & {\large Напряму підготовки ``Прикладна математика''} \\
+	    	    \, & {\large Багрій А. Г.} \\
+	    	    \, & \, \\
+	    	    \, & {\large Керівник:} \\
+	    	    \, & {\large проф. Хапко Р. С.} \\
+	    	    \, & {\large Національна шкала: \underline{\hspace{3cm}}} \\
+	    	    \, & {\large Кількість балів: \underline{\hspace{3cm}}} \\
+		    \, & {\large Оцінка ECTS: \underline{\hspace{3cm}}}
+	        \end{tabular}
+        \leavevmode \\
+        \leavevmode \\
+        \leavevmode \\
+        \leavevmode \\
+        \vfill
+        \begin{center}
+        	{\Large Львів 2019}
+        \end{center}
+\end{titlepage}
+
+\tableofcontents
+
+\chapter*{Вступ}
+ \addcontentsline{toc}{chapter}{Вступ}
+  
+\begin{definition}
+\label{be}
+ 	Бігармонійним рівнянням називається рівняння вигляду
+  	$$
+		\Delta^{2}f(x)=\frac{\partial^{4}f}{\partial x\textsubscript{1}^4}+...+\frac{\partial^{4}f}{\partial x\textsubscript{n}^4}=0,\quad f(x)=f(x\textsubscript{1},...,x\textsubscript{n})
+	$$
+\end{definition}
+
+Нехай $\Omega$ - деяка двозв'язна область в $R^2$, що представляє пластину. І нехай область обмежена кривими $\partial\Omega=\partial\Omega_1\cup\partial\Omega_2$ - двозв'язна область в $R^2$. 
+
+\begin{figure}[h!]
+\centering
+	\includegraphics[scale=.5]{domain1.pdf}
+	\caption{Деяка пластина }
+\end{figure}
+
+Розглянемо таке рівняння
+
+\begin{equation} 
+\label{physeq}
+	\rho u\textsubscript{tt}(x,t)+D\Delta^{2} u(x,t)=0,
+	\quad x\in \Omega\subseteq R^2,t>0,
+\end{equation}
+
+де $u(x,t)$ - вертикальний відхил пластини відносно координати $x$ в момент часу $t$, $\rho >0$ - густина маси на одиницю площі, $D >0$ - жорсткість згинання пластини, $\Delta^{2}=\bigg(\frac{\partial^{2}}{\partial x\textsubscript{1}^2}+\frac{\partial^{2}}{\partial x\textsubscript{2}^2}\bigg)^2$ - бігармонійний оператор.
+
+Це рівняння моделює вібрації тонкої пластини, що піддається вигину з невеликим відхиленням. Ця математична модель є важливою в сейсмології і структурній механіці. 
+Коли пластина перебуває у електростатичній рівновазі, $ u$ більше не залежить часу і рівняння \eqref{physeq} набуває вигляду
+$$
+	\Delta^{2}u(x)=0,\quad x\in\Omega,
+$$
+де $ u$ задовольняє бігармонійне рівняння.
+ 
+ Бігармонійне рівняння \eqref{be} є також стандартним рівнянням еластичності пластини, що піддається розтягуванню. Функція $ u$ в \eqref{be} зазвичай означає функцію, яка не має конкретного фізичного значення.
+ 
+Розв'язок бігармонічного рівняння можна обчислити методом скінченних елементів для будь-яких коректних крайових умов. Проте в даній ситуації він має певні недоліки і ускладнює процес пошуку розв'язку. Тому доцільно буде розглянути інший метод - метод граничних інтегральних рівнянь.
+
+Метод інтегральних рівнянь полягає у зведені крайової задачі до інтегральних рівнянь на границі області з подальшим чисельним розв'язуванням. Для цього розглядають розв'язок задачі у вигляді потенціалу і використовуючи властивості неперервності потенціалів, отримують потрібні інтегральні рівняння. Потім рівняння параметризують і застосовують певні квадратури, тим самим отримуючи систему лінійних рівнянь, яку можна розв'язати відомими методами. 
+
+Для початку розглянемо фізичну структуру крайової задачі з бігармонійним рівнянням.
+
+Нехай тонка пластина з жорсткістю $D$ і коефіцієнтом Пуасона $0<\nu<\frac{1}{2}$ перебуває в електростатичній рівновазі. Розглянемо нескінченно малий елемент пластини. Нехай $M\textsubscript{x\textsubscript{1}}$ і $M\textsubscript{x\textsubscript{2}}$ - моменти згину на одиницю довжини, що діють на її края. 
+
+$$
+	M\textsubscript{x\textsubscript{1}}=-D\bigg(\frac{\partial^{2} u}{\partial x\textsubscript{1}^2}+\nu\frac{\partial^{2} u}{\partial x\textsubscript{2}^2}\bigg),
+$$
+$$
+	M\textsubscript{x\textsubscript{2}}=-D\bigg(\frac{\partial^{2} u}{\partial x\textsubscript{2}^2}+\nu\frac{\partial^{2} u}{\partial x\textsubscript{2}^2}\bigg),
+$$
+
+Робота, виконана моментами на нескінченно малому елементі, має вигляд
+
+$$
+	dV\textsubscript{1}=\frac{1}{2}D\bigg(\bigg(\frac{\partial^{2} u}{\partial x\textsubscript{1}^2}\bigg)^2+\bigg(\frac{\partial^{2} u}{\partial x\textsubscript{2}^2}\bigg)^2+2\nu\frac{\partial^{2} u}{\partial x\textsubscript{1}^2}\frac{\partial^{2} u}{\partial x\textsubscript{2}^2}\bigg).
+$$
+
+Окрім енергії деформації також робить внесок в енергію деформації момент крутіння
+
+$$
+	M\textsubscript{x\textsubscript{1}x\textsubscript{2}}=M\textsubscript{x\textsubscript{2}x\textsubscript{1}}=D(1-\nu)\frac{\partial^{2} u}{\partial x\textsubscript{1}\partial x\textsubscript{2}}.
+$$
+
+Сума їх внеску в енергію деформації дорівнює
+
+$$
+	dV\textsubscript{2}=D(1-\nu)\bigg(\frac{\partial^{2} u}{\partial x\textsubscript{1}\partial x\textsubscript{2}}\bigg)^2.
+$$
+
+Загальна енергія деформації дорівнює
+
+ $$
+ 	V( u)=\int_{\Omega}(dV\textsubscript{1}+dV\textsubscript{2})=\frac{D}{2}\int_{\Omega}(|\Delta u(x)|^2+(1-\nu)( u^2\textsubscript{x\textsubscript{1}}\textsubscript{x\textsubscript{2}}(x)- u\textsubscript{x\textsubscript{1}}\textsubscript{x\textsubscript{1}}(x) u\textsubscript{x\textsubscript{2}}\textsubscript{x\textsubscript{2}}(x)))dx.
+$$
+ 
+ Для зручності вважатимемо $D=1$. Використаємо принцип ймовірних переміщень, згідно з яким для рівноваги механічної системи з ідеальними зв'язками необхідно і достатньо, щоб сума віртуальних робіт тільки активних сил на будь-якому можливому переміщенні системи дорівнювала нулю. Можливими переміщеннями механічної системи називаються уявні нескінченно малі переміщення, які припускаються в даний момент накладеними на систему зв'язками, $\delta V( u)=\delta\int_{\Omega}q(x) u(x)dx$, $u$ - стан рівноваги пластини, $q$ - зовнішнє навантаження, розподілене по пластині, і на границі області напруги немає.
+ 
+ Маємо 
+ \begin{gather*}
+ 	0=\delta V( u)-\delta\int_{\Omega}q(\delta u)dx= \\
+ 	\int_{\Omega}(\Delta u(\delta u)+(1-\nu)(2 u\textsubscript{x\textsubscript{1}}\textsubscript{x\textsubscript{2}}(\delta u)\textsubscript{x\textsubscript{1}}\textsubscript{x\textsubscript{2}}- u\textsubscript{x\textsubscript{1}}\textsubscript{x\textsubscript{1}}(\delta u)\textsubscript{x\textsubscript{2}}\textsubscript{x\textsubscript{2}}-(\delta u)\textsubscript{x\textsubscript{1}}\textsubscript{x\textsubscript{1}} u\textsubscript{x\textsubscript{2}}\textsubscript{x\textsubscript{2}}))dx\textsubscript{1}dx\textsubscript{2} - \int_{\Omega}q(\delta u)dx\textsubscript{1}dx\textsubscript{2}, \\
+  \forall \delta u.
+\end{gather*}
+
+\begin{lema}[формула Релея – Гріна]
+\label{lemaRG}
+	Визначимо білінійну форму 
+	$$
+		a( u,\nu)=\int_{\Omega}(\Delta u\Delta\nu+(1-\nu)(2 u\textsubscript{x\textsubscript{1}}		\textsubscript{x\textsubscript{2}}\nu\textsubscript{x\textsubscript{1}}\textsubscript{x\textsubscript{2}}-	 u\textsubscript{x\textsubscript{1}}\textsubscript{x\textsubscript{1}}\nu\textsubscript{x\textsubscript{2}}	\textsubscript{x\textsubscript{2}}- u\textsubscript{x\textsubscript{2}}\textsubscript{x\textsubscript{2}}	\nu\textsubscript{x\textsubscript{1}}\textsubscript{x\textsubscript{1}}))dx, \quad 0<\nu<\frac{1}{2}.
+	$$
+	Тоді для достатньо гладких $u$, $\nu$
+	$$
+		a( u,\nu)=\int_{\Omega}(\Delta^2 u)\nu dx-\int_{\Omega}((B\textsubscript{1} u)\nu-	(B\textsubscript{2} u)\frac{\partial\nu}{\partial n})), 
+	$$
+	де
+
+$$
+	B\textsubscript{1}=\frac{\partial\Delta u}{\partial n}-(1-\nu)\frac{\partial}{\partial\sigma}\bigg(n\textsubscript{1}n\textsubscript{2}\bigg(\frac{\partial^{2}}{\partial x\textsubscript{1}^2}+\frac{\partial^{2}}{\partial x\textsubscript{2}^2}\bigg)-(n^2\textsubscript{1}-n^2\textsubscript{2})\frac{\partial^{2} u}{\partial x\textsubscript{1}\partial x\textsubscript{2}}\bigg),
+$$
+
+$$
+	B\textsubscript{2}=\nu\Delta u+(1-\nu)\bigg(n^2\textsubscript{1}\frac{\partial^{2}}{\partial x\textsubscript{1}^2}+n^2\textsubscript{2}\frac{\partial^{2}}{\partial x\textsubscript{2}^2+2n\textsubscript{1}n\textsubscript{2}}\frac{\partial^{2} u}{\partial x\textsubscript{1}\partial x\textsubscript{2}}\bigg),
+$$
+
+\noindent$B\textsubscript{1}$ - поперечна сила, $B\textsubscript{2}$ - момент згину, $n=(n_1, n_2)$ одинична зовнішня нормаль на $\partial\Omega, \frac{\partial}{\partial\Omega}=-n\textsubscript{2}\frac{\partial}{\partial x\textsubscript{1}}+n\textsubscript{1}\frac{\partial}{\partial x\textsubscript{2}}$ - тангенціальна похідна проти годинникової стрілки вздовж $\partial\Omega$.
+\end{lema}
+
+З леми отримуємо, що 
+$$
+	\Delta^2 u(x)=q(x), \quad x\in\Omega.
+$$
+На межі можна ввести декілька різних типів умов. Розглянемо граничні умови у випадку закріпленої пластини.
+
+$$
+	 u=0, \quad x\in\Omega \quad \textrm{(умова Діріхле)},
+$$
+$$
+	\frac{\partial u}{\partial n}=0, \quad x\in\Omega \quad \textrm{(умова Неймана)}.
+$$
+
+Оскільки навантаження $q(x)$ завжди може бути усунене відніманням потенціалу, то можна просто припустити, що $q(x)=0$. Тоді
+$$
+	\Delta^2 u(x)=0, \quad  x\in\Omega
+$$
+Граничні умови, в свою чергу, стають неоднорідними. В результаті отримуємо таку крайову задачу:
+\begin{equation}
+	\label{mainSys}
+	\left\{
+	\begin{split}
+		&\Delta^2 u(x)=0, \quad x\in\Omega, \\
+		&u(x)=f(x), \quad x\in\partial\Omega, \\
+		&\frac{\partial u(x)}{\partial n}=g(x) \quad x\in\partial\Omega.
+	\end{split}
+	\right.
+\end{equation}
+
+Фізичний зміст даної задачі полягає у знаходженні кута зсуву закріпленої пластини.
+
+Отже, розв'язування крайової задачі Діріхле \eqref{mainSys} полягає у знаходженні такої функції $u\in C^4(\overline{\Omega})$, що задовольняє бігармонійне рівняння і задані крайові умови.
+
+\newpage
+
+
+  % 2
+ \setcounter{secnumdepth}{1}
+ \chapter{Зведення крайової задачі до системи інтегральних рівнянь}
+ \section{Деякі властивості з теорії потенціалів для бігармонійного рівняння}
+ 
+ На основі класичних еліптичних крайових задач, маємо наступну теорему існування та єдиності.
+ 
+ \begin{theorem}
+ 	Нехай $(f, g)\in H^\frac{3}{2}(\partial\Omega)\oplus H^\frac{1}{2}(\partial\Omega)$ і 
+ 	$$
+ 		\nu\in H_0^2(\Omega)=\left\{\nu\in H^2(\Omega)\ | \ \nu=\frac{\partial\nu}{\partial n}=0 \ \textrm{on} \ \partial\Omega \right\},
+	$$
+	де $H_0^2$ - простір Соболєва. Тоді існує єдиний слабкий розв'язок $w \in H^2(\Omega)$ для \eqref{mainSys}, який задовольняє крайові умови на $\partial\Omega$ так, що
+ 	$$
+ 		a( u, \nu)=0, \quad \forall \nu\in H_0^2(\Omega).
+	$$
+ \end{theorem}
+ 
+ Розглянемо одно- та двошарові потенціали як розв'язок бігармонійної крайової задачі. Неважко показати, що фундаментальний розв'язок $G(x, y)$ бігармонійного рівняння
+ $$
+ 	\Delta_x^2 G(x, y)=\Delta_y^2 G(x, y)=\delta(x-y), \quad x,\ y \in R^2,
+$$
+ має вигляд
+ \begin{equation}
+ 	G(x, y)=\frac{1}{8\pi}|x-y|^2\ln|x-y|.
+ \end{equation}
+ Нехай $x \in \Omega$. Припустимо, що $ u$ задовольняє рівняння $\Delta^2 u(x)=0$ в $\Omega$. За лемою \eqref{lemaRG} після інтегрування частинами по $\Omega$ і $\partial\Omega$ отримуємо
+
+  \begin{gather*}
+  	 u(x)=\int_\Omega((\Delta^2 u(y))G(x,y)-(\Delta_y^2 G(x, y)) u(y))dy \\
+ 	 =\int_\Omega((B_1 u(y))G(x,y)-(B_2 u(y))\frac{\partial G(x,y)}{\partial n_y})d\sigma_y+a( u,G(x,\cdot)) \\
+ 	 -(\int_\Omega((B_1{_y}G(x,y)) u(y)-(B_2{_y}G(x,y))\frac{\partial  u(y)}{\partial n_y})d\sigma_y+a(G(x,\cdot), u)) \\
+ 	 =\int_\Omega(G(x,y)B_1 u(y)-\frac{\partial G(x,y)}{\partial n_y}B_2 u(y) - (B_1{_y}G(x,y)) u(y)+(B_2{_y}G(x,y))\frac{\partial  u(y)}{\partial n_y})d\sigma_y.
+  \end{gather*}
+Очевидно, що $ u(x)$ можна знайти, якщо відомі $ u, \frac{\partial u}{\partial n}, B_1 u, B_2 u$ на $\partial\Omega$. Але з постановки задачі \eqref{mainSys} відомі лише $ u, \frac{\partial u}{\partial n}$ на $\partial\Omega$. 
+
+$$
+	V_1(\varphi)(x)=\int_\Omega G(x,y)\varphi(y)d\sigma_y\quad - \textrm{потенціал простого шару},
+$$ 
+$$
+	V_2(\psi)(x)=\int_\Omega\frac{\partial}{\partial n_y}G(x,y)\psi(y) d\sigma_y \quad - \textrm{потенціал подвійного шару},
+$$
+ $$
+ 	V_3(\widetilde{\varphi})(x)=\int_\Omega\widetilde{\varphi}(y) B_2{_y}G(x,y)d\sigma_y\quad - \textrm{потенціал потрійного шару},
+$$ 
+ $$	
+ 	V_4(\widetilde{\psi})(x)=\int_\Omega\widetilde{\psi}(y)B_1{_y}G(x,y)d\sigma_y\quad - \textrm{потенціал шару четвертого степеня},
+$$
+ $$
+ 	\varphi=B_1 u, \ \psi=B_2 u, \ \widetilde{\varphi}=\frac{\partial u(y)}{\partial n_y}, \ \widetilde{\psi}(x)=u(y).
+$$ 
+ 
+  Дані потенціали $V_1-V_4$ визначені для $ x\notin \partial\Omega$. Коли $ x\in \partial\Omega$, $V_1-V_3$ також є визначені для $\forall x\in\Omega$, але при диференціюванні отримуємо логарифмічну особливість.
+  
+ Чим більший степінь шару, тим більше сингулярним стає ядро при $x=y\in\partial\Omega$. Оскільки для обчислювань вигідніше використовувати потенціали шарів, які не є надто сингулярними, то для побудови розв'язку візьмемо простий і двошаровий потенціали:
+\begin{gather}
+ \label{w}
+ 	 u(x)=\int_{\partial\Omega}(G(x,y)\varphi(y)+\frac{\partial G(x,y)}{\partial n_y}\psi(y))d\sigma_y, \quad x\in\Omega,
+ \end{gather}
+  \begin{gather}
+ \label{w_der}
+	\frac{\partial u(x)}{\partial n}=\int_{\partial\Omega}(\frac{\partial G(x,y)}{\partial n}\varphi(y)+\frac{\partial^2 G(x,y)}{\partial n_x \partial n_y}\psi(y))d\sigma_y, \quad x\in\Omega,
+ \end{gather}
+ де $\varphi$ i $\psi$ - густини потенціалів. Також розв'язок даної задачі можна подати у вигляді комбінації й інших потенціалів. 
+ 
+ 
+ 
+ \section{Непрямий метод інтегральних рівнянь}
+ 
+ В цьому розділі сформулюємо граничні інтегральні рівняння для крайової задачі \eqref{mainSys}. Для того, щоб розв'язок задачі \eqref{mainSys} був єдиним, необхідно змодифікувати рівняння. 
+ 
+ Ядра в рівняннях \eqref{w}, \eqref{w_der} мають вигляд
+ 
+ \begin{equation}
+ 	\frac{\partial G(x,y)}{\partial n_x}=\frac{1}{8\pi}n(x)\cdot(x-y)(1+2\ln|x-y|),
+ \end{equation}
+ \begin{equation}
+ 	\frac{\partial G(x,y)}{\partial n_y}=-\frac{1}{8\pi}n(y)\cdot(x-y)(1+2\ln|x-y|),
+ \end{equation}
+ \begin{gather}
+ 	\frac{\partial^2 G(x,y)}{\partial n_x\partial n_y}=\frac{\partial^2 G(x,y)}{\partial n_y\partial n_x}=-\frac{1}{8\pi}\bigg(2\frac{n(x)\cdot(x-y)n(y)\cdot(x-y)}{|x-y|^2} \\
+	+n(x)\cdot n(y)(1+2\ln|x-y|)\bigg) \nonumber.
+ \end{gather}
+ 
+ \begin{theorem}
+ 	Розв'язок крайової задачі \eqref{mainSys} можна подати у вигляді
+	 \begin{equation}
+	 	u(x)=\sum_{k=1}^{2}\int_{\partial\Omega_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x), \quad x\in \Omega,
+	 \end{equation}
+	 де $\omega(x) = \alpha_0+\alpha_1x_1+\alpha_2x_2 \ ((\alpha_0,\alpha_1,\alpha_2)\in R^3), \varphi_k,\psi_k\in C(\partial\Omega_k), k=1,2,$ і є єдиним розв'язком системи інтегральних рівнянь
+	 \begin{equation}
+	 \left\{
+	 	\begin{split}
+		\label{system}
+	 		&\sum_{k=1}^{2}\int_{\partial\Omega_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x)=f(x), \ x\in\partial\Omega_l, \ l=1,2, \\
+			&\sum_{k=1}^{2}\int_{\partial\Omega_k}\bigg(\frac{\partial G(x,y)}{\partial n_x}\varphi_k(y)+\frac{\partial^2 G(x,y)}{\partial n_y\partial n_x}\psi_k(y)\bigg)d\sigma_y+\frac{\partial\omega(x)}{\partial n}=g(x), \ x\in\partial\Omega_l, \ l=1,2, \\
+			&\sum_{k=1}^{2}\int_{\partial\Omega_k}\varphi_k(y)d\sigma_y=A_0, \\
+			&\sum_{k=1}^{2}\int_{\partial\Omega_k}(y_1\varphi_k(y)+n_1(y)\psi_k(y))d\sigma_y=A_1, \\
+			&\sum_{k=1}^{2}\int_{\partial\Omega_k}(y_2\varphi_k(y)+n_2(y)\psi_k(y))d\sigma_y=A_2
+		\end{split}
+	\right.
+	 \end{equation}
+	 для заданих $(A_0,A_1,A_2)\in R^3$.
+ \end{theorem}
+ 
+  Зауважимо, що константи $A_0,A_1,A_2$ можна вибрати довільно, але розв'язок системи залежить від вибору цих констант. В загальному, не можна одночасно брати за значення $A_0,A_1,A_2$ нулі.
+ 
+ \begin{collocation}
+ 	Припустимо, що система інтегральних рівнянь
+	\begin{equation*}
+		\left\{
+		\begin{split}
+			&\int_{\partial\Omega_k}(G(x,y)\eta_{1k}(y)+\frac{\partial G(x,y)}{\partial n_y}\eta_{2k}(y))d\sigma_y=a_0+a_1x_{1k}+a_2x_{2k}, \quad x\in\partial\Omega_k \\
+			&\int_{\partial\Omega_k}(\frac{\partial G(x,y)}{\partial n_x}\eta_{1k}(y)+\frac{\partial^2 G(x,y)}{\partial n_x n_y}\eta_{2k}(y))d\sigma_y=a_1n_{1k}(x)+a_2n_{2k}(x), \quad x\in\partial\Omega_k
+		\end{split}
+		\right.
+	\end{equation*}
+	має єдиний розв'язок для $\forall (a_0,a_1,a_2)\in R$ для заданих $(\eta_{1l},\eta_{2l}), \ l=1,2$. Тоді для будь-яких заданих функцій  
+	$(f_l,g_l) \in H^{r+3}(\partial\Omega_l)\oplus H^{r+2}(\partial\Omega_l), \ l=1,2$ система інтегральних рівнянь
+	\begin{equation*}
+		\left\{
+		\begin{split}
+			&\int_{\partial\Omega_k}(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y))d\sigma_y=f_k(x), \quad x\in\partial\Omega_k, \\
+			&\int_{\partial\Omega_k}(\frac{\partial G(x,y)}{\partial n_x}\varphi_k(y)+\frac{\partial^2 G(x,y)}{\partial n_x n_y}\psi_k(y))d\sigma_y=g_k(x), \quad x\in\partial\Omega_k
+		\end{split}
+		\right.
+	\end{equation*}
+	 так само має єдиний розв'язок для  $(\varphi_k,\psi_k) \in H^{r}(\partial\Omega_l)\oplus H^{r+1}(\partial\Omega_l), \ l=1,2$. Отже, будь-яку бігармонійну функцію в цьому випадку можна подати у вигляді \eqref{w}.
+ \end{collocation}
+ 
+ \section{Параметризація}
+ 
+ Припустимо, що дані криві $\partial\Omega_1$ i $\partial\Omega_2$ достатньо гладкі і їх можна подати у параметричному заданні 
+ 
+ \begin{equation}
+ 	\partial\Omega_l=\left\{x_l(s)=(x_1{_l}(s),x_2{_l}(s)) \ : \ s\in [0,2\pi]\right\},
+  \end{equation}
+ де $x_l \ (l=1,2)$ - аналітична й $2\pi$-періодична функція, $|x'(s)|>0.$
+ Тоді систему \eqref{system} можна записати 
+ 
+ \begin{equation}
+ 		\left\{
+	 	\begin{split}
+		\label{paramSystem}
+	 		&\frac{1}{2\pi}\sum_{k=1}^{2}\int_{0}^{2\pi}\bigg(H_l{_k}(s, \sigma)\varphi_k(\sigma)+\tilde{H}_l{_k}(s, \sigma)\psi_k(\sigma)\bigg)d\sigma+\omega(x_l(s))=f(x_l(s)), \ l=1,2, \\
+			&\frac{1}{2\pi}\sum_{k=1}^{2}\int_{0}^{2\pi}\bigg(\tilde{\tilde{H}}_l{_k}(s, \sigma)\varphi_k(\sigma)+\hat{H}_l{_k}(s, \sigma)\psi_k(\sigma)\bigg)d\sigma+\frac{\partial\omega(x_l(s))}{\partial n_l}=g(x_l(s)), \ l=1,2, \\
+			&\sum_{k=1}^{2}\int_{0}^{2\pi}\varphi_k(\sigma)d\sigma=A_0, \\
+			&\sum_{k=1}^{2}\int_{0}^{2\pi}(x_1{_k}\varphi_k(\sigma)+n_1(x_k(\sigma))\psi_k(\sigma))d\sigma=A_1, \\
+			&\sum_{k=1}^{2}\int_{0}^{2\pi}(x_2{_k}\varphi_k(\sigma)+n_2(x_k(\sigma))\psi_k(\sigma))d\sigma=A_2, \\
+		\end{split}
+		\right.
+\end{equation}
+для $s\in [0,2\pi]$.
+
+Тут $ \label{kernels} \varphi_l(s) :=\varphi_k(x_l(s))|x'_l(s)|, \quad \psi_l(s) :=\psi_k(x_l(s))|x'_l(s)| - \textrm{невідомі густини} $ і ядра мають вигляд
+ 
+ \begin{equation}
+ \begin{split}
+	&H_l{_k}(s, \sigma) = G(x_l(s),x_k(\sigma)), \quad \tilde{H}_l{_k}(s, \sigma)=\frac{\partial G(x_l(s),x_k(\sigma))}{\partial n_y}, \\
+	&\tilde{\tilde{H}}_l{_k}(s, \sigma)=\frac{\partial G(x_l(s),x_k(\sigma))}{\partial n_x}, \quad \hat{H}_l{_k}(s, \sigma)=\frac{\partial^2 G(x_l(s),x_k(\sigma))}{\partial n_y\partial n_x}, \\
+	&n(x(s))=\Big(\frac{x'_2(s)}{|x'(s)|},-\frac{x'_1(s)}{|x'(s)|}\Big) \nonumber
+ \end{split}
+ \end{equation}
+ 
+ Дані ядра є неперервними в області $\bar{\Omega}$. Але коли точка інтегрування співпадає з точкою спостереження на $\partial\Omega_l \ (l=k)$ підчас диференціювання маємо логарифмічну особливість. Для подальшого чисельного розв'язування доцільно виділити цю особливість, виконавши певні перетворення. Продемонструємо цей процес на ядрі $H_{ll}(s, \sigma), \ l=1,2$.
+ 
+ \begin{gather*}
+ 	H_l{_l}(s, \sigma)=\frac{1}{8}|x_l(s)-x_l(\sigma)|^2\ln|x_l(s)-x_l(\sigma)|^2\pm \frac{1}{8}|x_l(s)-x_l(\sigma)|^2\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg) \\
+	=\frac{1}{8}|x_l(s)-x_l(\sigma)|^2\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+\frac{1}{8}|x_l(s)-x_l(\sigma)|^2\ln\frac{e|x_l(s)-x_l(\sigma)|^2}{4\sin^2\frac{s-\sigma}{2}}. \\
+	=H^{(1)}_{ll}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+H^{(2)}_{ll}(s, \sigma)
+ \end{gather*}
+ 
+ Аналогічні перетворення можна виконати для інших ядер. В результаті, маємо
+ \begin{gather}
+ 	H_l{_l}(s, \sigma)=H^{(1)}_{ll}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+H^{(2)}_{ll}(s, \sigma) \\
+	\tilde{H}_l{_k}(s, \sigma)=\tilde{H}^{(1)}_{lk}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+\tilde{H}^{(2)}_{ll}(s, \sigma) \\
+	\tilde{\tilde{H}}_l{_l}(s, \sigma)=\tilde{\tilde{H}}^{(1)}_{lk}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+\tilde{\tilde{H}}^{(2)}_{ll}(s, \sigma) \\
+	\hat{H}_l{_l}(s, \sigma)=\hat{H}^{(1)}_{ll}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+\hat{H}^{(2)}_{ll}(s, \sigma)
+ \end{gather}
+ де 
+\begin{gather*}
+	H^{(1)}_{ll}(s, \sigma)=\frac{1}{8}|x_l(s)-x_l(\sigma)|^2, \quad H^{(2)}_{ll}(s, \sigma)=\frac{1}{8}|x_l(s)-x_l(\sigma)|^2\ln\Big(\frac{e|x_l(s)-x_l(\sigma)|^2}{4\sin^2\frac{s-\sigma}{2}}\Big), \\
+	\tilde{H}^{(1)}_{ll}(s, \sigma)=-\frac{1}{4}n(x_l(\sigma))\cdot(x_l(s)-x_l(\sigma)), \\
+	 \tilde{H}^{(2)}_{ll}(s, \sigma)= \frac{1}{4}n(x_l(\sigma))\cdot(x_l(s)-x_l(\sigma))\bigg(\ln\Big(\frac{4\sin^2\frac{s-\sigma}{2}}{e|x_l(s)-x_l(\sigma)|^2}\Big)-1\bigg),\\
+	\tilde{\tilde{H}}^{(1)}_{ll}(s, \sigma)=\frac{1}{4}n(x_l(s))\cdot(x_l(s)-x_l(\sigma)), \\
+	 \tilde{\tilde{H}}^{(2)}_{ll}(s, \sigma)= \frac{1}{4}n(x_l(s))\cdot(x_l(s)-x_l(\sigma))\bigg(\ln\Big(\frac{e|x_l(s)-x_l(\sigma)|^2}{4\sin^2\frac{s-\sigma}{2}}\Big)+1\bigg),\\
+	\hat{H}^{(1)}_{ll}(s, \sigma)= -\frac{1}{4}n(x_l(s))\cdot n(x_l(\sigma)), \\
+	 \hat{H}^{(2)}_{ll}(s, \sigma)=\frac{1}{4}n(x_l(s))\cdot n(x_l(\sigma))\cdot\bigg(\ln\Big(\frac{4\sin^2\frac{s-\sigma}{2}}{e|x_l(s)-x_l(\sigma)|^2}\Big)-2\frac{(x_l(s)-x_l(\sigma))^2}{|x_l(s)-x_l(\sigma)|^2} -1\bigg).
+ \end{gather*}
+ 
+ Розв'язок системи також необхідно параметризувати. Тоді він приймає вигляд
+ 
+ \begin{equation}
+ \begin{split}
+	\sum_{k=1}^{2}\int_{\Omega_k}\bigg(H_{k}(x^*, \sigma)\varphi_k(\sigma)+\tilde{H}_{k}(x^*, \sigma)\psi_k(\sigma)\bigg)d\sigma_y+\omega(x^*)=f(x^*), \\
+	 x^*=(x_1,x_2) - \textrm{фіксована точка в області } \Omega.
+\end{split}
+ \end{equation}
+ 
+ 
+ \newpage
+ 
+  % 3
+ \chapter{Чисельне розв'язування системи інтегральних рівнянь}
+ \section{Квадратурні формули} \label{quad}
+
+До отриманої системи параметризованих інтегральних рівнянь на даному етапі розв'язування крайової задачі необхідно застосувати квадратурні формули для знаходження наближеного розв'язку системи. В попередньому розділі ми отримали два типи інтегралів: звичайний і з логарифмічною особливістю. Тому необхідно розглянути два типи квадратурних формул. Вони базуватимуться на тригонометричній інтерполяції.
+Розглянемо рівновіддалений поділ на $[0, 2\pi]$ 
+$$
+	s_k=kh, \ k=0,...,2m-1, \ h=\frac{\pi}{m}
+$$
+Підінтегральна $2\pi$-періодична функція інтерполюється таким тригонометричним поліномом
+\begin{gather*}
+	q(s)=\sum_{k=0}^{m} a_k\cos js+ \sum_{jk1}^{m-1}b_k\sin js, \\
+	a_j=\frac{1}{m}\sum_{k=0}^{2m-1}g_k\cos jt_k, \ j=0,...,m, \\
+	b_j=\frac{1}{m}\sum_{k=0}^{2m-1}g_k\sin jt_k, \ j=1,...,m-1,
+\end{gather*}
+
+\begin{gather}
+	\int_{0}^{2\pi}f(\sigma)d\sigma\approx\int_{0}^{2\pi}(P_nf)(\sigma)d\sigma=\frac{\pi}{n}\sum_{j=0}^{2m-1}f(s_j) \label{trap} \\
+	\int_{0}^{2\pi}f(\sigma)\ln\Big(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\Big)d\sigma\approx\int_{0}^{2\pi}(P_nf)\ln\Big(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\Big)(\sigma)d\sigma=\sum_{j=0}^{2m-1}R_j(s)f(s_j),
+\end{gather}
+де $P_n:C[0,2\pi]\to T_n$ - інтерполяційний оператор, 
+\eqref{trap} - квадратурна формула трапецій для $2\pi$-періодичних функцій, $R_j$ \ - вагові функції, що неперервно залежать від $s$.
+Якщо $f$- аналітична, то похибка апроксімації квадратури зменшується експоненційно (див. \cite{kress}). Ваги можна подати як $R_k(s_j)=R_{k-j}(s_j), \ j,k=0,...,2m-1$
+
+\begin{theorem}
+	Нехай $f$ - аналітична, $2\pi$-періодична функція. Тоді похибку квадратурної формули \eqref{trap} можна оцінити наступним чином.
+	\begin{equation}
+		|R_T(f)|=\int_{0}^{2\pi}f(\sigma)d\sigma-\frac{\pi}{n}\sum_{j=0}^{2m-1}f(s_j)\leq C e^{-2ms},
+	\end{equation}
+	де $C, s$ - деякі невід'ємні константи, що залежать від $f$. Квадратура трапецій \eqref{trap} об'єднює в собі поліноми не стільки степеня менше за $m$, але й поліноми степеня менше або дорівнює $2m-1$
+\end{theorem}
+
+ \section{Метод Нистрьома}
+ 
+ У чисельних методах метод Нистрьома полягає у заміні інтегралу відповідною квадратурною формулою з певними ваговими функціями. Найважливішим етапом методу Нистрьома є вибір розбиття, оскільки кожне розбиття дає різне наближення. Найчастіше використовують рівномірний розподіл. Базуючись на квадратурах з розділу \eqref{quad}, маємо наступні наближення,
+  
+ \begin{gather}
+ 	\frac{1}{2\pi}\int_{0}^{2\pi}f(\sigma)d\sigma\approx\frac{1}{2m}\sum_{j=0}^{2m-1}f(s_j), \\
+	\frac{1}{2\pi}\int_{0}^{2\pi}f(\sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)d\sigma\approx\frac{1}{2m}\sum_{j=0}^{2m-1}R_j(s)f(s_j)
+ \end{gather}
+ з вузлами
+ \begin{gather}
+ 	s_k=kh, \ k=0,...,2m-1, \ h=\frac{\pi}{m}
+  \end{gather}
+  і ваговими функціями
+  \begin{gather}
+ 	R_k(s)=-\frac{1}{m}\bigg(\frac{1}{2}+\sum_{j=1}^{m-1}\frac{1}{j}\cos \frac{jk\pi}{m}+ \frac{(-1)^k}{2m}\bigg).
+  \end{gather}
+  
+  Застосувавши даний метод до системи рівнянь \eqref{paramSystem} і погрупувавши, отримаємо повністю дискретизовану систему лінійних рівнянь,
+  
+  \begin{equation} \label{lastSys}
+  \left\{
+  \begin{split}
+  	&\sum_{j=0}^{2m-1}\bigg((H^{(1)}_{ll}(s_i, s_j)R_{|i-j|}+\frac{1}{2m}H^{(2)}_{ll}(s_i, s_j))\varphi_{lj}+\frac{1}{2m}H_{l,3-l}(s_i, s_j)\varphi_{3-l,j} +(\tilde{H}^{(1)}_{ll}(s_i, s_j)R_{|i-j|} \\
+	&+\frac{1}{2m}\tilde{H}^{(2)}_{ll}(s_i, s_j))\psi_{lj}+\frac{1}{2m}\tilde{H}_{l,3-l}(s_i, s_j)\psi_{3-l,j}\bigg) + \omega_{li}=f_{li},\l=1,2, \\
+	 &\sum_{j=0}^{2m-1}\bigg(\frac{1}{2m}\tilde{\tilde{H}}_{l,3-l}\varphi_{3-lj}+(\tilde{\tilde{H}}^{(1)}_{ll}(s_i, s_j)R_{|i-j|}+\frac{1}{2m}\tilde{\tilde{H}}^{(2)}_{ll}(s_i, s_j))\varphi_{lj} + \frac{1}{2m}\hat{H}_{l,3-l}\psi_{3-lj}\\
+	 &+(\hat{H}^{(1)}_{ll}(s_i, s_j)R_{|i-j|}+\frac{1}{2m}\hat{H}^{(2)}_{ll}(s_i, s_j))\psi_{lj}\bigg) +\frac{\partial\omega_{li}}{\partial n_l}=f_{li},\ l=1,2,\\
+	 &h\sum_{k=1}^{2}\sum_{j=0}^{2m-1}\varphi_{kj}=A_0, \\
+	 &h\sum_{k=1}^{2}\sum_{j=0}^{2m-1}(x_{1k}(s_j)\varphi_{kj}+n_1(x_k(s_j))\psi_{kj})=A_1, \\
+	 &h\sum_{k=1}^{2}\sum_{j=0}^{2m-1}(x_{2k}(s_j)\varphi_{kj}+n_2(x_k(s_j))\psi_{kj})=A_2
+\end{split}
+\right.
+\end{equation}
+для $i=0,...,2m-1$. Тут $f_{li}=f_l(x_l(s_i)), \ g_{li}=g_l(x_l(s_i)), \ \omega_{li}=\omega_l(x_l(s_i)), \ \frac{\partial\omega_{li}}{\partial n_l}=\frac{\partial\omega(x_2(s_i))}{\partial n_l}, \ R_j=R(s_j)$
+Розв'язавши систему \eqref{lastSys}, отримаємо шукані коефіцієнти $(a_0,a_1,a_2)\in R^3$ і значення густин потенціалів на вибраному розбитті $\varphi_{kj}\approx\varphi_k(s_j), \ \psi_{kj}\approx\psi_k(s_j), \ k=1,2, \ j=0,...,2m-1.$
+
+Для знаходження наближеного розв'язку необхідно застосувати квадратури до подання розв'язку. Оскільки ми шукаємо розв'язок в фіксованій точці області $\Omega\notin\partial\Omega$, а інтегруємо по $\partial\Omega$, то в ядрах не буде логарифмічної особливості. Тоді розв'язок матиме вигляд
+
+ \begin{equation} \label{solutionEq}
+ \begin{split}
+ 	u(x) \approx\sum_{k=1}^{2}\sum_{j=0}^{2m-1}\bigg(H_k(x,s_j)\varphi_{kj}+\tilde{H}_k(x,s_j)\psi_{kj}\bigg) +a_0+a_1x_1+a_2x_2,\\
+ 	x\in\Omega, \ \varphi_{kj}\approx\varphi_k(s_j), \ \psi_{kj}\approx\psi_k(s_j), \ j=0,...,2m-1.
+ \end{split}
+ \end{equation}
+ Підставляючи в \eqref{solutionEq} елементи, що були знайдені в \eqref{lastSys}, маємо наближений розв'язок в фіксованій точці $x\in\Omega$.
+
+ 
+ \section{Чисельні експерименти}
+ 
+ \subsection{Приклад 1}
+Розглянемо такі крайові умови
+\begin{equation}
+ \begin{split}
+ \label{bound}
+	&f(x_k)=x_{1k}-2x_{2k}, \ x\in\partial\Omega_k, \\
+	&g(x_k)=\frac{\partial f}{\partial n}, \ x\in\partial\Omega_k, \quad k =1,2. 
+ \end{split}
+ \end{equation}
+ Розв'язком задачі \eqref{mainSys} з умовами \eqref{bound} є функція $u=x_{1}-2x_{2},\ \ x\in\Omega$. У цьому прикладі розглянемо відносно просту область.
+ \begin{equation}
+ \begin{split}
+ 	&\partial\Omega_1= \{x(s)=(2\cos(s), 2\sin(s)),\ s\in[0,2\pi]\},\\
+	&\partial\Omega_2= \{x(s)=(0.5\cos(s),0.1\sin(s)),\ s\in[0,2\pi]\},
+ \end{split}
+ \end{equation}
+ $$x=(1.5,0),$$
+ 
+ \begin{figure}[h!]
+\centering
+	\includegraphics[scale=.5]{domain4.pdf}
+	\vspace*{-1cm}
+\end{figure}
+ 
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ m & \shortstack{$E(x)$  \\  ($A_0=A_1=A_2=1$)}  \\ 
+ \hline
+ 2 & 0.01003  \\ 
+ 4 & 0.0011323 \\ 
+ 8 & 5.2492e-05 \\ 
+16 & 7.0444e-08 \\ 
+32 & 5.4863e-11 \\ 
+64 & 6.5824e-15 \\ 
+ \hline
+\end{tabular}
+%\caption{Приклад 1} 
+\end{center}
+ 
+\subsection{Приклад 2}
+  В позначеннях \eqref{mainSys} розглянемо такі крайові умови
+ \begin{equation}
+ \begin{split}
+	&f(x_k)=x_{1k}+x_{2k}, \ x\in\partial\Omega_k, \\
+	&g(x_k)=\frac{\partial f}{\partial n}, \ x\in\partial\Omega_k, \quad k =1,2. 
+ \end{split}
+ \end{equation}
+ Розв'язком даної задачі є функція $u^*(x)=x_1+x_2, \ x\in\Omega$. Продемонструємо результати чисельних експерементів для різних областей $\Omega$, параметрів $A_0, A_1, A_2$ і точок області. Позначимо через $E(x)$ - абсолютну похибку в заданій точці області.
+ 
+ \subsubsection{Приклад 2.1}
+ 
+ \begin{equation}
+ \begin{split}
+ 	&\partial\Omega_1= \{x(s)=(3\cos(s), 3\sin(s)),\ s\in[0,2\pi]\},\\
+	&\partial\Omega_2= \{x(s)=(\cos(s)+0.4 \cos(4s),\sin(s)),\ s\in[0,2\pi]\},
+ \end{split}
+ \end{equation}
+ $$x=(0, -2),$$
+ 
+ \begin{figure}[h!]
+\centering
+	\includegraphics[scale=.5]{domain1.pdf}
+	\vspace*{-1cm}
+\end{figure}
+ 
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ m & \shortstack{$E(x)$  \\  ($A_0=A_1=A_2=1$)}  & \shortstack{Похибка  \\  ($A_0=0.1, A_1= 1,A_2=0$)}  \\ 
+ \hline
+ 2 & 0.042796 & 0.010598 \\ 
+ 4 & 0.0010295 & 0.0003469 \\ 
+ 8 & 6.8947e-05 & 4.8885e-06 \\ 
+16 & 6.6392e-07 & 5.5934e-07 \\ 
+32 & 3.2403e-07 & 3.5371e-07 \\ 
+64 & 1.6404e-06 & 8.3151e-07 \\ 
+ \hline
+\end{tabular}
+%\caption{Приклад 1} 
+\end{center}
+
+\subsubsection{Приклад 2.2}
+
+ \begin{equation}
+ \begin{split}
+ 	&\partial\Omega_1= \{x(s)=(4\cos(s) + 0.2\cos(12s),4\sin(s)),\ s\in[0,2\pi]\},\\
+	&\partial\Omega_2= \{x(s)=(\cos(s) + 0.1 \cos(8s),\sin(s)),\ s\in[0,2\pi]\},
+ \end{split}
+ \end{equation}
+ $$x=(3, 0),$$
+ 
+ \begin{figure}[h!]
+\centering
+	\includegraphics[scale=.5]{domain2.pdf}
+	\vspace*{-1cm}
+\end{figure}
+
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ m & \shortstack{$E(x)$  \\  ($A_0=A_1=A_2=1$)}  & \shortstack{Похибка  \\  ($A_0=0.1, A_1= 1,A_2=0$)}  \\ 
+ \hline
+ 2 & 0.04051 & 0.010598 \\ 
+ 4 & 0.0030993 & 0.0003469 \\ 
+ 8 & 0.0089033 & 4.8885e-06 \\ 
+16 & 0.00041034 & 5.5934e-07 \\ 
+32 & 0.00010669 & 3.5371e-07 \\ 
+64 & 1.6404e-06 & 8.3151e-07 \\ 
+ \hline
+\end{tabular}
+%\caption{Приклад 2} 
+\end{center}
+
+\subsubsection{Приклад 2.3}
+
+ \begin{equation}
+ \begin{split}
+ 	&\partial\Omega_1= \{x(s)=(3\cos(s) + 2\cos(2 s) -0.75,3\sin(s)),\ s\in[0,2\pi]\},\\
+	&\partial\Omega_2= \{x(s)=(0.6\cos(s) + 0.3\cos(4s),\sin(s)),\ s\in[0,2\pi]\},
+ \end{split}
+ \end{equation}
+  $$x=(1, -2),$$
+ 
+  \begin{figure}[h!]
+\centering
+	\includegraphics[scale=.5]{domain3.pdf}
+	\vspace*{-1cm}
+\end{figure}
+
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ m & \shortstack{$E(x)$  \\  ($A_0=A_1=A_2=1$)}  & \shortstack{Похибка  \\  ($A_0=0.1, A_1= 1,A_2=0$)}  \\ 
+ \hline
+ 2 & 0.09048 & 0.0051861 \\ 
+ 4 & 0.11986 & 0.00034231 \\ 
+ 8 & 0.038803 & 6.572e-05 \\ 
+16 & 0.00011939 & 3.8037e-06 \\ 
+32 & 0.00016575 & 1.1088e-05 \\ 
+64 & 1.9979e-06 & 1.0813e-06 \\ 
+ \hline
+\end{tabular}
+%\caption{Приклад 3} 
+\end{center}
+ 
+ Як можна бачити, вибір констант $A_0,A_1,A_2$ впливає на результат.
+ 
+ \newpage
+ 
+% 4
+\chapter*{Висновки}
+\addcontentsline{toc}{chapter}{Висновки}
+
+У цій роботі було розглянуто чисельне розв'язування крайової задачі Діріхле для бігармонійного рівняння на двозв'язній області непрямим методом інтегральних рівнянь. Наближений розв'язок подали як комбінацію потенціалів простого та подвійного шару і додаткової лінійної функції, оскільки, як було вияснено в інших роботах, це необхідна умова для існування єдиного розв'язку поставленої задачі. Це, в свою чергу, призвело до додаткових трьох рівнянь.
+
+Отримана система інтегральних рівнянь була параметризована з виділенням особливостей на межах області. До інтегральних рівнянь з виділеною особливістю був застосований метод Нистрьома, який базується на використанні тригонометричних формул з відокремленнмя вагових функцій. В результаті ми отримали дискретну систему лінійних рівнянь, з якої були знайдені невідомі коефіцієнти додаткової функції в рівнянні для знаходження наближеного розв'язку. Після того ми провели такий самий процес параметризації і дискретизації для формули пошуку розв'язку, отримали повністю дискретний метод для розв'язування задачі.
+
+Були проведені чисельні експерименти, з яких ми побачили, що метод збігається добре і також результат залежить від констант, які потрібні для побудови системи лінійних рівнянь, що забезпечує єдиність розв'язку.
+\newpage
+
+%5
+\begin{thebibliography}{99}
+ \addcontentsline{toc}{chapter}{Література}
+\bibitem{chen} 
+Chen G., Boundary Element Methods with Applications to Nonlinear Problems / Goong Chen, Jianxin Zhou. - Atlantis Press, 2010. - 715 p.
+
+\bibitem{chapko} 
+Chapko R. Integral Equations for Biharmonic Data Completion / Roman Chapko, B. Tomas Johansson. - Inverse Problems and Imaging (accepted) - 2019. - 16 p.
+ 
+\bibitem{kress} 
+Kress R. Linear Integral Equations / Rainer Kress. - New York : Springer, 1989. - 412 p.
+
+\end{thebibliography}
+
+
+\end{document}

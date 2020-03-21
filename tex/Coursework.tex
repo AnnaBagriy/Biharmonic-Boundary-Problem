@@ -1,0 +1,101 @@
+\documentclass[12pt]{article}
+
+\usepackage{lingmacros}
+\usepackage{tree-dvips}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+
+\title{Integral equation method for inverse boundary value problem for biharmonic equation}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section {Problem formulation}
+Let $\Omega\subset \mathbb{R}^2$ be a doubly connected domain with a boundary $\Gamma=\Gamma_1\cup\Gamma_2$, where $\Gamma_1$ is an interior boundary and $\Gamma_2$ is an exterior one. And let $\Gamma_1$ be unknown.
+
+\begin{equation}
+	\left\{
+	\label{directProblem}
+	\begin{split}
+		&\Delta^2 u(x)=0, \quad x\in\Omega, \\
+		&u(x)=\frac{\partial u(x)}{\partial n}=0, \quad x\in\Gamma_1, \\
+		&\frac{\partial u(x)}{\partial n}=g(x), \quad x\in\Gamma_2, \\
+		&Mu(x)=q(x), \quad x\in\Gamma_2,
+	\end{split}
+	\right.
+\end{equation}
+
+\begin{equation}
+	\label{dataEq}
+	u(x)=f(x), \quad x\in\Gamma_2,
+\end{equation}
+where $\Delta^{2}u(x)=\frac{\partial^{4}}{\partial x_1^4}u(x)+2\frac{\partial^{4}}{\partial x_1^2\partial x_2^2}u(x)+\frac{\partial^{4}}{\partial x_2^4}u(x)=0,\ u(x)=u(x_1,x_2), \ n=(n_1, n_2)$ - unit outward normal vector to $\Gamma$, $Mu=\nu\Delta u+(1-\nu)(u_{x_1 x_1}u_1^2+2u_{x_1 x_2}n_1 n_2+u_{x_2 x_2}u_2^2), \ \nu\in (0, 1)$ and $g(x),q(x),f(x)$ - some given functions. Solving \eqref{directProblem}-\eqref{dataEq} consists of finding unknown $\Gamma_1$ for given boundary data.
+
+Later, we will consider \eqref{directProblem} as "field" equations and \eqref{dataEq} as a "data" equation.
+
+\section {Some statements from potential theory}
+
+The fundamental solution to the biharmonic equation is given by
+ \begin{equation}
+ 	G(x, y)=\frac{1}{8\pi}|x-y|^2\ln|x-y|, \quad x,\ y \in \mathbb{R}^2.
+ \end{equation}
+
+Consider such potentials with density $\varphi$ defined on $\Gamma$:
+$$
+	V_1(\varphi)(x)=\int_\Gamma G(x,y)\varphi(y)d\sigma_y - \textrm{single-layer potential},
+$$ 
+$$
+	V_2(\varphi)(x)=\int_\Gamma\frac{\partial}{\partial n_y}G(x,y)\varphi(y) d\sigma_y  - \textrm{double-layer potential},
+$$
+
+The solution of direct boundary problem can be given by a combination of a single-layer and a double-layer potentials. Following theorem states the uniqueness of the solution of \eqref{directProblem}.
+
+\begin{theorem}
+ 	The solution of a direct boundary problem \eqref{directProblem} is given by
+	 \begin{equation}
+	 	u(x)=\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x), \quad x\in \Omega,
+	 \end{equation}
+	 where $\omega(x) = \alpha_0+\alpha_1x_1+\alpha_2x_2 \ ((\alpha_0,\alpha_1,\alpha_2)\in R^3), \varphi_k,\psi_k\in C(\Gamma_k), k=1,2,$ and exists as a unique solution to the system of given integral equations
+	 \begin{equation}
+	 \left\{
+	 	\begin{split}
+		\label{system}
+	 		&\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x)=0, \ x\in\Gamma_1, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(\frac{\partial G(x,y)}{\partial n_x}\varphi_k(y)+\frac{\partial^2 G(x,y)}{\partial n_y\partial n_x}\psi_k(y)\bigg)d\sigma_y+\frac{\partial\omega(x)}{\partial n}=0, \ x\in\Gamma_1, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(\frac{\partial G(x,y)}{\partial n_x}\varphi_k(y)+\frac{\partial^2 G(x,y)}{\partial n_y\partial n_x}\psi_k(y)\bigg)d\sigma_y+\frac{\partial\omega(x)}{\partial n}=g(x), \ x\in\Gamma_2, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(M_x G(x,y)\varphi_k(y)+\frac{\partial M_x G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+M_x\omega(x)=q(x), \ x\in\Gamma_2, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}\varphi_k(y)d\sigma_y=A_0, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}(y_1\varphi_k(y)+n_1(y)\psi_k(y))d\sigma_y=A_1, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}(y_2\varphi_k(y)+n_2(y)\psi_k(y))d\sigma_y=A_2,
+		\end{split}
+	\right.
+	 \end{equation}
+	 for given $(A_0,A_1,A_2)\in R^3$.
+ \end{theorem}
+
+For equation \eqref{dataEq} we have
+
+ \begin{equation}
+	\label{eq}
+	 \sum_{k=1}^{2}\int_{\Gamma_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x)=f(x), \ x\in\Gamma_2, 
+\end{equation}
+
+\begin{theorem}
+The inverse boundary value problem \eqref{directProblem}-\eqref{dataEq} is equivalent to the system of integral equations \eqref{system}-\eqref{eq}.
+\end{theorem}
+\section {Algorithm for solving inverse boundary problem}
+
+The solving of boundary value problem \eqref{system}-\eqref{eq} consists of following iterative process:
+\begin{itemize}
+  \item  By giving an initial value for $\Gamma_1$ we solve direct problem for subsystem \eqref{system} and find unknown densities.
+  \item Then, we linearize "data" equation \eqref{eq} and update the value for $\Gamma_1$ by solving linearized \eqref{eq} for fixed densities, which are known from \eqref{system}.
+\end{itemize}
+We assume that the curve $\Gamma_1$ is from star-like curves class. Thus, we define parametrization in polar coordinates given by 
+$x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \}$, where $c(t)=(\cos (t), \sin (t))$ and $\ r : \mathbb{R} \to (0, \infty)$ is a $2\pi$ periodic function representing
+the radial distance from the origin.
+
+\end{document}
