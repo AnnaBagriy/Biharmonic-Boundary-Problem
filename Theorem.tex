@@ -1,0 +1,208 @@
+\documentclass[12pt]{article}
+
+\usepackage{lingmacros}
+\usepackage{tree-dvips}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+\usepackage[english,ukrainian]{babel}
+\usepackage{amsthm}
+
+\newtheorem{theorem}{Теорема}
+
+\title{Integral equation method for inverse boundary value problem for biharmonic equation}
+\date{}
+
+\begin{document}
+\maketitle
+
+% 1 // Формулювання %
+
+\section {Формулювання}
+Нехай $\Omega\subset \mathbb{R}^2$ двоз'язна область з межею $\Gamma=\Gamma_1\cup\Gamma_2$, де $\Gamma_1$ є внутрішньою межею and $\Gamma_2$ - зовнішньою. І нехай $\Gamma_1$ невідома.
+
+\begin{equation}
+	\left\{
+	\label{directProblem}
+	\begin{split}
+		&\Delta^2 u(x)=0, \quad x\in\Omega, \\
+		&u(x)=\frac{\partial u(x)}{\partial n}=0, \quad x\in\Gamma_1, \\
+		&\frac{\partial u(x)}{\partial n}=g(x), \quad x\in\Gamma_2, \\
+		&Mu(x)=q(x), \quad x\in\Gamma_2,
+	\end{split}
+	\right.
+\end{equation}
+
+\begin{equation}
+	\label{dataEq}
+	u(x)=f(x), \quad x\in\Gamma_2,
+\end{equation}
+де $\Delta^{2}u(x)=\frac{\partial^{4}}{\partial x_1^4}u(x)+2\frac{\partial^{4}}{\partial x_1^2\partial x_2^2}u(x)+\frac{\partial^{4}}{\partial x_2^4}u(x)=0,\ u(x)=u(x_1,x_2), \ n=(n_1, n_2)$ - зовнішня нормаль до $\Gamma$, $Mu=\nu\Delta u+(1-\nu)(u_{x_1 x_1}u_1^2+2u_{x_1 x_2}n_1 n_2+u_{x_2 x_2}u_2^2), \ \nu\in (0, 1)$ і $g(x),q(x),f(x)$ - деякі задані функції. Роз'язування \eqref{directProblem}-\eqref{dataEq} складається зі знаходження невідомої $\Gamma_1$ для заданих граничних умов.
+
+% 2 // Теореми %
+
+\section {Some statements from potential theory}
+
+Фундаментальний роз'вязок бігармонійного рівняння має вигляд
+ \begin{equation}
+ 	G(x, y)=\frac{1}{8\pi}|x-y|^2\ln|x-y|, \quad x,\ y \in \mathbb{R}^2.
+ \end{equation}
+
+Розглянемо наступні потенціали з густинами $\varphi$ визначені на $\Gamma$:
+$$
+	V_1(\varphi)(x)=\int_\Gamma G(x,y)\varphi(y)d\sigma_y - \textrm{single-layer potential},
+$$ 
+$$
+	V_2(\varphi)(x)=\int_\Gamma\frac{\partial}{\partial n_y}G(x,y)\varphi(y) d\sigma_y  - \textrm{double-layer potential},
+$$
+
+Роз'вязок прямої задачі можна подати як комбінацію потенціалів простого та подвійного шарів. Наступна теорема постулює єдиність розв'язку \eqref{directProblem}.
+
+\begin{theorem}
+Розв'язок прямої крайової задачі \eqref{directProblem} має вигляд
+	 \begin{equation}
+	 	u(x)=\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x), \quad x\in \Omega,
+	 \end{equation}
+	 де $\omega(x) = \alpha_0+\alpha_1x_1+\alpha_2x_2 \ ((\alpha_0,\alpha_1,\alpha_2)\in R^3), \varphi_k,\psi_k\in C(\Gamma_k), k=1,2,$ і існує єдиний для системи інтегральних рівнянь
+	 \begin{equation}
+	 \left\{
+	 	\begin{split}
+		\label{system}
+	 		&\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x)=0, \ x\in\Gamma_1, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(\frac{\partial G(x,y)}{\partial n_x}\varphi_k(y)+\frac{\partial^2 G(x,y)}{\partial n_y\partial n_x}\psi_k(y)\bigg)d\sigma_y+\frac{\partial\omega(x)}{\partial n}=0, \ x\in\Gamma_1, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(\frac{\partial G(x,y)}{\partial n_x}\varphi_k(y)+\frac{\partial^2 G(x,y)}{\partial n_y\partial n_x}\psi_k(y)\bigg)d\sigma_y+\frac{\partial\omega(x)}{\partial n}=g(x), \ x\in\Gamma_2, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(M_x G(x,y)\varphi_k(y)+\frac{\partial M_x G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+M_x\omega(x)=q(x), \ x\in\Gamma_2, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}\varphi_k(y)d\sigma_y=A_0, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}(y_1\varphi_k(y)+n_1(y)\psi_k(y))d\sigma_y=A_1, \\
+			&\sum_{k=1}^{2}\int_{\Gamma_k}(y_2\varphi_k(y)+n_2(y)\psi_k(y))d\sigma_y=A_2,
+		\end{split}
+	\right.
+	 \end{equation}
+	 for given $(A_0,A_1,A_2)\in R^3$.
+ \end{theorem}
+
+Для рівняння \eqref{dataEq} маємо
+
+ \begin{equation}
+	\label{eq}
+	 \sum_{k=1}^{2}\int_{\Gamma_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x)=f(x), \ x\in\Gamma_2, 
+\end{equation}
+
+\begin{theorem}
+Обернена крайова задача \eqref{directProblem}-\eqref{dataEq} еквівалентна системі інтегральних рівнянь \eqref{system}-\eqref{eq}.
+\end{theorem}
+
+\begin{theorem}[Існування і єдиність розв'язку непрямої задачі]
+
+Нехай $\tilde{\Gamma}_1$, $\Gamma_1$ - замкнені криві, що містяться всередині $\Gamma_2$, $\tilde{u}$, $u$ - розв'язки задачі $\eqref{directProblem}$ для $\tilde{\Gamma}_1$ і $\Gamma_1$ відповідно. Нехай $g\neq 0, q\neq 0$ i $u = \tilde{u}$ на відкритій підмножині $\Gamma_2$. Тоді $\tilde{\Gamma}_1=\Gamma_1$.
+
+\end{theorem}
+
+\begin{proof}
+
+Доведемо від протилежного. Нехай $\tilde{\Gamma}_1\neq\Gamma_1$.
+Нехай $\Omega_2$ - область, обмежена $\Gamma_2$, $\Omega_1$, $\tilde{\Omega_1}$ - області обмежені $\Gamma_1$, $\tilde{\Gamma}_1$ відповідно. \\
+$W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega_1}), \quad \Gamma_2\subset\delta W$ \\
+За теоремою Гольгрема маємо $u = \tilde{u}$ в $W$. Без втрати загальності приспустимо, що $W^{*}:=(\Omega_2\setminus \overline{W})\setminus\Omega_1$ непорожня множина. Тоді $u$ є визначена в $W^{*}$ як розв'язок задачі \eqref{directProblem} для $\Gamma_1$. Вона є гармонічною в $W^{*}$, неперервною в $\overline{W}^{*}$ і задовольняє граничні умови на $\delta W^{*}$. Ця гранична умова випливає з того, що кожна точка з $W^{*}$ належить або $\Gamma_1$, або $\delta W\cap\tilde{\Gamma}_1$. Для $x\in\Gamma_1$ маємо $u(x)=0$ як наслідок граничної умови для $u$, для $x\in\tilde{\Gamma_1}$ маємо $u(x)=\tilde{u}(x)$ і тому $u(x)=0$ як наслідок граничних умов для $\tilde{u}$. Тоді за принципом максимуму $u=0$ в $W^{*}$ і тому $u=0$ в $D$. Це суперечить тому, що $g\neq 0, q\neq 0$.
+\end{proof}
+
+% 3 // Параметризація %
+
+\section {Параметризація}
+
+Припустимо, що дані криві $\Gamma_1$ i $\Gamma_2$ достатньо гладкі і їх можна подати у параметричному заданні 
+ 
+ \begin{equation}
+ 	\Gamma_l=\left\{x_l(s)=(x_1{_l}(s),x_2{_l}(s)) \ : \ s\in [0,2\pi]\right\},
+  \end{equation}
+ де $x_l \ (l=1,2)$ - аналітична й $2\pi$-періодична функція, $|x'(s)|>0.$
+ Тоді систему можна записати 
+ 
+ \begin{equation}
+ 		\left\{
+	 	\begin{split}
+		\label{paramSystem}
+	 		&\frac{1}{2\pi}\sum_{k=1}^{2}\int_{0}^{2\pi}\bigg(H_1{_k}(s, \sigma)\varphi_k(\sigma)+\tilde{H}_1{_k}(s, \sigma)\psi_k(\sigma)\bigg)d\sigma+\omega(x_1(s))=0,\\
+			&\frac{1}{2\pi}\sum_{k=1}^{2}\int_{0}^{2\pi}\bigg(\tilde{\tilde{H}}_1{_k}(s, \sigma)\varphi_k(\sigma)+\hat{H}_1{_k}(s, \sigma)\psi_k(\sigma)\bigg)d\sigma+\frac{\partial\omega(x_1(s))}{\partial n_1}=0, \\
+			&\frac{1}{2\pi}\sum_{k=1}^{2}\int_{0}^{2\pi}\bigg(\tilde{\tilde{H}}_2{_k}(s, \sigma)\varphi_k(\sigma)+\hat{H}_2{_k}(s, \sigma)\psi_k(\sigma)\bigg)d\sigma+\frac{\partial\omega(x_2(s))}{\partial n_2}=g(x_2(s)), \\
+			&\frac{1}{2\pi}\sum_{k=1}^{2}\int_{0}^{2\pi}\bigg(M_x H_2{_k}(s, \sigma)\varphi_k(\sigma)+M_x\tilde{H}_2{_k}(s, \sigma)\psi_k(\sigma)\bigg)d\sigma+M_x\omega(x_2(s))=q(x_2(s)),\\
+			&\sum_{k=1}^{2}\int_{0}^{2\pi}\varphi_k(\sigma)d\sigma=A_0, \\
+			&\sum_{k=1}^{2}\int_{0}^{2\pi}(x_1{_k}\varphi_k(\sigma)+n_1(x_k(\sigma))\psi_k(\sigma))d\sigma=A_1, \\
+			&\sum_{k=1}^{2}\int_{0}^{2\pi}(x_2{_k}\varphi_k(\sigma)+n_2(x_k(\sigma))\psi_k(\sigma))d\sigma=A_2, \\
+		\end{split}
+		\right.
+\end{equation}
+
+ \begin{equation}
+	\label{eq}
+	 \frac{1}{2\pi}\sum_{k=1}^{2}\int_{0}^{2\pi}\bigg(H_2{_k}(s, \sigma)\varphi_k(\sigma)+\tilde{H}_2{_k}(s, \sigma)\psi_k(\sigma)\bigg)d\sigma+\omega(x_2(s))=f(x_2(s)), 
+\end{equation}
+
+для $s\in [0,2\pi]$.
+
+Тут $ \label{kernels} \varphi_l(s) :=\varphi_k(x_l(s))|x'_l(s)|, \ \psi_l(s) :=\psi_k(x_l(s))|x'_l(s)| \ - \ \textrm{невідомі густини} $ і ядра мають вигляд
+ 
+ \begin{equation}
+ \begin{split}
+	&H_l{_k}(s, \sigma) = G(x_l(s),x_k(\sigma)), \quad \tilde{H}_l{_k}(s, \sigma)=\frac{\partial G(x_l(s),x_k(\sigma))}{\partial n_y}, \\
+	&\tilde{\tilde{H}}_l{_k}(s, \sigma)=\frac{\partial G(x_l(s),x_k(\sigma))}{\partial n_x}, \quad \hat{H}_l{_k}(s, \sigma)=\frac{\partial^2 G(x_l(s),x_k(\sigma))}{\partial n_y\partial n_x}, \\
+	&n(x(s))=\Big(\frac{x'_2(s)}{|x'(s)|},-\frac{x'_1(s)}{|x'(s)|}\Big) \nonumber. 
+ \end{split}
+ \end{equation}
+ 
+Відомими способами знаходимо невідомі густини з системи \eqref{paramSystem}.
+
+% 4 // Алгоритм %
+
+\section {Алгоритм знаходення розв'язку непрямої крайової задачі}
+
+Знаходження розв'язку задачі \eqref{system}-\eqref{eq} складається з наступного ітераційного процесу:
+\begin{itemize}
+  \item Для заданого початкової $\Gamma_1$ розв'язуємо пряму задачу для \eqref{system} і знаходимо невідомі густини.
+  \item Лінеаризуємо рівняння \eqref{eq} і покращуємо $\Gamma_1$, розв'язуючи лінеаризоване рівняння \eqref{eq} для фіксованих густин, які є відомими з \eqref{system}.
+\end{itemize}
+Ми припускаємо, що крива $\Gamma_1$ належить класу так званих "зіркових" кривих. Таким чином, параметризація задається як
+$x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \}$, де $c(t)=(\cos (t), \sin (t))$ і $\ r : \mathbb{R} \to (0, \infty)$ є $2\pi$-періодичною функцією, яка представляє радіус.
+
+\subsection {Похідна Фреше}
+
+Подамо рівняння \eqref{eq} через оператори. 
+
+ \begin{equation}
+ \begin{split}
+	&(S_{2k}\varphi)(s)=\int_{0}^{2\pi}H_{2k}(s, \sigma)\varphi_k(\sigma)d\sigma, \\ 
+	&(S_{2k}\psi)(s)=\int_{0}^{2\pi}H_{2k}(s, \sigma)\psi(\sigma)d\sigma. \nonumber
+ \end{split}
+ \end{equation}
+ 
+Отже \eqref{eq} можна записати так
+
+ \begin{equation}
+	S_{21}\varphi_1+S_{21}\psi_1+S_{22}\varphi_2+S_{22}\psi_2+\Omega=f \quad \textrm{на } \Gamma_2. \nonumber
+ \end{equation}
+ 
+ Нехай $r=21$. Тоді
+ 
+  \begin{equation}
+	S_{r}\varphi_1+S_{r}\psi_1+S_{22}\varphi_2+S_{22}\psi_2+\Omega=f \quad \textrm{на } \Gamma_2. \\ 
+ \end{equation}
+ 
+  \begin{equation}
+	(S^{'}[r,\varphi_1]q)(s)=f-\Omega-S_{r}\varphi_1-S_{r}\psi_1-S_{22}\varphi_2-S_{22}\psi_2,  \nonumber
+ \end{equation}
+
+\begin{equation}
+	(S^{'}[r,\varphi]q)(s)=\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\varphi(\sigma)d\sigma, 
+ \end{equation}
+ де $N_{r}(s, \sigma)=x(\sigma)\cdot\nabla_{x_{1}(\tau)}|x_2(s)-x_1(\sigma)|\ln |x_2(s)-x_1(\sigma)|$.
+ 
+ Аналогічно,
+ 
+  \begin{equation}
+	(S^{'}[r,\psi_1]q)(s)=f-\Omega-S_{r}\varphi_1-S_{r}\psi_1-S_{22}\varphi_2-S_{22}\psi_2, \nonumber
+ \end{equation}
+
+\begin{equation}
+	(S^{'}[r,\psi]q)(s)=\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\psi(\sigma)d\sigma.
+ \end{equation}
+\end{document}
