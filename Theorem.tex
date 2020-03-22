@@ -41,7 +41,7 @@
 
 % 2 // Теореми %
 
-\section {Some statements from potential theory}
+\section {Загальні положення}
 
 Фундаментальний роз'вязок бігармонійного рівняння має вигляд
  \begin{equation}
@@ -50,10 +50,10 @@
 
 Розглянемо наступні потенціали з густинами $\varphi$ визначені на $\Gamma$:
 $$
-	V_1(\varphi)(x)=\int_\Gamma G(x,y)\varphi(y)d\sigma_y - \textrm{single-layer potential},
+	V_1(\varphi)(x)=\int_\Gamma G(x,y)\varphi(y)d\sigma_y - \textrm{потенціал простого шару},
 $$ 
 $$
-	V_2(\varphi)(x)=\int_\Gamma\frac{\partial}{\partial n_y}G(x,y)\varphi(y) d\sigma_y  - \textrm{double-layer potential},
+	V_2(\varphi)(x)=\int_\Gamma\frac{\partial}{\partial n_y}G(x,y)\varphi(y) d\sigma_y  - \textrm{потенціал подвійного шару},
 $$
 
 Роз'вязок прямої задачі можна подати як комбінацію потенціалів простого та подвійного шарів. Наступна теорема постулює єдиність розв'язку \eqref{directProblem}.
@@ -78,7 +78,7 @@ $$
 		\end{split}
 	\right.
 	 \end{equation}
-	 for given $(A_0,A_1,A_2)\in R^3$.
+	для заданих $(A_0,A_1,A_2)\in R^3$.
  \end{theorem}
 
 Для рівняння \eqref{dataEq} маємо
@@ -101,9 +101,11 @@ $$
 \begin{proof}
 
 Доведемо від протилежного. Нехай $\tilde{\Gamma}_1\neq\Gamma_1$.
-Нехай $\Omega_2$ - область, обмежена $\Gamma_2$, $\Omega_1$, $\tilde{\Omega_1}$ - області обмежені $\Gamma_1$, $\tilde{\Gamma}_1$ відповідно. \\
-$W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega_1}), \quad \Gamma_2\subset\delta W$ \\
-За теоремою Гольгрема маємо $u = \tilde{u}$ в $W$. Без втрати загальності приспустимо, що $W^{*}:=(\Omega_2\setminus \overline{W})\setminus\Omega_1$ непорожня множина. Тоді $u$ є визначена в $W^{*}$ як розв'язок задачі \eqref{directProblem} для $\Gamma_1$. Вона є гармонічною в $W^{*}$, неперервною в $\overline{W}^{*}$ і задовольняє граничні умови на $\delta W^{*}$. Ця гранична умова випливає з того, що кожна точка з $W^{*}$ належить або $\Gamma_1$, або $\delta W\cap\tilde{\Gamma}_1$. Для $x\in\Gamma_1$ маємо $u(x)=0$ як наслідок граничної умови для $u$, для $x\in\tilde{\Gamma_1}$ маємо $u(x)=\tilde{u}(x)$ і тому $u(x)=0$ як наслідок граничних умов для $\tilde{u}$. Тоді за принципом максимуму $u=0$ в $W^{*}$ і тому $u=0$ в $D$. Це суперечить тому, що $g\neq 0, q\neq 0$.
+Нехай $\Omega_2$ - область, обмежена $\Gamma_2$, $\Omega_1$, $\tilde{\Omega}_1$ - області обмежені $\Gamma_1$, $\tilde{\Gamma}_1$ відповідно. 
+\begin{equation}
+W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta W. \nonumber
+\end{equation}
+За теоремою Гольмгрена маємо $u = \tilde{u}$ в $W$. Без втрати загальності приспустимо, що $W^{*}:=(\Omega_2\setminus \overline{W})\setminus\Omega_1$ непорожня множина. Тоді $u$ є визначена в $W^{*}$ як розв'язок задачі \eqref{directProblem} для $\Gamma_1$. Вона є гармонічною в $W^{*}$, неперервною в $\overline{W}^{*}$ і задовольняє граничні умови на $\delta W^{*}$. Ця гранична умова випливає з того, що кожна точка з $W^{*}$ належить або $\Gamma_1$, або $\delta W\cap\tilde{\Gamma}_1$. Для $x\in\Gamma_1$ маємо $u(x)=0$ як наслідок граничних умов для $u$, для $x\in\tilde{\Gamma}_1$ маємо $u(x)=\tilde{u}(x)$ і тому $u(x)=0$ як наслідок граничних умов для $\tilde{u}$. Тоді за принципом максимуму $u=0$ в $W^{*}$ і тому $u=0$ в $D$. Це суперечить тому, що $g\neq 0, q\neq 0$.
 \end{proof}
 
 % 3 // Параметризація %
@@ -170,39 +172,35 @@ $x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \}$, де $c(t)=(\cos (t), \sin (t))$ і $\ r 
 
  \begin{equation}
  \begin{split}
-	&(S_{2k}\varphi)(s)=\int_{0}^{2\pi}H_{2k}(s, \sigma)\varphi_k(\sigma)d\sigma, \\ 
-	&(S_{2k}\psi)(s)=\int_{0}^{2\pi}H_{2k}(s, \sigma)\psi(\sigma)d\sigma. \nonumber
+	&(S_{2k}\varphi)(s)=\frac{1}{2\pi}\int_{0}^{2\pi}H_{2k}(s, \sigma)\varphi_k(\sigma)d\sigma, \\ 
+	&(S_{2k}\psi)(s)=\frac{1}{2\pi}\int_{0}^{2\pi}H_{2k}(s, \sigma)\psi(\sigma)d\sigma. \nonumber
  \end{split}
  \end{equation}
  
-Отже \eqref{eq} можна записати так
+Нехай $r=21$. Тоді \eqref{eq} можна записати так
 
- \begin{equation}
-	S_{21}\varphi_1+S_{21}\psi_1+S_{22}\varphi_2+S_{22}\psi_2+\Omega=f \quad \textrm{на } \Gamma_2. \nonumber
- \end{equation}
- 
- Нехай $r=21$. Тоді
- 
   \begin{equation}
-	S_{r}\varphi_1+S_{r}\psi_1+S_{22}\varphi_2+S_{22}\psi_2+\Omega=f \quad \textrm{на } \Gamma_2. \\ 
+	S_{r}\varphi_1+S_{r}\psi_1+S_{22}\varphi_2+S_{22}\psi_2+\omega=f \quad \textrm{на } \Gamma_2. \\ 
  \end{equation}
+ 
+  Нехай $q$ радіальна функція, яка задає покращення для $\Gamma_1$. Похідна Фреше для оператора $S$ відносно функціі $\varphi_1$ матиме вигляд
  
   \begin{equation}
 	(S^{'}[r,\varphi_1]q)(s)=f-\Omega-S_{r}\varphi_1-S_{r}\psi_1-S_{22}\varphi_2-S_{22}\psi_2,  \nonumber
  \end{equation}
 
 \begin{equation}
-	(S^{'}[r,\varphi]q)(s)=\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\varphi(\sigma)d\sigma, 
+	(S^{'}[r,\varphi]q)(s)=\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\varphi(\sigma)d\sigma, 
  \end{equation}
- де $N_{r}(s, \sigma)=x(\sigma)\cdot\nabla_{x_{1}(\tau)}|x_2(s)-x_1(\sigma)|\ln |x_2(s)-x_1(\sigma)|$.
+ де $N_{r}(s, \sigma)=c(\sigma)\cdot\nabla_{x_{1}(\sigma)}|x_2(s)-x_1(\sigma)|^2\ln |x_2(s)-x_1(\sigma)|$, $c(\sigma)=(\cos (\sigma), \sin (\sigma))$.
  
- Аналогічно,
+ Аналогічно для оператора $S$ відносно функціі $\psi_1$,
  
   \begin{equation}
 	(S^{'}[r,\psi_1]q)(s)=f-\Omega-S_{r}\varphi_1-S_{r}\psi_1-S_{22}\varphi_2-S_{22}\psi_2, \nonumber
  \end{equation}
 
 \begin{equation}
-	(S^{'}[r,\psi]q)(s)=\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\psi(\sigma)d\sigma.
+	(S^{'}[r,\psi]q)(s)=\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\psi(\sigma)d\sigma.
  \end{equation}
 \end{document}
