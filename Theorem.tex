@@ -48,22 +48,18 @@
  	G(x, y)=\frac{1}{8\pi}|x-y|^2\ln|x-y|, \quad x,\ y \in \mathbb{R}^2.
  \end{equation}
 
-Розглянемо наступні потенціали з густинами $\varphi$ визначені на $\Gamma$:
-$$
-	V_1(\varphi)(x)=\int_\Gamma G(x,y)\varphi(y)d\sigma_y - \textrm{потенціал простого шару},
-$$ 
-$$
-	V_2(\varphi)(x)=\int_\Gamma\frac{\partial}{\partial n_y}G(x,y)\varphi(y) d\sigma_y  - \textrm{потенціал подвійного шару},
-$$
+Розглянемо потенціал простого шару для бігармонійного рівняння з густинами $\varphi$, $\psi$, що визначені на $\Gamma$:
 
-Роз'вязок прямої задачі можна подати як комбінацію потенціалів простого та подвійного шарів. Наступна теорема постулює єдиність розв'язку \eqref{directProblem}.
+\begin{equation}
+	 	u(x)=\int_{\Gamma}\bigg(G(x,y)\varphi(y)+\frac{\partial G(x,y)}{\partial n_y}\psi(y)\bigg)d\sigma_y, \quad x\in \Omega. \nonumber
+\end{equation}
 
 \begin{theorem}
 Розв'язок прямої крайової задачі \eqref{directProblem} має вигляд
 	 \begin{equation}
 	 	u(x)=\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x), \quad x\in \Omega,
 	 \end{equation}
-	 де $\omega(x) = \alpha_0+\alpha_1x_1+\alpha_2x_2 \ ((\alpha_0,\alpha_1,\alpha_2)\in R^3), \varphi_k,\psi_k\in C(\Gamma_k), k=1,2,$ і існує єдиний для системи інтегральних рівнянь
+	 де $\omega(x) = \alpha_0+\alpha_1x_1+\alpha_2x_2 \ ((\alpha_0,\alpha_1,\alpha_2)\in R^3), \varphi_k,\psi_k\in C(\Gamma_k), k=1,2,$, де невідомі густини визначаються із системи інтегральних рівнянь
 	 \begin{equation}
 	 \left\{
 	 	\begin{split}
@@ -81,7 +77,7 @@ $$
 	для заданих $(A_0,A_1,A_2)\in R^3$.
  \end{theorem}
 
-Для рівняння \eqref{dataEq} маємо
+З умови \eqref{dataEq} маємо
 
  \begin{equation}
 	\label{eq}
@@ -136,7 +132,6 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 \end{equation}
 
  \begin{equation}
-	\label{eq}
 	 \frac{1}{2\pi}\sum_{k=1}^{2}\int_{0}^{2\pi}\bigg(H_2{_k}(s, \sigma)\varphi_k(\sigma)+\tilde{H}_2{_k}(s, \sigma)\psi_k(\sigma)\bigg)d\sigma+\omega(x_2(s))=f(x_2(s)), 
 \end{equation}
 
@@ -156,7 +151,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 
 % 4 // Алгоритм %
 
-\section {Алгоритм знаходення розв'язку непрямої крайової задачі}
+\section {Алгоритм знаходення розв'язку оберненої крайової задачі}
 
 Знаходження розв'язку задачі \eqref{system}-\eqref{eq} складається з наступного ітераційного процесу:
 \begin{itemize}
@@ -172,35 +167,28 @@ $x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \}$, де $c(t)=(\cos (t), \sin (t))$ і $\ r 
 
  \begin{equation}
  \begin{split}
-	&(S_{2k}\varphi)(s)=\frac{1}{2\pi}\int_{0}^{2\pi}H_{2k}(s, \sigma)\varphi_k(\sigma)d\sigma, \\ 
-	&(S_{2k}\psi)(s)=\frac{1}{2\pi}\int_{0}^{2\pi}H_{2k}(s, \sigma)\psi(\sigma)d\sigma. \nonumber
+	&(S_{k}\varphi)(s)=\frac{1}{2\pi}\int_{0}^{2\pi}H_{2k}(s, \sigma)\varphi(\sigma)d\sigma, \\ 
+	&(\tilde{S}_{k}\psi)(s)=\frac{1}{2\pi}\int_{0}^{2\pi}\tilde{H}_{2k}(s, \sigma)\psi(\sigma)d\sigma. \nonumber
  \end{split}
  \end{equation}
  
 Нехай $r=21$. Тоді \eqref{eq} можна записати так
 
   \begin{equation}
-	S_{r}\varphi_1+S_{r}\psi_1+S_{22}\varphi_2+S_{22}\psi_2+\omega=f \quad \textrm{на } \Gamma_2. \\ 
+	S_{1}\varphi_1+\tilde{S}_{1}\psi_1+S_{2}\varphi_2+\tilde{S}_{2}\psi_2+\omega=f \quad \textrm{на } \Gamma_2. \\ 
  \end{equation}
  
   Нехай $q$ радіальна функція, яка задає покращення для $\Gamma_1$. Похідна Фреше для оператора $S$ відносно функціі $\varphi_1$ матиме вигляд
  
-  \begin{equation}
-	(S^{'}[r,\varphi_1]q)(s)=f-\Omega-S_{r}\varphi_1-S_{r}\psi_1-S_{22}\varphi_2-S_{22}\psi_2,  \nonumber
- \end{equation}
-
 \begin{equation}
 	(S^{'}[r,\varphi]q)(s)=\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\varphi(\sigma)d\sigma, 
  \end{equation}
  де $N_{r}(s, \sigma)=c(\sigma)\cdot\nabla_{x_{1}(\sigma)}|x_2(s)-x_1(\sigma)|^2\ln |x_2(s)-x_1(\sigma)|$, $c(\sigma)=(\cos (\sigma), \sin (\sigma))$.
  
- Аналогічно для оператора $S$ відносно функціі $\psi_1$,
+ Аналогічно для оператора $\tilde{S}$,
  
-  \begin{equation}
-	(S^{'}[r,\psi_1]q)(s)=f-\Omega-S_{r}\varphi_1-S_{r}\psi_1-S_{22}\varphi_2-S_{22}\psi_2, \nonumber
- \end{equation}
-
 \begin{equation}
-	(S^{'}[r,\psi]q)(s)=\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\psi(\sigma)d\sigma.
+	(\tilde{S}^{'}[r,\psi]q)(s)=\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)\tilde{N}_{r}(s, \sigma)\psi(\sigma)d\sigma,
  \end{equation}
+ $\tilde{N}_{r}(s, \sigma)=...$.
 \end{document}
