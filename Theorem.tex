@@ -101,7 +101,7 @@
 \begin{equation}
 W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta W. \nonumber
 \end{equation}
-За теоремою Гольмгрена маємо $u = \tilde{u}$ в $W$. Без втрати загальності приспустимо, що $W^{*}:=(\Omega_2\setminus \overline{W})\setminus\Omega_1$ непорожня множина. Тоді $u$ є визначена в $W^{*}$ як розв'язок задачі \eqref{directProblem} для $\Gamma_1$. Вона є гармонічною в $W^{*}$, неперервною в $\overline{W}^{*}$ і задовольняє граничні умови на $\delta W^{*}$. Ця гранична умова випливає з того, що кожна точка з $W^{*}$ належить або $\Gamma_1$, або $\delta W\cap\tilde{\Gamma}_1$. Для $x\in\Gamma_1$ маємо $u(x)=0$ як наслідок граничних умов для $u$, для $x\in\tilde{\Gamma}_1$ маємо $u(x)=\tilde{u}(x)$ і тому $u(x)=0$ як наслідок граничних умов для $\tilde{u}$. Тоді за принципом максимуму $u=0$ в $W^{*}$ і тому $u=0$ в $D$. Це суперечить тому, що $g\neq 0, q\neq 0$.
+За теоремою Гольмгрена маємо $u = \tilde{u}$ в $W$. Без втрати загальності приспустимо, що $W^{*}:=(\Omega_2\setminus \overline{W})\setminus\Omega_1$ непорожня множина. Тоді $u$ є визначена в $W^{*}$ як розв'язок задачі \eqref{directProblem} для $\Gamma_1$. Вона є неперервною в $\overline{W}^{*}$ і задовольняє граничні умови на $\delta W^{*}$. Ця гранична умова випливає з того, що кожна точка з $W^{*}$ належить або $\Gamma_1$, або $\delta W\cap\tilde{\Gamma}_1$. Для $x\in\Gamma_1$ маємо $u(x)=0$ як наслідок граничних умов для $u$, для $x\in\tilde{\Gamma}_1$ маємо $u(x)=\tilde{u}(x)$ і тому $u(x)=0$ як наслідок граничних умов для $\tilde{u}$. Тоді за принципом максимуму $u=0$ в $W^{*}$ і тому $u=0$ в $D$. Це суперечить тому, що $g\neq 0, q\neq 0$.
 \end{proof}
 
 % 3 // Параметризація %
@@ -181,14 +181,14 @@ $x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \}$, де $c(t)=(\cos (t), \sin (t))$ і $\ r 
   Нехай $q$ радіальна функція, яка задає покращення для $\Gamma_1$. Похідна Фреше для оператора $S$ відносно функціі $\varphi_1$ матиме вигляд
  
 \begin{equation}
-	(S^{'}[r,\varphi]q)(s)=\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\varphi(\sigma)d\sigma, 
+	(S_1^{'}[r,\varphi]q)(s)=\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\varphi(\sigma)d\sigma, 
  \end{equation}
- де $N_{r}(s, \sigma)=c(\sigma)\cdot\nabla_{x_{1}(\sigma)}|x_2(s)-x_1(\sigma)|^2\ln |x_2(s)-x_1(\sigma)|$, $c(\sigma)=(\cos (\sigma), \sin (\sigma))$.
+ де $N_{r}(s, \sigma)=c(\sigma)\cdot\nabla_{x_{1}(\sigma)}|x_2(s)-x_1(\sigma)|^2\ln |x_2(s)-x_1(\sigma)|=c(\sigma)\cdot(x_1(s)-x_1(\sigma))(\ln |x_2(s)-x_1(\sigma)| + 1)$, $c(\sigma)=(\cos (\sigma), \sin (\sigma))$.
  
  Аналогічно для оператора $\tilde{S}$,
  
 \begin{equation}
-	(\tilde{S}^{'}[r,\psi]q)(s)=\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)\tilde{N}_{r}(s, \sigma)\psi(\sigma)d\sigma,
+	(\tilde{S}_1^{'}[r,\psi]q)(s)=-\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)\tilde{N}_{r}(s, \sigma)\psi(\sigma)d\sigma,
  \end{equation}
- $\tilde{N}_{r}(s, \sigma)=...$.
+ $\tilde{N}_{r}(s, \sigma)=c(\sigma)\cdot n(x_1(\sigma))\cdot(3+\ln |x_2(s)-x_1(\sigma)|)$.
 \end{document}
