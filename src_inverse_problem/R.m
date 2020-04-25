@@ -2,7 +2,6 @@ function res = R(k, m)
 % Calculates weight function
 % for Nystrom method
 
-
 jj = 1:m - 1;
 %r = cos(jj .* (s(ii) - s(k))) ./ jj;
 r = cos(jj .* pi .* k / m) ./ jj;

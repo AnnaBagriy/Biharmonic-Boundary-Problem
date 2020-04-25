@@ -87,8 +87,11 @@ y_2derivative2 = y_2derivative2_sym(s);
 %---------------------------%
 
 % Right vector functions
-g2 = @(x, y) 0;
-q2 = @(x, y) 0;
+g2 = @(x, y) x + y;
+q2 = @(x, y) x - y;
+
+g2_k = g2(x2, y2);
+q2_k = q2(x2, y2);
 
 % Right vector initialization
 y = zeros (8 * m + 3, 1);
@@ -100,8 +103,8 @@ y(3) = A2;
 for ii = 1:2 * m
     y(ii + 3) = 0;
     y(2 * m + 3 + ii) = 0;
-    y(4 * m + 3 + ii) = g2(ii);
-    y(6 * m + 3 + ii) =  q2(ii);
+    y(4 * m + 3 + ii) = g2_k(ii);
+    y(6 * m + 3 + ii) =  q2_k(ii);
 end
 
 % Matrix initialization
@@ -203,4 +206,4 @@ fclose(vid);
 %---------------------------%
 
 %disp('the end of matrix initialization');
-main
+%main

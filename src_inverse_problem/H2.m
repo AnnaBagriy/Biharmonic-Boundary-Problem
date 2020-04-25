@@ -22,11 +22,11 @@ global x2;
 global y2;
 
 if l2 == 1
-    res = - (n_11(jj) * (x2(ii) - x1(jj)) * (1 + 2 * log(r2(l1, l2, ii, jj))) +...
-             n_21(jj) * (y2(ii) - y1(jj)) * (1 + 2 * log(r2(l1, l2, ii, jj)))) / 4;
+    res = - (n_11(jj) .* (x2(ii) - x1(jj)) .* (1 + 2 .* log(r2(l1, l2, ii, jj))) +...
+             n_21(jj) .* (y2(ii) - y1(jj)) .* (1 + 2 .* log(r2(l1, l2, ii, jj)))) ./ 4;
 else
-    res = - (n_12(jj) * (x1(ii) - x2(jj)) * (1 + 2 * log(r2(l1, l2, ii, jj))) +...
-             n_22(jj) * (y1(ii) - y2(jj)) * (1 + 2 * log(r2(l1, l2, ii, jj)))) / 4;
+    res = - (n_12(jj) .* (x1(ii) - x2(jj)) .* (1 + 2 .* log(r2(l1, l2, ii, jj))) +...
+             n_22(jj) .* (y1(ii) - y2(jj)) .* (1 + 2 .* log(r2(l1, l2, ii, jj)))) ./ 4;
 end
 
 end

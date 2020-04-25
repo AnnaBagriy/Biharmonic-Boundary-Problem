@@ -16,7 +16,7 @@ global s;
 if ii == jj
     res = 0;
 else
-    res = r2(l, l, ii, jj)^2 * log((exp(1) * r2(l, l, ii, jj)^2) / (4 * (sin((s(ii) - s(jj)) / 2))^2)) / 8;
+    res = r2(l, l, ii, jj).^2 .* log((exp(1) .* r2(l, l, ii, jj)^2) ./ (4 .* (sin((s(ii) - s(jj)) ./ 2)).^2)) ./ 8;
 end
 
 end
