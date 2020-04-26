@@ -90,7 +90,7 @@
 \chapter*{Вступ}
 \addcontentsline{toc}{chapter}{Вступ}
  
-Нехай $\Omega\subset \mathbb{R}^2$ двоз'язна область з межею $\Gamma=\Gamma_1\cup\Gamma_2$, де $\Gamma_1$ є внутрішньою межею і $\Gamma_2$ - зовнішньою. І нехай $\Gamma_1$ невідома.
+Нехай $\Omega\subset \mathbb{R}^2$ двоз'язна область з межею $\Gamma=\Gamma_1\cup\Gamma_2$, де $\Gamma_1$ є внутрішньою межею і $\Gamma_2$ - зовнішньою. Розглянемо
 
 \begin{equation}
 	\left\{
@@ -108,11 +108,31 @@
 	\label{dataEq}
 	u(x)=f(x), \quad x\in\Gamma_2,
 \end{equation}
-де $\Delta^{2}u(x)=\frac{\partial^{4}}{\partial x_1^4}u(x)+2\frac{\partial^{4}}{\partial x_1^2\partial x_2^2}u(x)+\frac{\partial^{4}}{\partial x_2^4}u(x)=0,\ u(x)=u(x_1,x_2), \ n=(n_1, n_2)$ - зовнішня нормаль до $\Gamma$, $Mu=\nu\Delta u+(1-\nu)(u_{x_1 x_1}n_1^2+2u_{x_1 x_2}n_1 n_2+u_{x_2 x_2}n_2^2), \ \nu\in (0, 1)$ і $g(x),q(x),f(x)$ - деякі задані функції. Розв'язування \eqref{directProblem}-\eqref{dataEq} складається зі знаходження невідомої $\Gamma_1$ для заданих граничних умов. Дана обернена задача є нелінійною.
+де $\Delta^{2}u(x)=\frac{\partial^{4}}{\partial x_1^4}u(x)+2\frac{\partial^{4}}{\partial x_1^2\partial x_2^2}u(x)+\frac{\partial^{4}}{\partial x_2^4}u(x),\ u(x)=u(x_1,x_2), \ n=(n_1, n_2)$ - зовнішня нормаль до $\Gamma$, $Mu=\nu\Delta u+(1-\nu)(u_{x_1 x_1}n_1^2+2u_{x_1 x_2}n_1 n_2+u_{x_2 x_2}n_2^2), \ \nu\in (0, 1)$ і $g(x),q(x),f(x)$ - деякі задані функції. Розв'язування \eqref{directProblem}-\eqref{dataEq} полягає у знаходженні невідомої $\Gamma_1$ для заданих граничних умов. Дана обернена задача є нелінійною і некоректною.
+
+\begin{theorem}[Існування і єдиність розв'язку непрямої задачі]
+
+Нехай $\tilde{\Gamma}_1$, $\Gamma_1$ - замкнені криві, що містяться всередині $\Gamma_2$, $\tilde{u}$, $u$ - розв'язки задачі $\eqref{directProblem}$ для $\tilde{\Gamma}_1$ і $\Gamma_1$ відповідно. Нехай $g\neq 0, q\neq 0$ i $u = \tilde{u}$ на відкритій підмножині $\Gamma_2$. Тоді $\tilde{\Gamma}_1=\Gamma_1$.
+
+\end{theorem}
+
+\begin{proof}
+
+Доведемо від протилежного. Нехай $\tilde{\Gamma}_1\neq\Gamma_1$.
+Нехай $\Omega_2$ - область, обмежена $\Gamma_2$, $\Omega_1$, $\tilde{\Omega}_1$ - області обмежені $\Gamma_1$, $\tilde{\Gamma}_1$ відповідно. 
+\begin{equation}
+W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta W. \nonumber
+\end{equation}
+За теоремою Гольмгрена маємо $u = \tilde{u}$ в $W$. Без втрати загальності приспустимо, що $W^{*}:=(\Omega_2\setminus \overline{W})\setminus\Omega_1$ непорожня множина. Тоді $u$ є визначена в $W^{*}$ як розв'язок задачі \eqref{directProblem} для $\Gamma_1$. Вона є неперервною в $\overline{W}^{*}$ і задовольняє граничні умови на $\delta W^{*}$. Ця гранична умова випливає з того, що кожна точка з $W^{*}$ належить або $\Gamma_1$, або $\delta W\cap\tilde{\Gamma}_1$. Для $x\in\Gamma_1$ маємо $u(x)=0$ як наслідок граничних умов для $u$, для $x\in\tilde{\Gamma}_1$ маємо $u(x)=\tilde{u}(x)$ і тому $u(x)=0$ як наслідок граничних умов для $\tilde{u}$. Тоді за принципом максимуму $u=0$ в $W^{*}$ і тому $u=0$ в $D$. Це суперечить тому, що $g\neq 0, q\neq 0$.
+
+\end{proof}
+
 
 % 2 // Теореми %
 \setcounter{secnumdepth}{1}
 \chapter{Загальні положення}
+
+\section{Зведення до ІР}
 
 Фундаментальний роз'вязок бігармонійного рівняння має вигляд
  \begin{equation}
@@ -126,11 +146,11 @@
 \end{equation}
 
 \begin{theorem}
-Розв'язок прямої крайової задачі \eqref{directProblem} має вигляд
+Розв'язок прямої крайової задачі \eqref{directProblem} можна подати у вигляді
 	 \begin{equation}
 	 	u(x)=\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x), \quad x\in \Omega,
 	 \end{equation}
-	 де $\omega(x) = \alpha_0+\alpha_1x_1+\alpha_2x_2 \ ((\alpha_0,\alpha_1,\alpha_2)\in R^3), \varphi_k,\psi_k\in C(\Gamma_k), k=1,2$, де невідомі густини визначаються із системи інтегральних рівнянь
+	 де $\omega(x) = \alpha_0+\alpha_1x_1+\alpha_2x_2 \ ((\alpha_0,\alpha_1,\alpha_2)\in R^3), \varphi_k,\psi_k\in C(\Gamma_k), k=1,2$, і невідомі густини визначаються із системи інтегральних рівнянь
 	 \begin{equation}
 	 \left\{
 	 	\begin{split}
@@ -176,28 +196,12 @@
 
 
 \begin{theorem}
-Обернена крайова задача \eqref{directProblem}-\eqref{dataEq} еквівалентна системі інтегральних рівнянь \eqref{system}-\eqref{eq}.
+Обернена крайова задача \eqref{directProblem}-\eqref{dataEq} еквівалентна системі інтегральних рівнянь \eqref{system}-\eqref{dataEq1}.
 \end{theorem}
 
-\begin{theorem}[Існування і єдиність розв'язку непрямої задачі]
+\section{Алгоритм знаходення розв'язку оберненої крайової задачі}
 
-Нехай $\tilde{\Gamma}_1$, $\Gamma_1$ - замкнені криві, що містяться всередині $\Gamma_2$, $\tilde{u}$, $u$ - розв'язки задачі $\eqref{directProblem}$ для $\tilde{\Gamma}_1$ і $\Gamma_1$ відповідно. Нехай $g\neq 0, q\neq 0$ i $u = \tilde{u}$ на відкритій підмножині $\Gamma_2$. Тоді $\tilde{\Gamma}_1=\Gamma_1$.
-
-\end{theorem}
-
-\begin{proof}
-
-Доведемо від протилежного. Нехай $\tilde{\Gamma}_1\neq\Gamma_1$.
-Нехай $\Omega_2$ - область, обмежена $\Gamma_2$, $\Omega_1$, $\tilde{\Omega}_1$ - області обмежені $\Gamma_1$, $\tilde{\Gamma}_1$ відповідно. 
-\begin{equation}
-W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta W. \nonumber
-\end{equation}
-За теоремою Гольмгрена маємо $u = \tilde{u}$ в $W$. Без втрати загальності приспустимо, що $W^{*}:=(\Omega_2\setminus \overline{W})\setminus\Omega_1$ непорожня множина. Тоді $u$ є визначена в $W^{*}$ як розв'язок задачі \eqref{directProblem} для $\Gamma_1$. Вона є неперервною в $\overline{W}^{*}$ і задовольняє граничні умови на $\delta W^{*}$. Ця гранична умова випливає з того, що кожна точка з $W^{*}$ належить або $\Gamma_1$, або $\delta W\cap\tilde{\Gamma}_1$. Для $x\in\Gamma_1$ маємо $u(x)=0$ як наслідок граничних умов для $u$, для $x\in\tilde{\Gamma}_1$ маємо $u(x)=\tilde{u}(x)$ і тому $u(x)=0$ як наслідок граничних умов для $\tilde{u}$. Тоді за принципом максимуму $u=0$ в $W^{*}$ і тому $u=0$ в $D$. Це суперечить тому, що $g\neq 0, q\neq 0$.
-\end{proof}
-
-\subsection{Алгоритм знаходення розв'язку оберненої крайової задачі}
-
-Знаходження розв'язку задачі \eqref{system}-\eqref{eq} складається з наступного ітераційного процесу:
+Знаходження розв'язку задачі \eqref{system}-\eqref{dataEq1} складається з наступного ітераційного процесу:
 \begin{itemize}
   \item Для заданого початкового наближення $\Gamma_1$ розв'язуємо пряму задачу для \eqref{system} і знаходимо невідомі густини.
   \item Лінеаризуємо рівняння \eqref{dataEq1} і покращуємо $\Gamma_1$, розв'язуючи лінеаризоване рівняння \eqref{dataEq1} для фіксованих густин, які є відомими з \eqref{system}.
@@ -205,7 +209,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 
 
 % 3 // ПРЯМА ЗАДАЧА %
-\chapter{Розв'язування прямої задачі}
+\chapter{Чисельне розв'язування коректної системи ІР}
 
 % 3.1 // Параметризація %
 \section{Параметризація}
@@ -277,7 +281,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
  \end{gather*}
  
 % 3.2 // Чисельне розв'язування %
-\section{Чисельне розв'язування системи інтегральних рівнянь}
+\section{Метод Нистрьома}
 
 Для чисельного розв'язування отриманої системи інтегральних рівнянь використуємо метод Нистрьома, який полягає у заміні інтегралу вiдповiдною квадратурною формулою з певними ваговими функцiями. Виберемо тригонометричні квадратури та рівновіддалений поділ,
 
@@ -326,7 +330,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 
 % 5 // Алгоритм %
 
-\chapter{Знаходження розв'язку оберненої крайової задачі}
+\chapter{Чисельне розв'язування некоректного ІР}
 
 %\begin{gather}
 %	\sum_{j=0}^{2m-1}\bigg(\frac{1}{2m}H_{21}(s_i, s_j)\varphi_{1j} +(H^{(1)}_{22}(s_i, s_j)R_{|i-j|}+\frac{1}{2m}H^{(2)}_{22}(s_i, s_j))\varphi_{2j}+\frac{1}{2m}\tilde{H}_{12}(s_i, s_j)\psi_{1j} \nonumber \\
@@ -338,7 +342,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 Ми припускаємо, що крива $\Gamma_1$ належить класу так званих "зіркових" кривих. Таким чином, параметризація задається як
 $x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \}$, де $c(t)=(\cos (t), \sin (t))$ і $\ r : \mathbb{R} \to (0, \infty)$ є $2\pi$-періодичною функцією, яка задає радіус.
 
-Тоді допоміжне рівняння \eqref{dataEq1} можна записати як
+Тоді рівняння \eqref{dataEq1} можна записати як
 
  \begin{equation}
  \label{eq}
@@ -377,7 +381,7 @@ $x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \}$, де $c(t)=(\cos (t), \sin (t))$ і $\ r 
  \begin{equation}
 	(\tilde{S}_1^{'}[r,\psi]q)(s)=-\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)\tilde{N}_{r}(s, \sigma)\psi(\sigma)d\sigma,
  \end{equation}
- $\tilde{N}_{r}(s, \sigma)=c(\sigma) n(x_1(\sigma))\cdot(3+\ln |x_2(s)-x_1(\sigma)|)$.
+ $\tilde{N}_{r}(s, \sigma)=c(\sigma)\cdot n(x_1(\sigma))(3+\ln |x_2(s)-x_1(\sigma)|)$.
  
   Рівняння \eqref{lineriazed} розв'яжемо методом колокацій, апроксимуючи $q$ у вигляді
  \begin{equation}
