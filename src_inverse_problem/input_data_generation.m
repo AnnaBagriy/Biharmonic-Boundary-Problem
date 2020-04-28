@@ -31,6 +31,7 @@ a2 = x(8 * m + 3);
 
 fi_func_1 = zeros(2 * m, 1);
 fi_func_2 = zeros(2 * m, 1);
+
 psi_func_1 = zeros(2 * m, 1);
 psi_func_2 = zeros(2 * m, 1);
 
@@ -63,6 +64,8 @@ for ii = 1:2 * m
 
     f(ii) = f_i;
 end
+
+disp(['f(x) (x on Г2) = ', num2str(f)]);
 
 %---------------------------%
 
