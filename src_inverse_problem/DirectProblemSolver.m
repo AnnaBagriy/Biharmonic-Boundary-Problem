@@ -1,5 +1,11 @@
 
-classdef MainSystem < handle
+classdef DirectProblemSolver < handle
+    
+    properties (Constant)
+        vector_file = 'y_vector.txt';
+        matrix_file = 'A_matrix.txt';
+        f_file = 'f_vector.txt';
+    end
     
    properties (SetAccess = public)
        
@@ -47,11 +53,7 @@ classdef MainSystem < handle
       
       psi_func_1
       psi_func_2
-   end
-   
-   properties (Access = private)
-      g_k
-      q_k
+      
       
       x1
       y1
@@ -65,13 +67,34 @@ classdef MainSystem < handle
       n1_on_2
       n2_on_2
       
+   end
+   
+   properties (Access = private)
+       q_m
+       
+      g_k
+      q_k
+      
+      x_derivative_1
+      y_derivative_1
+      
+      x_derivative_2
+      y_derivative_2
+      
+      x_second_derivative_1
+      y_second_derivative_1
+      
+      x_second_derivative_2
+      y_second_derivative_2
+      
       calc
+      file_manager
    end
    
    methods (Access = public)
       
       % Initialization 
-      function obj = MainSystem(m, g, q, A0, A1, A2, nu)
+      function obj = DirectProblemSolver(m, g, q, A0, A1, A2, nu)
          obj.m = m;
          
          obj.h = pi / m;
@@ -85,14 +108,19 @@ classdef MainSystem < handle
          obj.A2 = A2;
          
          obj.nu = nu;
+         
+         obj.file_manager = FileManager();
+         obj.calc = Calculator(obj.s);
       end
       
-      function SetBoundary1(obj, x, y)
+      function SetBoundary1(obj, x, y, q_m)
           obj.x_vector_1 = x;
           obj.y_vector_1 = y;
           
           obj.x1 = x(obj.s);
           obj.y1 = y(obj.s);
+          
+          obj.calc.SetBoundary1(obj.x1, obj.y1, q_m);
           
           obj.SetNormal1();
       end
@@ -107,9 +135,19 @@ classdef MainSystem < handle
           obj.g_k = obj.g(obj.x2, obj.y2);
           obj.q_k = obj.q(obj.x2, obj.y2);
           
-          obj.SetNormal2();
+          obj.calc.SetBoundary2(obj.x2, obj.y2);
           
-          obj.calc = Calculator(obj.x1, obj.x2, obj.y1, obj.y2, obj.n1_on_1, obj.n2_on_1, obj.n1_on_2, obj.n2_on_2);
+          obj.SetNormal2();
+      end
+      
+      function [x2, y2] = GetBoundary2(obj)
+          x2 = obj.x2;
+          y2 = obj.y2;
+      end
+
+      function [n1, n2] = GetNormal2(obj)
+          n1 = obj.n1_on_1;
+          n2 = obj.n2_on_1;
       end
 
       function x = SolveSystem(obj)
@@ -120,7 +158,7 @@ classdef MainSystem < handle
          x = obj.x;
       end
       
-      function FindDensitiesAndConstants(obj)
+      function [fi_func_1, fi_func_2, psi_func_1, psi_func_2, a0, a1, a2] = FindDensitiesAndConstants(obj)
          obj.SolveSystem();
          
          obj.a0 = obj.x(8 * obj.m + 1);
@@ -140,9 +178,18 @@ classdef MainSystem < handle
              obj.psi_func_1(ii) = obj.x(ii + 4 * obj.m);
              obj.psi_func_2(ii) = obj.x(ii + 6 * obj.m);
          end
+         
+         a0 = obj.a0;
+         a1 = obj.a1;
+         a2 = obj.a2;
+         
+         fi_func_1 = obj.fi_func_1;
+         fi_func_2 = obj.fi_func_2;
+         psi_func_1 = obj.fi_func_1;
+         psi_func_2 = obj.fi_func_2;
       end
       
-      function FindF(obj)
+      function f = FindF(obj)
           
           obj.f = zeros(1, 2 * obj.m);
 
@@ -152,17 +199,21 @@ classdef MainSystem < handle
 
               for jj = 1:2 * obj.m
 
-                  f_i = f_i + obj.fi_func_1(jj) * H1(2, 1, ii, jj) / (2 * obj.m) +...
-                              obj.fi_func_2(jj) * (H1_1(2, ii, jj) * R(abs(jj - ii), obj.m) + H1_2(2, ii, jj) / (2 * obj.m)) +...
-                              obj.psi_func_1(jj) * H2(2, 1, ii, jj) / (2 * obj.m) +...
-                              obj.psi_func_2(jj) * (H2_1(2, ii, jj) * R(abs(jj - ii), obj.m) + H2_2(2, ii, jj) / (2 * obj.m));
+                  f_i = f_i + obj.fi_func_1(jj) * obj.calc.H1(2, 1, ii, jj) / (2 * obj.m) +...
+                              obj.fi_func_2(jj) * (obj.calc.H1_1(2, ii, jj) * obj.calc.R(abs(jj - ii), obj.m) + obj.calc.H1_2(2, ii, jj) / (2 * obj.m)) +...
+                              obj.psi_func_1(jj) * obj.calc.H2(2, 1, ii, jj) / (2 * obj.m) +...
+                              obj.psi_func_2(jj) * (obj.calc.H2_1(2, ii, jj) * obj.calc.R(abs(jj - ii), obj.m) + obj.calc.H2_2(2, ii, jj) / (2 * obj.m));
 
               end
 
               obj.f(ii) = f_i;
           end
           
-          disp(['f(x) (x on Г2) = ', num2str(obj.f)]);
+          f = obj.f;
+          
+          obj.file_manager.WriteRightVectorToFile(obj.f_file, obj.f);
+          
+          disp([newline 'f(x) (x on Г2) = ' num2str(obj.f) newline]);
           
        end
       
@@ -220,28 +271,28 @@ classdef MainSystem < handle
 
             for jj = 1:2 * obj.m
                 % 1st equation kernels
-                obj.A(3 + ii, jj) = H1_1(1, ii, jj) * R(abs(jj - ii), obj.m) + H1_2(1, ii, jj) / (2 * obj.m);
+                obj.A(3 + ii, jj) = obj.calc.H1_1(1, ii, jj) * obj.calc.R(abs(jj - ii), obj.m) + obj.calc.H1_2(1, ii, jj) / (2 * obj.m);
                 obj.A(3 + ii, jj + 2 * obj.m) = obj.calc.H1(1, 2, ii, jj) / (2 * obj.m);
-                obj.A(3 + ii, jj + 4 * obj.m) = H2_1(1, ii, jj) * R(abs(jj - ii), obj.m) + H2_2(1, ii, jj) / (2 * obj.m);
-                obj.A(3 + ii, jj + 6 * obj.m) = H2(1, 2, ii, jj) / (2 * obj.m);
+                obj.A(3 + ii, jj + 4 * obj.m) = obj.calc.H2_1(1, ii, jj) * obj.calc.R(abs(jj - ii), obj.m) + obj.calc.H2_2(1, ii, jj) / (2 * obj.m);
+                obj.A(3 + ii, jj + 6 * obj.m) = obj.calc.H2(1, 2, ii, jj) / (2 * obj.m);
 
                 % 2nd equation kernels
-                obj.A(3 + ii + 2 * obj.m, jj) = H3_1(1, ii, jj) * R(abs(jj - ii), obj.m) + H3_2(1, ii, jj) / (2 * obj.m);
-                obj.A(3 + ii + 2 * obj.m, jj + 2 * obj.m) = H3(1, 2, ii, jj) / (2 * obj.m);
-                obj.A(3 + ii + 2 * obj.m, jj + 4 * obj.m) = H4_1(1, ii, jj) * R(abs(jj - ii), obj.m) + H4_2(1, ii, jj) / (2 * obj.m);
-                obj.A(3 + ii + 2 * obj.m, jj + 6 * obj.m) = H4(1, 2, ii, jj) / (2 * obj.m);
+                obj.A(3 + ii + 2 * obj.m, jj) = obj.calc.H3_1(1, ii, jj) * obj.calc.R(abs(jj - ii), obj.m) + obj.calc.H3_2(1, ii, jj) / (2 * obj.m);
+                obj.A(3 + ii + 2 * obj.m, jj + 2 * obj.m) = obj.calc.H3(1, 2, ii, jj) / (2 * obj.m);
+                obj.A(3 + ii + 2 * obj.m, jj + 4 * obj.m) = obj.calc.H4_1(1, ii, jj) * obj.calc.R(abs(jj - ii), obj.m) + obj.calc.H4_2(1, ii, jj) / (2 * obj.m);
+                obj.A(3 + ii + 2 * obj.m, jj + 6 * obj.m) = obj.calc.H4(1, 2, ii, jj) / (2 * obj.m);
 
                 % 3d equation kernels
-                obj.A(3 + ii + 4 * obj.m, jj) = H3(2, 1, ii, jj) / (2 * obj.m);
-                obj.A(3 + ii + 4 * obj.m, jj + 2 * obj.m) = H3_1(2, ii, jj) * R(abs(jj - ii), obj.m) + H3_2(2, ii, jj) / (2 * obj.m);
-                obj.A(3 + ii + 4 * obj.m, jj + 4 * obj.m) = H4(2, 1, ii, jj) / (2 * obj.m);
-                obj.A(3 + ii + 4 * obj.m, jj + 6 * obj.m) = H4_1(2, ii, jj) * R(abs(jj - ii), obj.m) + H4_2(2, ii, jj) / (2 * obj.m);
+                obj.A(3 + ii + 4 * obj.m, jj) = obj.calc.H3(2, 1, ii, jj) / (2 * obj.m);
+                obj.A(3 + ii + 4 * obj.m, jj + 2 * obj.m) = obj.calc.H3_1(2, ii, jj) * obj.calc.R(abs(jj - ii), obj.m) + obj.calc.H3_2(2, ii, jj) / (2 * obj.m);
+                obj.A(3 + ii + 4 * obj.m, jj + 4 * obj.m) = obj.calc.H4(2, 1, ii, jj) / (2 * obj.m);
+                obj.A(3 + ii + 4 * obj.m, jj + 6 * obj.m) = obj.calc.H4_1(2, ii, jj) * obj.calc.R(abs(jj - ii), obj.m) + obj.calc.H4_2(2, ii, jj) / (2 * obj.m);
 
                 % 4th equation kernels
-                obj.A(3 + ii + 6 * obj.m, jj) = H5(2, 1, ii, jj, obj.nu) / (2 * obj.m);
-                obj.A(3 + ii + 6 * obj.m, jj + 2 * obj.m) = H5_1(2, ii, jj, obj.nu) * R(abs(jj - ii), obj.m) + H5_2(2, ii, jj, obj.nu) / (2 * obj.m);
-                obj.A(3 + ii + 6 * obj.m, jj + 4 * obj.m) = H6(2, 1, ii, jj, obj.nu) / (2 * obj.m);
-                obj.A(3 + ii + 6 * obj.m, jj + 6 * obj.m) = H6(2, 2, ii, jj, obj.nu) / (2 * obj.m);
+                obj.A(3 + ii + 6 * obj.m, jj) = obj.calc.H5(2, 1, ii, jj, obj.nu) / (2 * obj.m);
+                obj.A(3 + ii + 6 * obj.m, jj + 2 * obj.m) = obj.calc.H5_1(2, ii, jj, obj.nu) * obj.calc.R(abs(jj - ii), obj.m) + obj.calc.H5_2(2, ii, jj, obj.nu) / (2 * obj.m);
+                obj.A(3 + ii + 6 * obj.m, jj + 4 * obj.m) = obj.calc.H6(2, 1, ii, jj, obj.nu) / (2 * obj.m);
+                obj.A(3 + ii + 6 * obj.m, jj + 6 * obj.m) = obj.calc.H6(2, 2, ii, jj, obj.nu) / (2 * obj.m);
             end
 
             %---------------------------%
@@ -249,7 +300,7 @@ classdef MainSystem < handle
          
          % Write to file
          
-         obj.WriteMatrixToFile();
+         obj.file_manager.WriteMatrixToFile(obj.matrix_file, obj.A);
          
          A = obj.A;
       end
@@ -270,39 +321,10 @@ classdef MainSystem < handle
          
          % Write to file
          
-         obj.WriteRightVectorToFile();
+         obj.file_manager.WriteRightVectorToFile(obj.vector_file, obj.y);
          
          y = obj.y;
       end
-       
-      %---------------------------%
-      
-      % Files utilities
-      
-      function WriteRightVectorToFile(obj)
-         vector_file = 'y_vector.txt';
-
-         vid = fopen(vector_file, 'wt');
-
-         fprintf(vid, '%d\n', obj.y);
-
-         fclose(vid);
-      end
-      
-      function WriteMatrixToFile(obj)
-         matrix_file = 'A_matrix.txt';
-
-         mid = fopen(matrix_file, 'wt');
-
-         for ii = 1:size(obj.A, 1)
-            fprintf(mid, '%g\t', obj.A(ii, :));
-            fprintf(mid, '\n');
-         end
-
-         fclose(mid);
-      end
-      
-      %---------------------------%
        
       function SetNormal1(obj)
           syms t;
@@ -310,8 +332,21 @@ classdef MainSystem < handle
           x_derivative = matlabFunction(diff(obj.x_vector_1(t)), t);
           y_derivative = matlabFunction(diff(obj.y_vector_1(t)), t);
           
-          [obj.n1_on_1, j] = x_derivative(obj.s);
-          [obj.n2_on_1, j] = y_derivative(obj.s);
+          x_2_derivative = matlabFunction(diff(diff(obj.x_vector_1(t), t), t));
+          y_2_derivative = matlabFunction(diff(diff(obj.y_vector_1(t), t), t));
+          
+          [obj.x_derivative_1, j] = x_derivative(obj.s);
+          [obj.y_derivative_1, j] = y_derivative(obj.s);
+
+          obj.x_second_derivative_1 = x_2_derivative(obj.s);
+          obj.y_second_derivative_1 = y_2_derivative(obj.s);
+
+          obj.n1_on_1 = obj.y_derivative_1 ./ sqrt(obj.x_derivative_1.^2 + obj.y_derivative_1.^2);
+          obj.n2_on_1 = - obj.x_derivative_1 ./ sqrt(obj.x_derivative_1.^2 + obj.y_derivative_1.^2);
+          
+          obj.calc.SetNormal1(obj.n1_on_1, obj.n2_on_1);
+          obj.calc.SetDerivative1(obj.x_derivative_1, obj.y_derivative_1);
+          obj.calc.SetSecondDerivative1(obj.x_second_derivative_1, obj.y_second_derivative_1);
       end
       
       function SetNormal2(obj)
@@ -320,8 +355,21 @@ classdef MainSystem < handle
           x_derivative = matlabFunction(diff(obj.x_vector_2(t)), t);
           y_derivative = matlabFunction(diff(obj.y_vector_2(t)), t);
           
-          [obj.n1_on_2, j] = x_derivative(obj.s);
-          [obj.n2_on_2, j] = y_derivative(obj.s);
+          x_2_derivative = matlabFunction(diff(diff(obj.x_vector_2(t), t), t));
+          y_2_derivative = matlabFunction(diff(diff(obj.y_vector_2(t), t), t));
+          
+          [obj.x_derivative_2, j] = x_derivative(obj.s);
+          [obj.y_derivative_2, j] = y_derivative(obj.s);
+
+          obj.x_second_derivative_2 = x_2_derivative(obj.s);
+          obj.y_second_derivative_2 = y_2_derivative(obj.s);
+          
+          obj.n1_on_2 = obj.y_derivative_2 ./ sqrt(obj.x_derivative_2.^2 + obj.y_derivative_2.^2);
+          obj.n2_on_2 = - obj.x_derivative_2 ./ sqrt(obj.x_derivative_2.^2 + obj.y_derivative_2.^2);
+          
+          obj.calc.SetNormal2(obj.n1_on_2, obj.n2_on_2);
+          obj.calc.SetDerivative2(obj.x_derivative_2, obj.y_derivative_2);
+          obj.calc.SetSecondDerivative2(obj.x_second_derivative_2, obj.y_second_derivative_2);
       end
    end
   
