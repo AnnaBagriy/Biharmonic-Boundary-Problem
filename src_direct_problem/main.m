@@ -36,9 +36,9 @@ format long;
 
 U = @(x,y) 1; %x-2.*y;
 
-det_A = det(A);
+det_A = det(A)
 x = A \ y;
-
+x
 a0 = x(8 * m + 1);
 a1 = x(8 * m + 2);
 a2 = x(8 * m + 3);

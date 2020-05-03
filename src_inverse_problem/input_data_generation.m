@@ -3,7 +3,7 @@ tic
 
 % Constants initialization
 
-m = 32;
+m = 8;
 
 A0 = 1;
 A1 = 1;
@@ -20,7 +20,7 @@ disp(['m = ' num2str(m)])
 
 % Initialize system of linear equations
 
-mx = DirectProblemSolver(m, g2, q2, A0, A1, A2, nu);
+dps = DirectProblemSolver(m, g2, q2, A0, A1, A2, nu);
 
 % Set exact domain
 
@@ -30,16 +30,18 @@ x1 = @(t) r(t) .* cos(t);
 y1 = @(t) r(t) .* sin(t);
 
 x2 = @(t) 2 * cos(t);
-y2 = @(t) 2 * sin(t);
+y2 = @(t) 1.5 * sin(t);
 
-mx.SetBoundary1(x1, y1, 0);
-mx.SetBoundary2(x2, y2);
+dps.SetBoundary1(x1, y1);
+dps.SetBoundary2(x2, y2);
 
 % Solve system of the equations
 % Find densities and f on Г2
 
-mx.FindDensitiesAndConstants();
-mx.FindF();
+dps.FindDensitiesAndConstants();
+f = dps.FindF();
+
+disp([newline 'f(x) (x on Г2) = ' num2str(f) newline]);
 
 % Plot domain
 

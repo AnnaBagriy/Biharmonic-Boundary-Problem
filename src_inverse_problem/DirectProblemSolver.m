@@ -12,9 +12,9 @@ classdef DirectProblemSolver < handle
       m {mustBeNumeric}
       
       % Utility coeffs
-      A0 = 1
-      A1 = 1
-      A2 = 1
+      A0
+      A1
+      A2
       
       % Constant for Mx operator
       nu = 0.5
@@ -66,15 +66,7 @@ classdef DirectProblemSolver < handle
       
       n1_on_2
       n2_on_2
-      
-   end
-   
-   properties (Access = private)
-       q_m
-       
-      g_k
-      q_k
-      
+        
       x_derivative_1
       y_derivative_1
       
@@ -87,6 +79,14 @@ classdef DirectProblemSolver < handle
       x_second_derivative_2
       y_second_derivative_2
       
+   end
+   
+   properties (Access = private)
+      q_m
+       
+      g_k
+      q_k
+      
       calc
       file_manager
    end
@@ -98,7 +98,7 @@ classdef DirectProblemSolver < handle
          obj.m = m;
          
          obj.h = pi / m;
-         obj.s = (1:2 * m) * obj.h;
+         obj.s = (0:2 * m - 1) * obj.h;
          
          obj.g = g;
          obj.q = q;
@@ -113,16 +113,25 @@ classdef DirectProblemSolver < handle
          obj.calc = Calculator(obj.s);
       end
       
-      function SetBoundary1(obj, x, y, q_m)
+      function SetBoundary1(obj, x, y)
           obj.x_vector_1 = x;
           obj.y_vector_1 = y;
-          
+
           obj.x1 = x(obj.s);
           obj.y1 = y(obj.s);
           
-          obj.calc.SetBoundary1(obj.x1, obj.y1, q_m);
+          obj.calc.SetBoundary1(obj.x1, obj.y1);
           
           obj.SetNormal1();
+      end
+
+      function r_q_m = SetApproximationBoundary1(obj, x, y, r_q_m, q_m)
+          r_q_m = r_q_m + q_m;
+
+          obj.x1 = r_q_m .* x(obj.s);
+          obj.y1 = r_q_m .* y(obj.s);
+          
+          obj.calc.SetBoundary1(obj.x1, obj.y1);
       end
 
       function SetBoundary2(obj, x, y)
@@ -139,28 +148,20 @@ classdef DirectProblemSolver < handle
           
           obj.SetNormal2();
       end
-      
-      function [x2, y2] = GetBoundary2(obj)
-          x2 = obj.x2;
-          y2 = obj.y2;
-      end
-
-      function [n1, n2] = GetNormal2(obj)
-          n1 = obj.n1_on_1;
-          n2 = obj.n2_on_1;
-      end
 
       function x = SolveSystem(obj)
          obj.InitializeMatrix();
          obj.InitializeRightVector();
          
+         %obj.x = transpose(obj.y \ obj.A);
          obj.x = obj.A \ obj.y;
          x = obj.x;
+
       end
       
       function [fi_func_1, fi_func_2, psi_func_1, psi_func_2, a0, a1, a2] = FindDensitiesAndConstants(obj)
          obj.SolveSystem();
-         
+
          obj.a0 = obj.x(8 * obj.m + 1);
          obj.a1 = obj.x(8 * obj.m + 2);
          obj.a2 = obj.x(8 * obj.m + 3);
@@ -213,7 +214,7 @@ classdef DirectProblemSolver < handle
           
           obj.file_manager.WriteRightVectorToFile(obj.f_file, obj.f);
           
-          disp([newline 'f(x) (x on Г2) = ' num2str(obj.f) newline]);
+         % disp([newline 'f(x) (x on Г2) = ' num2str(obj.f) newline]);
           
        end
       
@@ -240,7 +241,7 @@ classdef DirectProblemSolver < handle
             obj.A(2, 6 * obj.m + ii) = obj.h * obj.n1_on_2(ii);
 
             % 3d utility equation
-            obj.A(3, ii) = obj.h * obj.y1(ii);
+            obj.A(3, ii) = obj.h * obj.y1(ii); 
             obj.A(3, 2 * obj.m + ii) = obj.h * obj.y2(ii);
             obj.A(3, 4 * obj.m + ii) = obj.h * obj.n2_on_1(ii);
             obj.A(3, 6 * obj.m + ii) = obj.h * obj.n2_on_2(ii);
@@ -301,7 +302,7 @@ classdef DirectProblemSolver < handle
          % Write to file
          
          obj.file_manager.WriteMatrixToFile(obj.matrix_file, obj.A);
-         
+
          A = obj.A;
       end
       
@@ -335,6 +336,7 @@ classdef DirectProblemSolver < handle
           x_2_derivative = matlabFunction(diff(diff(obj.x_vector_1(t), t), t));
           y_2_derivative = matlabFunction(diff(diff(obj.y_vector_1(t), t), t));
           
+          % Ignore j
           [obj.x_derivative_1, j] = x_derivative(obj.s);
           [obj.y_derivative_1, j] = y_derivative(obj.s);
 
@@ -358,6 +360,7 @@ classdef DirectProblemSolver < handle
           x_2_derivative = matlabFunction(diff(diff(obj.x_vector_2(t), t), t));
           y_2_derivative = matlabFunction(diff(diff(obj.y_vector_2(t), t), t));
           
+          % Ignore j
           [obj.x_derivative_2, j] = x_derivative(obj.s);
           [obj.y_derivative_2, j] = y_derivative(obj.s);
 

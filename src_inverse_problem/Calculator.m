@@ -46,8 +46,8 @@ classdef Calculator < handle
         
         %---------------------%
         
-        function SetBoundary1(obj, x1, y1, q_m)
-            obj.x1 = x1 + q_m;
+        function SetBoundary1(obj, x1, y1)
+            obj.x1 = x1;
             obj.y1 = y1;
         end
         
@@ -96,7 +96,7 @@ classdef Calculator < handle
         %   t1, t2 are from [0, 2pi]
 
         if l1 ~= 1 && l1 ~= 2 && l2 ~= 1 && l2 ~= 2
-            error(['WRONG INDEX IN r2(l1, l2, t1, t2)' newline 'l1 = ', num2str(l1) newline 'l2 = ', num2str(l2)]);
+            error(['WRONG INDEX IN obj.r2(l1, l2, t1, t2)' newline 'l1 = ', num2str(l1) newline 'l2 = ', num2str(l2)]);
         end
 
         if l1 == 1
@@ -120,7 +120,7 @@ classdef Calculator < handle
                 end
             end
         end
-        %res
+        
         end
         
         function res = H1(obj, l1, l2, ii, jj)
@@ -154,7 +154,7 @@ classdef Calculator < handle
             error(['WRONG INDEX IN H1_1(l, ii, jj, s)' newline 'l = ', num2str(l)]);
         end
 
-        res = r2(l, l, ii, jj).^2 ./ 8;
+        res = obj.r2(l, l, ii, jj)^2 / 8;
 
         end
         
@@ -174,7 +174,7 @@ classdef Calculator < handle
         if ii == jj
             res = 0;
         else
-            res = r2(l, l, ii, jj).^2 .* log((exp(1) .* r2(l, l, ii, jj)^2) ./ (4 .* (sin((obj.s(ii) - obj.s(jj)) ./ 2)).^2)) ./ 8;
+            res = obj.r2(l, l, ii, jj)^2 * log((exp(1) * obj.r2(l, l, ii, jj)^2) / (4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2)) / 8;
         end
 
         end
@@ -194,11 +194,11 @@ classdef Calculator < handle
         end
 
         if l2 == 1
-            res = - (obj.n1_on_1(jj) .* (obj.x2(ii) - obj.x1(jj)) .* (1 + 2 .* log(r2(l1, l2, ii, jj))) +...
-                     obj.n2_on_1(jj) .* (obj.y2(ii) - obj.y1(jj)) .* (1 + 2 .* log(r2(l1, l2, ii, jj)))) ./ 4;
+            res = - (obj.n1_on_1(jj) .* (obj.x2(ii) - obj.x1(jj)) .* (1 + 2 .* log(obj.r2(l1, l2, ii, jj))) +...
+                     obj.n2_on_1(jj) .* (obj.y2(ii) - obj.y1(jj)) .* (1 + 2 .* log(obj.r2(l1, l2, ii, jj)))) ./ 4;
         else
-            res = - (obj.n1_on_2(jj) .* (obj.x1(ii) - obj.x2(jj)) .* (1 + 2 .* log(r2(l1, l2, ii, jj))) +...
-                     obj.n2_on_2(jj) .* (obj.y1(ii) - obj.y2(jj)) .* (1 + 2 .* log(r2(l1, l2, ii, jj)))) ./ 4;
+            res = - (obj.n1_on_2(jj) .* (obj.x1(ii) - obj.x2(jj)) .* (1 + 2 .* log(obj.r2(l1, l2, ii, jj))) +...
+                     obj.n2_on_2(jj) .* (obj.y1(ii) - obj.y2(jj)) .* (1 + 2 .* log(obj.r2(l1, l2, ii, jj)))) ./ 4;
         end
 
         end
@@ -245,11 +245,11 @@ classdef Calculator < handle
             res = 0;
         else
             if l == 1
-                res = (obj.n1_on_1(jj) * (obj.x1(ii) - obj.x1(jj)) * (log((4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2) / (exp(1) * r2(l, l, ii, jj)^2)) - 1) +...
-                       obj.n2_on_1(jj) * (obj.y1(ii) - obj.y1(jj)) * (log((4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2) / (exp(1) * r2(l, l, ii, jj)^2)) - 1)) / 4;
+                res = (obj.n1_on_1(jj) * (obj.x1(ii) - obj.x1(jj)) * (log((4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2) / (exp(1) * obj.r2(l, l, ii, jj)^2)) - 1) +...
+                       obj.n2_on_1(jj) * (obj.y1(ii) - obj.y1(jj)) * (log((4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2) / (exp(1) * obj.r2(l, l, ii, jj)^2)) - 1)) / 4;
             else
-                res = (obj.n1_on_2(jj) * (obj.x2(ii) - obj.x2(jj)) * (log((4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2) / (exp(1) * r2(l, l, ii, jj)^2)) - 1) +...
-                       obj.n2_on_2(jj) * (obj.y2(ii) - obj.y2(jj)) * (log((4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2) / (exp(1) * r2(l, l, ii, jj)^2)) - 1)) / 4;
+                res = (obj.n1_on_2(jj) * (obj.x2(ii) - obj.x2(jj)) * (log((4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2) / (exp(1) * obj.r2(l, l, ii, jj)^2)) - 1) +...
+                       obj.n2_on_2(jj) * (obj.y2(ii) - obj.y2(jj)) * (log((4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2) / (exp(1) * obj.r2(l, l, ii, jj)^2)) - 1)) / 4;
             end    
         end
 
@@ -270,11 +270,11 @@ classdef Calculator < handle
         end
 
         if l1 == 1
-            res = (obj.n1_on_1(ii) * (obj.x1(ii) - obj.x2(jj)) * (1 + 2 * log(r2(l1, l2, ii, jj))) +...
-                   obj.n2_on_1(ii) * (obj.y1(ii) - obj.y2(jj)) * (1 + 2 * log(r2(l1, l2, (ii), jj)))) / 4;
+            res = (obj.n1_on_1(ii) * (obj.x1(ii) - obj.x2(jj)) * (1 + 2 * log(obj.r2(l1, l2, ii, jj))) +...
+                   obj.n2_on_1(ii) * (obj.y1(ii) - obj.y2(jj)) * (1 + 2 * log(obj.r2(l1, l2, (ii), jj)))) / 4;
         else
-            res = (obj.n1_on_2(ii) * (obj.x2(ii) - obj.x1(jj)) * (1 + 2 * log(r2(l1, l2, (ii), (jj)))) +...
-                   obj.n2_on_2(ii) * (obj.y2(ii) - obj.y1(jj)) * (1 + 2 * log(r2(l1, l2, (ii), (jj))))) / 4;
+            res = (obj.n1_on_2(ii) * (obj.x2(ii) - obj.x1(jj)) * (1 + 2 * log(obj.r2(l1, l2, (ii), (jj)))) +...
+                   obj.n2_on_2(ii) * (obj.y2(ii) - obj.y1(jj)) * (1 + 2 * log(obj.r2(l1, l2, (ii), (jj))))) / 4;
         end
 
         end
@@ -321,11 +321,11 @@ classdef Calculator < handle
             res = 0;
         else
             if l == 1
-                    res = (obj.n1_on_1(ii) * (obj.x1(ii) - obj.x1(jj)) * (log((exp(1) * r2(l, l, (ii), (jj))^2) / (4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2)) + 1)... 
-                         + obj.n2_on_1(ii) * (obj.y1(ii) - obj.y1(jj)) * (log((exp(1) * r2(l, l, (ii), (jj))^2) / (4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2)) + 1)) / 4;
+                    res = (obj.n1_on_1(ii) * (obj.x1(ii) - obj.x1(jj)) * (log((exp(1) * obj.r2(l, l, ii, jj)^2) / (4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2)) + 1)... 
+                         + obj.n2_on_1(ii) * (obj.y1(ii) - obj.y1(jj)) * (log((exp(1) * obj.r2(l, l, ii, jj)^2) / (4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2)) + 1)) / 4;
             else
-                    res = (obj.n1_on_2(ii) * (obj.x2(ii) - obj.x2(jj)) * (log((exp(1) * r2(l, l, (ii), (jj))^2) / (4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2)) + 1)... 
-                         + obj.n2_on_2(ii) * (obj.y2(ii) - obj.y2(jj)) * (log((exp(1) * r2(l, l, (ii), (jj))^2) / (4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2)) + 1)) / 4;
+                    res = (obj.n1_on_2(ii) * (obj.x2(ii) - obj.x2(jj)) * (log((exp(1) * obj.r2(l, l, ii, jj)^2) / (4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2)) + 1)... 
+                         + obj.n2_on_2(ii) * (obj.y2(ii) - obj.y2(jj)) * (log((exp(1) * obj.r2(l, l, ii, jj)^2) / (4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2)) + 1)) / 4;
             end
         end
 
@@ -338,12 +338,6 @@ classdef Calculator < handle
         %   l2 - one of the boundaries (1 or 2)
         %   l1 != l2
         %   t1, t2 - are from [0, 2pi]
-
-        %if l1 ~= 1 && l1 ~= 2 && l2 ~= 1 && l2 ~= 2
-        %    error(['WRONG INDEX IN H4(l1, l2, t1, t2)' newline 'l1 = ', num2str(l1) newline 'l2 = ', num2str(l2)]);
-        %elseif l1 == l2
-        %    error(['l1 CANNOT BE EQUAL TO l2 IN H4(l1, l2, t1, t2)' newline 'l1 = ', num2str(l1) newline 'l2 = ', num2str(l2)]);
-        %end
 
         if l1 == 1 && l2 == 1
             n_1c = obj.n1_on_1(ii);
@@ -398,8 +392,9 @@ classdef Calculator < handle
             y_i = obj.y2(jj);
         end
 
-        res = - (n_1c * (x_c - x_i) + n_2c * (y_c - y_i)) * (n_1i * (x_c - x_i) + n_2i * (y_c - y_i)) /...
-                 2 / r2(l1, l2, ii, jj)^2 - (n_1c * n_1i + n_2c * n_2i) * (1 + 2 * log(r2(l1, l2, ii, jj))) / 4;
+        res = - (n_1c * (x_c - x_i) + n_2c * (y_c - y_i)) * (n_1i * (x_c - x_i) +...
+            n_2i * (y_c - y_i)) / (2 * obj.r2(l1, l2, ii, jj)^2) -...
+            (n_1c * n_1i + n_2c * n_2i) * (1 + 2 * log(obj.r2(l1, l2, ii, jj))) / 4;
         end
         
         function res = H4_1(obj, l, ii, jj)
@@ -447,7 +442,7 @@ classdef Calculator < handle
 
             res = - (1 + log(exp(1) * ((y_der).^2 + (x_der).^2))) / 4;
         else
-            res = obj.H4(l,l, ii, jj) - obj.H4_1(l, ii, jj) .* log(4 * (sin((obj.s(ii) - obj.s(jj)) / 2)).^2 / exp(1));
+            res = obj.H4(l, l, ii, jj) - obj.H4_1(l, ii, jj) * log(4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2 / exp(1));
         end
 
         end
@@ -501,9 +496,9 @@ classdef Calculator < handle
             y_i = obj.y2(jj);
         end
 
-        res = (1 + 3 * nu) / 8 * pi + ((1 - nu) * (n_1c * (x_c - x_i) +...
-            n_2c * (y_c - y_i))^2) / ( 4 * pi * r2(l1, l2, ii, jj)^2) +...
-            ((1 + nu) * log(r2(l1, l2, ii, jj)^2)) / (8 * pi);
+        res = (1 + 3 * nu) / 4 + ((1 - nu) * (n_1c * (x_c - x_i) +...
+            n_2c * (y_c - y_i))^2) / ( 4 * pi * obj.r2(l1, l2, ii, jj)^2) +...
+            ((1 + nu) * log(obj.r2(l1, l2, ii, jj)^2)) / 4;
 
         end
         
@@ -537,20 +532,16 @@ classdef Calculator < handle
             error(['WRONG INDEX IN H4_1(l, ii, jj, s)' newline 'l = ', num2str(l)]);
         end
 
-        if l == 1
-             if ii == jj
-                 res = (1 + 3 * nu) / 4 + (1 + nu) * log(exp(1) * (obj.x_derivative_1(ii)^2 + obj.y_derivative_1(ii)^2)^2) / 4;
-             else
-                 res = obj.H5(l, l, ii, jj, nu) - (1 + nu) * log(4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2  / exp(1)) / 4;
-             end
+        if ii == jj
+            if l == 1
+                res = (1 + 3 * nu) / 4 + (1 + nu) * log(exp(1) * (obj.x_derivative_1(ii)^2 + obj.y_derivative_1(ii)^2)) / 4;
+            else
+                res = (1 + 3 * nu) / 4 + (1 + nu) * log(exp(1) * (obj.x_derivative_2(ii)^2 + obj.y_derivative_2(ii)^2)) / 4;
+            end
         else
-             if ii == jj
-                 res = (1 + 3 * nu) / 4 + (1 + nu) * log(exp(1) * (obj.x_derivative_2(ii)^2 + obj.y_derivative_2(ii)^2)^2) / 4;
-             else
-                 res = obj.H5(l, l, ii, jj, nu) - (1 + nu) * log(4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2  / exp(1)) / 4;
-             end
+            res = obj.H5(l, l, ii, jj, nu) - obj.H5_1(l, ii, jj, nu) * log(4 * (sin((obj.s(ii) - obj.s(jj)) / 2))^2  / exp(1));
         end
-
+        
         end
         
         function res = H6(obj, l1, l2, ii, jj, nu)
@@ -591,12 +582,9 @@ classdef Calculator < handle
 
             x_i = obj.x2(jj);
             y_i = obj.y2(jj);
-
+            
             x_1der_1 = obj.x_derivative_1(ii);
             x_1der_2 = obj.y_derivative_1(ii);
-
-            x_2der_1 = obj.x_second_derivative_1(ii);
-            x_2der_2 = obj.y_second_derivative_1(ii);
         end
         if l1 == 2 && l2 == 1
             n_1c = obj.n1_on_2(ii);
@@ -610,12 +598,9 @@ classdef Calculator < handle
 
             x_i = obj.x1(jj);
             y_i = obj.y1(jj);
-
+            
             x_1der_1 = obj.x_derivative_2(ii);
             x_1der_2 = obj.y_derivative_2(ii);
-
-            x_2der_1 = obj.x_second_derivative_2(ii);
-            x_2der_2 = obj.y_second_derivative_1(ii);
         end
         if l1 == 2 && l2 == 2
             n_1c = obj.n1_on_2(ii);
@@ -636,19 +621,19 @@ classdef Calculator < handle
             x_2der_1 = obj.x_second_derivative_2(ii);
             x_2der_2 = obj.y_second_derivative_2(ii);
         end
-
-        if ii == jj
+        
+        if l1 == l2 && ii == jj
             res = (1 - 3 * nu) * (n_1c * x_2der_1 + n_2c * x_2der_2) /...
                 (4 * (x_1der_1^2 + x_1der_2^2));
         else
             res = (1 - nu) * (((n_1c * (x_c - x_i) + n_2c *...
                 (y_c - y_i))^2 * (n_1i * (x_c - x_i) +...
-                n_2i * (y_c - y_i))) / r2(l1, l2, ii, jj)^4 -...
+                n_2i * (y_c - y_i))) / obj.r2(l1, l2, ii, jj)^4 -...
                 ((n_1c * n_1i + n_2c * n_2i) * (n_1c *...
                 (x_c - x_i) + n_2c * (y_c - y_i))) /...
-                r2(l1, l2, ii, jj)^2) / (2 * pi) - ((1 + nu) * (n_1i *...
-                (x_c - x_i) + n_2i * (y_c - y_i)) /...
-                (4 * pi * r2(l1, l2, ii, jj)^2));
+                obj.r2(l1, l2, ii, jj)^2) -...
+                ((1 + nu) * (n_1i *(x_c - x_i) + n_2i * (y_c - y_i)) /...
+                (2 * obj.r2(l1, l2, ii, jj)^2));
         end
 
         end
@@ -665,23 +650,31 @@ classdef Calculator < handle
         end
         
         function res = N_r_1(obj, ii, jj)
-
-        res = (cos(obj.s(jj)) * obj.n1_on_2(jj) + sin(obj.s(jj)) * obj.n2_on_2(jj)) * (log(r2(2, 1, ii, jj)) + 3);
+            
+        res = (cos(obj.s(jj)) * (obj.x2(ii) - obj.x1(jj)) + sin(obj.s(jj)) * (obj.y2(ii) - obj.y1(jj))) * (2 * log(obj.r2(2, 1, ii, jj)) + 1);
 
         end
 
         function res = N_r_2(obj, ii, jj)
 
-        res = (cos(obj.s(jj)) * (obj.x2(ii) - obj.x1(jj)) + sin(obj.s(jj)) * (obj.y2(ii) - obj.y1(jj))) * (log(r2(2, 1, ii, jj)) + 1);
-
+        %res = (cos(obj.s(jj)) * obj.n1_on_1(jj) + sin(obj.s(jj)) * obj.n2_on_1(jj)) * (log(obj.r2(2, 1, ii, jj)) + 3);
+        
+        res = cos(obj.s(jj)) * obj.n1_on_1(jj) * (-1 - 2 * log(obj.r2(2, 1, ii, jj)) + (obj.x2(ii) - obj.x1(jj)) *...
+            (1 - (2 * (obj.x2(ii) - obj.x1(jj))) / obj.r2(2, 1, ii, jj)^2 - (1 + 2 * log(obj.r2(2, 1, ii, jj))) * ...
+            (obj.x_derivative_1(jj) * obj.x_second_derivative_1(jj)) / (obj.x_derivative_1(jj)^2 + obj.y_derivative_1(jj)^2))) +...
+            sin(obj.s(jj)) * obj.n2_on_1(jj) * (-1 - 2 * log(obj.r2(2, 1, ii, jj)) + (obj.y2(ii) - obj.y1(jj)) *...
+            (1 - (2 * (obj.y2(ii) - obj.y1(jj))) / obj.r2(2, 1, ii, jj)^2 + (1 + 2 * log(obj.r2(2, 1, ii, jj))) * ...
+            (obj.y_derivative_1(jj) * obj.y_second_derivative_1(jj)) / (obj.x_derivative_1(jj)^2 + obj.y_derivative_1(jj)^2)));
+        
         end
         
-        function res = l(obj, ii, t, m)
+        function res = l(obj, ii, k, m)
 
+%         disp(['ii = ', num2str(ii), 'm = ', num2str(m)]);
         if ii <= m + 1
-            res = cos((ii - 1) .* t);
+            res = cos((ii - 1) * obj.s(k));
         else
-            res = sin(m - ii - 1) .* t;
+            res = sin((m - ii - 1) * obj.s(k));
         end
 
         end

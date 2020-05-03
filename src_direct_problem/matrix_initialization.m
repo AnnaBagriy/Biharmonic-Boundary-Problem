@@ -9,7 +9,7 @@ global x2;
 global y2;
 global m;
 format long;
-m = 8;
+m = 16;
 h = pi / m;
 jj = 1:2 * m;
 s = (jj - 1) * h;
@@ -127,8 +127,10 @@ for ii = 1:2 * m
         A(3 + ii + 6 * m, jj + 4 * m) = H4(2, 1, ii, jj) / (2 * m);
         A(3 + ii + 6 * m, jj + 6 * m) = H4_1(2, ii, jj) * R(abs(jj - ii), m) + H4_2(2, ii, jj) / (2 * m);
     end
- end
+end
     
+A
+y
 
 matrix_file = 'A_matrix.txt';
 vector_file = 'y_vector.txt';
