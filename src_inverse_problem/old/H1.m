@@ -12,6 +12,6 @@ elseif l1 == l2
     error(['l1 CANNOT BE EQUAL TO l2 IN H1(l1, l2, t1, t2)' newline 'l1 = ', num2str(l1) newline 'l2 = ', num2str(l2)]);
 end
 
-res = r2(l1, l2, ii, jj).^2 .* log(r2(l1, l2, ii, jj)) / 4;
+res = r2(l1, l2, ii, jj)^2 * log(r2(l1, l2, ii, jj)) / 4;
 
 end

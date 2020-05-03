@@ -25,9 +25,16 @@ if ii == jj
     syms t;
     y_derivative = matlabFunction(diff(y_vector(l,t),t));
     x_derivative = matlabFunction(diff(x_vector(l,t),t));
-    res = -(1+log(exp(1)*((y_derivative(s(ii)))^2+(x_derivative(s(ii)))^2)))/4;
+
+    x = x_derivative(s(ii));
+    y = y_derivative(s(ii));
+
+    x_derivative_calc = x(ii);
+    y_derivative_calc = y(ii);
+
+    res = -(1+log(exp(1)*((y_derivative_calc).^2+(x_derivative_calc).^2)))/4;
 else
-    res = H4(l,l, ii, jj) - H4_1(l, ii, jj)* log(4 * (sin((s(ii) - s(jj)) / 2))^2 / exp(1));
+    res = H4(l,l, ii, jj) - H4_1(l, ii, jj).* log(4 * (sin((s(ii) - s(jj)) / 2)).^2 / exp(1));
 end
 
 end

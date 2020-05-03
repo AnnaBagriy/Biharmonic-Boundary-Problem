@@ -1,11 +1,9 @@
-function res = H6(l1, l2, ii, jj)
+function res = H6(l1, l2, ii, jj, nu)
 % Sixth type of H function
 % As parameters takes:
 %   l1 - one of the boundaries (1 or 2)
 %   l2 - one of the boundaries (1 or 2)
 %   t1, t2 - are from [0, 2pi]
-
-global nu;
 
 global n_11;
 global n_21;

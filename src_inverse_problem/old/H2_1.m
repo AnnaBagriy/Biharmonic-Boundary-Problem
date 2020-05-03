@@ -24,9 +24,9 @@ if ii == jj
     res = 0;
 else
     if l == 1
-        res = -(n_11(jj) .* (x1(ii) - x1(jj)) + n_21(jj) .* (y1(ii) - y1(jj))) ./ 4;
+        res = -(n_11(jj) * (x1(ii) - x1(jj)) + n_21(jj) * (y1(ii) - y1(jj))) / 4;
     else
-        res = -(n_12(jj) .* (x2(ii) - x2(jj)) + n_22(jj) .* (y2(ii) - y2(jj))) ./ 4;
+        res = -(n_12(jj) * (x2(ii) - x2(jj)) + n_22(jj) * (y2(ii) - y2(jj))) / 4;
     end
 end
 
