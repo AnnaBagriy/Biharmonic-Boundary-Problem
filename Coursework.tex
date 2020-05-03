@@ -108,7 +108,15 @@
 	\label{dataEq}
 	u(x)=f(x), \quad x\in\Gamma_2,
 \end{equation}
-де $\Delta^{2}u(x)=\frac{\partial^{4}}{\partial x_1^4}u(x)+2\frac{\partial^{4}}{\partial x_1^2\partial x_2^2}u(x)+\frac{\partial^{4}}{\partial x_2^4}u(x),\ u(x)=u(x_1,x_2), \ n=(n_1, n_2)$ - зовнішня нормаль до $\Gamma$, $Mu=\nu\Delta u+(1-\nu)(u_{x_1 x_1}n_1^2+2u_{x_1 x_2}n_1 n_2+u_{x_2 x_2}n_2^2), \ \nu\in (0, 1)$ і $g(x),q(x),f(x)$ - деякі задані функції. Розв'язування \eqref{directProblem}-\eqref{dataEq} полягає у знаходженні невідомої $\Gamma_1$ для заданих граничних умов. Дана обернена задача є нелінійною і некоректною.
+де 
+$$\Delta^{2}u(x)=\frac{\partial^{4}}{\partial x_1^4}u(x)+2\frac{\partial^{4}}{\partial x_1^2\partial x_2^2}u(x)+\frac{\partial^{4}}{\partial x_2^4}u(x) \textrm{ - бігармонійний оператор,}
+$$
+ $u(x)=u(x_1,x_2) \in C^2(\Omega)\cap C(\overline{\Omega}), \ n=(n_1, n_2)$ - зовнішня нормаль до $\Gamma$, 
+ $$Mu=\nu\Delta u+(1-\nu)(u_{x_1 x_1}n_1^2+2u_{x_1 x_2}n_1 n_2+u_{x_2 x_2}n_2^2) \textrm{ - згинальний момент пластини } \Omega,
+ $$ 
+ $\nu\in (0, 1)$ - коефіцієнт Пуассона і $g(x),q(x),f(x)$ - деякі задані функції. 
+ 
+ Задача \eqref{directProblem}-\eqref{dataEq} полягає у знаходженні невідомої $\Gamma_1$ для заданих граничних умов. Дана обернена задача є нелінійною і некоректною.
 
 \begin{theorem}[Існування і єдиність розв'язку непрямої задачі]
 
@@ -123,7 +131,7 @@
 \begin{equation}
 W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta W. \nonumber
 \end{equation}
-За теоремою Гольмгрена маємо $u = \tilde{u}$ в $W$. Без втрати загальності приспустимо, що $W^{*}:=(\Omega_2\setminus \overline{W})\setminus\Omega_1$ непорожня множина. Тоді $u$ є визначена в $W^{*}$ як розв'язок задачі \eqref{directProblem} для $\Gamma_1$. Вона є неперервною в $\overline{W}^{*}$ і задовольняє граничні умови на $\delta W^{*}$. Ця гранична умова випливає з того, що кожна точка з $W^{*}$ належить або $\Gamma_1$, або $\delta W\cap\tilde{\Gamma}_1$. Для $x\in\Gamma_1$ маємо $u(x)=0$ як наслідок граничних умов для $u$, для $x\in\tilde{\Gamma}_1$ маємо $u(x)=\tilde{u}(x)$ і тому $u(x)=0$ як наслідок граничних умов для $\tilde{u}$. Тоді за принципом максимуму $u=0$ в $W^{*}$ і тому $u=0$ в $D$. Це суперечить тому, що $g\neq 0, q\neq 0$.
+За теоремою Гольмгрена \cite{Holmgren} маємо $u = \tilde{u}$ в $W$. Без втрати загальності приспустимо, що $W^{*}:=(\Omega_2\setminus \overline{W})\setminus\Omega_1$ непорожня множина. Тоді $u$ є визначена в $W^{*}$ як розв'язок задачі \eqref{directProblem} для $\Gamma_1$. Вона є неперервною в $\overline{W}^{*}$ і задовольняє граничні умови на $\delta W^{*}$. Ця гранична умова випливає з того, що кожна точка з $W^{*}$ належить або $\Gamma_1$, або $\delta W\cap\tilde{\Gamma}_1$. Для $x\in\Gamma_1$ маємо $u(x)=0$ як наслідок граничних умов для $u$, для $x\in\tilde{\Gamma}_1$ маємо $u(x)=\tilde{u}(x)$ і тому $u(x)=0$ як наслідок граничних умов для $\tilde{u}$. Тоді за принципом максимуму $u=0$ в $W^{*}$ і тому $u=0$ в $D$. Це суперечить тому, що $g\neq 0, q\neq 0$.
 
 \end{proof}
 
@@ -139,7 +147,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
  	G(x, y)=\frac{1}{8\pi}|x-y|^2\ln|x-y|, \quad x,\ y \in \mathbb{R}^2.
  \end{equation}
 
-Розглянемо потенціал простого шару для бігармонійного рівняння з густинами $\varphi$, $\psi$, що визначені на $\Gamma$:
+Розглянемо потенціал простого шару для бігармонійного рівняння \cite{chapko} з густинами $\varphi$, $\psi$, що визначені на $\Gamma$:
 
 \begin{equation}
 	 	u(x)=\int_{\Gamma}\bigg(G(x,y)\varphi(y)+\frac{\partial G(x,y)}{\partial n_y}\psi(y)\bigg)d\sigma_y, \quad x\in \Omega. \nonumber
@@ -176,11 +184,11 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
  
 
 В системі \eqref{system} ядра мають вигляд
-\begin{equation*}
- 	\frac{\partial G(x,y)}{\partial n_x}=\frac{1}{8\pi}n(x)\cdot(x-y)(1+2\ln|x-y|),
- \end{equation*}
  \begin{equation*}
  	\frac{\partial G(x,y)}{\partial n_y}=-\frac{1}{8\pi}n(y)\cdot(x-y)(1+2\ln|x-y|),
+ \end{equation*}
+\begin{equation*}
+ 	\frac{\partial G(x,y)}{\partial n_x}=\frac{1}{8\pi}n(x)\cdot(x-y)(1+2\ln|x-y|),
  \end{equation*}
  \begin{gather*}
  	\frac{\partial^2 G(x,y)}{\partial n_x\partial n_y}=\frac{\partial^2 G(x,y)}{\partial n_y\partial n_x}=-\frac{1}{8\pi}\bigg(2\frac{n(x)\cdot(x-y)n(y)\cdot(x-y)}{|x-y|^2} \\
@@ -199,6 +207,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 Обернена крайова задача \eqref{directProblem}-\eqref{dataEq} еквівалентна системі інтегральних рівнянь \eqref{system}-\eqref{dataEq1}.
 \end{theorem}
 
+ % 
 \section{Алгоритм знаходення розв'язку оберненої крайової задачі}
 
 Знаходження розв'язку задачі \eqref{system}-\eqref{dataEq1} складається з наступного ітераційного процесу:
@@ -283,7 +292,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 % 3.2 // Чисельне розв'язування %
 \section{Метод Нистрьома}
 
-Для чисельного розв'язування отриманої системи інтегральних рівнянь використуємо метод Нистрьома, який полягає у заміні інтегралу вiдповiдною квадратурною формулою з певними ваговими функцiями. Виберемо тригонометричні квадратури та рівновіддалений поділ,
+Для чисельного розв'язування отриманої системи інтегральних рівнянь використуємо метод Нистрьома, який полягає у заміні інтегралу вiдповiдною квадратурною формулою з певними ваговими функцiями \cite{kress}. Виберемо тригонометричні квадратури та рівновіддалений поділ,
 
 \begin{gather}
  	\frac{1}{2\pi}\int_{0}^{2\pi}f(\sigma)d\sigma\approx\frac{1}{2m}\sum_{j=0}^{2m-1}f(s_j), \\
@@ -291,7 +300,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
  \end{gather}
  з вузлами
  \begin{gather}
- 	s_k=kh, \ k=0,...,2m-1, \ h=\frac{\pi}{m}
+ 	s_k=kh, \ k=0,...,2m-1, \ h=\frac{\pi}{m},
   \end{gather}
   і ваговими функціями
   \begin{gather}
@@ -324,7 +333,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 \right.
 \end{equation}
 
-для $i=0,...,2m-1$. Тут $\ g_{2i}=g(x_2(s_i)),\ q_{2i}=q(x_2(s_i)), \ \omega_{1i}=\omega(x_1(s_i)), \ \frac{\partial\omega_{li}}{\partial n_l}=\frac{\partial\omega(x_l(s_i))}{\partial n_l} \ (l=1,2), \ M\omega_{2i}=\omega(x_2(s_i)), \ R_j=R(s_j)$
+для $i=0,...,2m-1$. Тут $\ g_{2i}=g(x_2(s_i)),\ q_{2i}=q(x_2(s_i)), \ \omega_{1i}=\omega(x_1(s_i)), \ \frac{\partial\omega_{li}}{\partial n_l}=\frac{\partial\omega(x_l(s_i))}{\partial n_l} \ (l=1,2), \ M\omega_{2i}=\omega(x_2(s_i)), \ R_j=R(s_j)$.
 Розв'язавши систему \eqref{discreteSystem}, отримаємо шукані коефіцієнти $(a_0,a_1,a_2)\in R^3$ і значення густин потенціалів на вибраному розбитті $\varphi_{kj}\approx\varphi_k(s_j), \ \psi_{kj}\approx\psi_k(s_j), \ k=1,2, \ j=0,...,2m-1.$
 
 
@@ -376,35 +385,35 @@ $x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \}$, де $c(t)=(\cos (t), \sin (t))$ і $\ r 
  \begin{equation}
 	(S_1^{'}[r,\varphi]q)(s)=\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\varphi(\sigma)d\sigma, 
  \end{equation}
- де $N_{r}(s, \sigma)=c(\sigma)\cdot\nabla_{x_{1}(\sigma)}|x_2(s)-x_1(\sigma)|^2\ln |x_2(s)-x_1(\sigma)|=c(\sigma)\cdot(x_1(s)-x_1(\sigma))(\ln |x_2(s)-x_1(\sigma)| + 1)$, $c(\sigma)=(\cos (\sigma), \sin (\sigma))$,
+ де $N_{r}(s, \sigma)=c(\sigma)\cdot\nabla_{x_{1}(\sigma)}|x_2(s)-x_1(\sigma)|^2\ln |x_2(s)-x_1(\sigma)|=c(\sigma)\cdot(x_2(s)-x_1(\sigma))(2\ln |x_2(s)-x_1(\sigma)| + 1)$,
  
  \begin{equation}
 	(\tilde{S}_1^{'}[r,\psi]q)(s)=-\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)\tilde{N}_{r}(s, \sigma)\psi(\sigma)d\sigma,
  \end{equation}
- $\tilde{N}_{r}(s, \sigma)=c(\sigma)\cdot n(x_1(\sigma))(3+\ln |x_2(s)-x_1(\sigma)|)$.
+ $\tilde{N}_{r}(s, \sigma)=c(\sigma)\cdot \nabla_{x_{1}(\sigma)} n(x_1(\sigma))\cdot(x_2(s)-x_1(\sigma))(1+2\ln|x_2(s)-x_1(\sigma)|)=c(\sigma)\cdot n(x_1(\sigma))(-1-\ln |x_2(s)-x_1(\sigma)|+(x_2(s)-x_1(\sigma))(1 - \frac{2(x_2(s)-x_1(\sigma))}{|x_2(s)-x_1(\sigma)|^2} -\frac{x^{'}_1(\sigma)x^{''}_1(\sigma) (1+2\ln |x_2(s)-x_1(\sigma)|)}{|x^{'}_1(\sigma)|^2})$.
  
   Рівняння \eqref{lineriazed} розв'яжемо методом колокацій, апроксимуючи $q$ у вигляді
  \begin{equation}
-q_m=\sum_{i=0}^{2m}q_{mi}l_i, \quad m\in N, \ n>m, \nonumber
+q_n(s)=\sum_{i=0}^{2n}q_{ni}l_i(s), \quad n\in N, \ n>m, \nonumber
  \end{equation}
  
- де $l_i(t)=\cos it$, коли $i=0,...,m$ i $l_i(t)=\sin(m-i)t$ для $i=m+1,...,2m$.
+ де $l_i(s)=\cos is$, коли $i=0,...,n$ i $l_i(t)=\sin(n-i)s$ для $i=n+1,...,2n$.
  
  Тоді необхідно розв'язати таку систему лінійних рівнянь
  \begin{equation}
  \label{illSys}
-\sum_{j=0}^{2m}q_{mj}A_{ij}=b_i, \quad i=0,...,2n-1,
+\sum_{j=0}^{2n}q_{nj}A_{ij}=b_i, \quad i=0,...,2m-1,
  \end{equation} 
  
  де
  \begin{equation}
-A_{ij}=\frac{1}{8n}\sum_{k=0}^{2n-1}\Big(l_{j}(t_k)N_r(t_i,t_k)\varphi_{1n}(t_k)+l_{j}(t_k)\tilde{N}_r(t_i,t_k)\psi_{1n}(t_k)\Big) \nonumber
+A_{ij}=\frac{1}{8m}\sum_{k=0}^{2m-1}\Big(l_{j}(s_k)N_r(s_i,s_k)\varphi_{1m}(s_k)+l_{j}(s_k)\tilde{N}_r(s_i,s_k)\psi_{1m}(s_k)\Big) \nonumber
  \end{equation} 
  
  і 
  \begin{equation}
  \begin{multlined}
- b_i=f(t_i)-w(t_i)-\frac{1}{2n}\sum_{k=0}^{2n-1}\Big(H_{21}(t_i,t_k)\varphi_{1n}(t_k)+\tilde{H}_{21}(t_i,t_k)\psi_{1n}(t_k)+\\\big(R_j(t_i)H_{22}^{(1)}(t_i,t_k)+H_{22}^{(2)}(t_i,t_k)\big)\varphi_{2n}(t_k)+\big(R_j(t_i)\tilde{H}_{22}^{(1)}(t_i,t_k)+\tilde{H}_{22}^{(2)}(t_i,t_k)\big)\psi_{2n}(t_k)\Big). \nonumber
+ b_i=f(t_i)-w(t_i)-\sum_{k=0}^{2m-1}\Big(\frac{1}{2m}H_{21}(t_i,t_k)\varphi_{1n}(t_k)+\frac{1}{2m}\tilde{H}_{21}(t_i,t_k)\psi_{1n}(t_k)+\\\big(R_j(t_i)H_{22}^{(1)}(t_i,t_k)+\frac{1}{2m}H_{22}^{(2)}(t_i,t_k)\big)\varphi_{2n}(t_k)+\big(R_j(t_i)\tilde{H}_{22}^{(1)}(t_i,t_k)+\frac{1}{2m}\tilde{H}_{22}^{(2)}(t_i,t_k)\big)\psi_{2n}(t_k)\Big). \nonumber
  \end{multlined}
  \end{equation} 
  
@@ -432,11 +441,24 @@ q=(A^T A+\lambda I)^{-1}A^T b.
 
 \begin{thebibliography}{99}
  \addcontentsline{toc}{chapter}{Література}
-\bibitem{chen} 
-Chen G., Boundary Element Methods with Applications to Nonlinear Problems / Goong Chen, Jianxin Zhou. - Atlantis Press, 2010. - 715 p.
 
 \bibitem{chapko} 
-Chapko R. Integral Equations for Biharmonic Data Completion / Roman Chapko, B. Tomas Johansson. - Inverse Problems and Imaging (accepted) - 2019. - 16 p.
+Chapko R. Integral Equations for Biharmonic Data Completion / Roman Chapko, B. Tomas Johansson. - Inverse Problems and Imaging - 2019. - 16 p.
+ 
+\bibitem{NonLinearIE} 
+Chapko R. On The Non-Linear Integral Equation Method For The Reconstruction of The Inclusion in The Elastic Body / Roman Chapko, Vasyl Vavrychuk, Olha Ivanyshyn Yaman. - Lviv, 2019. - 17 p.
+ 
+\bibitem{Uniqeness} 
+Kress R. Inverse Dirichlet Problem and Conformal Mapping / Rainer Kress. - 2004. - 255-265 p.
+ 
+\bibitem{Holmgren} 
+Hedenmalm H. On the uniqueness theorem of Holmgren / Haakan Hedenmalm. - 2013. - 14 p.
+
+\bibitem{ChapkoNonLinearIE} 
+Chapko R. On a Hybrid Method For Shape Reconstruction of a Buried Object in an Elastostatic Half Plane / Roman Chapko. - Lviv, 2009. - 199-210 p.
+
+\bibitem{KressNonLinearIE} 
+Kress R. An Inverse Boundary Value Problem for the Oseen Equation / Rainer Kress, Sascha Meyer. - 18 p.
  
 \bibitem{kress} 
 Kress R. Linear Integral Equations / Rainer Kress. - New York : Springer, 1989. - 412 p.
