@@ -179,15 +179,16 @@ classdef DirectProblemSolver < handle
              obj.psi_func_1(ii) = obj.x(ii + 4 * obj.m);
              obj.psi_func_2(ii) = obj.x(ii + 6 * obj.m);
          end
-         
+
          a0 = obj.a0;
          a1 = obj.a1;
          a2 = obj.a2;
          
          fi_func_1 = obj.fi_func_1;
          fi_func_2 = obj.fi_func_2;
-         psi_func_1 = obj.fi_func_1;
-         psi_func_2 = obj.fi_func_2;
+         
+         psi_func_1 = obj.psi_func_1;
+         psi_func_2 = obj.psi_func_2;
       end
       
       function f = FindF(obj)
@@ -213,8 +214,6 @@ classdef DirectProblemSolver < handle
           f = obj.f;
           
           obj.file_manager.WriteRightVectorToFile(obj.f_file, obj.f);
-          
-         % disp([newline 'f(x) (x on Г2) = ' num2str(obj.f) newline]);
           
        end
       
