@@ -3,7 +3,7 @@ tic
 
 % Constants initialization
 
-m = 8;
+m = 16;
 
 A0 = 1;
 A1 = 1;
@@ -24,13 +24,14 @@ dps = DirectProblemSolver(m, g2, q2, A0, A1, A2, nu);
 
 % Set exact domain
 
-r = @(t) sqrt(cos(t).^2 + 0.25 * sin(t).^2);
+%r = @(t) sqrt(cos(t).^2 + 0.25 * sin(t).^2);
+r = @(t) 0.9;
 
 x1 = @(t) r(t) .* cos(t);
 y1 = @(t) r(t) .* sin(t);
 
 x2 = @(t) 2 * cos(t);
-y2 = @(t) 1.5 * sin(t);
+y2 = @(t) 2 * sin(t);
 
 dps.SetBoundary1(x1, y1);
 dps.SetBoundary2(x2, y2);
@@ -42,6 +43,9 @@ dps.FindDensitiesAndConstants();
 f = dps.FindF();
 
 disp([newline 'f(x) (x on Г2) = ' num2str(f) newline]);
+
+u = dps.FindU(1, -1);
+disp([newline 'u(x) = ' num2str(u) newline]);
 
 % Plot domain
 

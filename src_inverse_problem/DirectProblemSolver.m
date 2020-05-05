@@ -215,7 +215,34 @@ classdef DirectProblemSolver < handle
           
           obj.file_manager.WriteRightVectorToFile(obj.f_file, obj.f);
           
-       end
+      end
+       
+      function U_approx = FindU(obj, x, y)
+          
+          U_approx = 0;
+          
+          r_1 = sqrt((obj.x1 - x).^2 + (obj.y1 - y).^2);
+          r_2 = sqrt((obj.x2 - x).^2 + (obj.y2 - y).^2);
+
+          H11 =  r_1.^2 .* log(r_1) ./ 4;
+          H21 =  -(obj.n1_on_1 .* (x - obj.x1) .* (1 + 2 .* log(r_1)) +...
+                     obj.n2_on_1 .* (y - obj.y1) .* (1 + 2 .* log(r_1))) ./ 4;
+
+          H12 =  r_2.^2 .* log(r_2) ./ 4;
+          H22 =  -(obj.n1_on_2 .* (x - obj.x2) .* (1 + 2 .* log(r_2)) +...
+                     obj.n2_on_2 .* (y - obj.y2) .* (1 + 2 .* log(r_2))) ./ 4;
+
+          for ii = 1:2 * obj.m
+
+              U_approx = U_approx + obj.fi_func_1(ii) *...
+                  H11(ii) + obj.psi_func_1(ii) * H21(ii) +...
+                       obj.fi_func_2(ii) * H12(ii) + obj.psi_func_2(ii) * H22(ii);
+
+          end
+          
+          U_approx = U_approx / (2 * obj.m) + obj.a0 + obj.a1 * x + obj.a2 * y;
+          
+      end
       
    end
    
