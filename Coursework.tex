@@ -26,7 +26,8 @@
 \usepackage{array}
 \usepackage{subfig}
 \usepackage[font=small,labelfont=bf]{caption}
-
+\usepackage{graphicx}
+\usepackage{capt-of}
 
 \usepackage{etoolbox}
 \makeatletter
@@ -90,7 +91,12 @@
 \chapter*{Вступ}
 \addcontentsline{toc}{chapter}{Вступ}
  
-Нехай $\Omega\subset \mathbb{R}^2$ двоз'язна область з межею $\Gamma=\Gamma_1\cup\Gamma_2$, де $\Gamma_1$ є внутрішньою межею і $\Gamma_2$ - зовнішньою. Розглянемо
+ \quad Обернені задачі, які полягають у реконструкції межі області, є популярним напрямом для дослідження, оскільки такі задачі мають велику кількість застосувань. Реконструкція межі області є нелінійною задачею, що призводить до труднощів як в теоретичних дослідженнях, так і в чисельному розв'язуванні. Найбільш ефективні чисельні методи для даної задачі базуються на інтегральних рівняннях. 
+ 
+ У даній роботі розглянуто реконструкцію внутрішньої межі двозв'язної пластини із заданими крайовими умовами, що задають певний фізичний сенс. Оскільки обернені задачі вимагають розв'язності відповідної прямої задачі, то також показано її коректність і наведено чисельні експеременти, що підтверджують теоретичні обґрунтування.
+
+ \section*{Постановка задачі}
+Нехай $\Omega\subset \mathbb{R}^2$ деяка двоз'язна область з межею $\Gamma=\Gamma_1\cup\Gamma_2$, де $\Gamma_1$ є внутрішньою межею і $\Gamma_2$ - зовнішньою. Розглянемо
 
 \begin{equation}
 	\left\{
@@ -111,14 +117,17 @@
 де 
 $$\Delta^{2}u(x)=\frac{\partial^{4}}{\partial x_1^4}u(x)+2\frac{\partial^{4}}{\partial x_1^2\partial x_2^2}u(x)+\frac{\partial^{4}}{\partial x_2^4}u(x) \textrm{ - бігармонійний оператор,}
 $$
- $u(x)=u(x_1,x_2) \in C^2(\Omega)\cap C(\overline{\Omega}), \ n=(n_1, n_2)$ - зовнішня нормаль до $\Gamma$, 
+ $$u(x)=u(x_1,x_2) \in C^2(\Omega)\cap C(\overline{\Omega}) \textrm{ - функція, що задовольняє рівняння і крайові умови}, $$
+ $$n=(n_1, n_2) \textrm{ - зовнішня нормаль до }\Gamma,$$ 
  $$Mu=\nu\Delta u+(1-\nu)(u_{x_1 x_1}n_1^2+2u_{x_1 x_2}n_1 n_2+u_{x_2 x_2}n_2^2) \textrm{ - згинальний момент пластини } \Omega,
  $$ 
- $\nu\in (0, 1)$ - коефіцієнт Пуассона і $g(x),q(x),f(x)$ - деякі задані функції. 
+ $\nu\in (0, 1)$ - коефіцієнт Пуассона і $g(x), \ q(x),\  f(x)$ - деякі задані функції, тотожньо відмінні від нуля.
  
- Задача \eqref{directProblem}-\eqref{dataEq} полягає у знаходженні невідомої $\Gamma_1$ для заданих граничних умов. Дана обернена задача є нелінійною і некоректною.
+Обернена задача \eqref{directProblem}-\eqref{dataEq} полягає у знаходженні невідомої межі $\Gamma_1$ для заданих функцій $g(x), q(x), f(x)$. Дана задача є нелінійною, оскільки її розв'язок нелінійно залежить від невідомої межі $\Gamma_1$, і також некоректною в сенсі відсутності стійкості за вхідними данними.
 
-\begin{theorem}[Існування і єдиність розв'язку непрямої задачі]
+Перш за все, необхідно розглянути питання існування та єдиності розв'язку оберненої задачі \eqref{directProblem}-\eqref{dataEq}.
+
+\begin{theorem}[Існування і єдиність розв'язку оберненої задачі]
 
 Нехай $\tilde{\Gamma}_1$, $\Gamma_1$ - замкнені криві, що містяться всередині $\Gamma_2$, $\tilde{u}$, $u$ - розв'язки задачі $\eqref{directProblem}$ для $\tilde{\Gamma}_1$ і $\Gamma_1$ відповідно. Нехай $g\neq 0, q\neq 0$ i $u = \tilde{u}$ на відкритій підмножині $\Gamma_2$. Тоді $\tilde{\Gamma}_1=\Gamma_1$.
 
@@ -129,9 +138,9 @@ $$
 Доведемо від протилежного. Нехай $\tilde{\Gamma}_1\neq\Gamma_1$.
 Нехай $\Omega_2$ - область, обмежена $\Gamma_2$, $\Omega_1$, $\tilde{\Omega}_1$ - області обмежені $\Gamma_1$, $\tilde{\Gamma}_1$ відповідно. 
 \begin{equation}
-W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta W. \nonumber
+W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\partial W. \nonumber
 \end{equation}
-За теоремою Гольмгрена \cite{Holmgren} маємо $u = \tilde{u}$ в $W$. Без втрати загальності приспустимо, що $W^{*}:=(\Omega_2\setminus \overline{W})\setminus\Omega_1$ непорожня множина. Тоді $u$ є визначена в $W^{*}$ як розв'язок задачі \eqref{directProblem} для $\Gamma_1$. Вона є неперервною в $\overline{W}^{*}$ і задовольняє граничні умови на $\delta W^{*}$. Ця гранична умова випливає з того, що кожна точка з $W^{*}$ належить або $\Gamma_1$, або $\delta W\cap\tilde{\Gamma}_1$. Для $x\in\Gamma_1$ маємо $u(x)=0$ як наслідок граничних умов для $u$, для $x\in\tilde{\Gamma}_1$ маємо $u(x)=\tilde{u}(x)$ і тому $u(x)=0$ як наслідок граничних умов для $\tilde{u}$. Тоді за принципом максимуму $u=0$ в $W^{*}$ і тому $u=0$ в $D$. Це суперечить тому, що $g\neq 0, q\neq 0$.
+За теоремою Гольмгрена \cite{Holmgren} маємо $u = \tilde{u}$ в $W$. Без втрати загальності приспустимо, що $W^{*}:=(\Omega_2\setminus \overline{W})\setminus\Omega_1$ непорожня множина. Тоді $u$ є визначена в $W^{*}$ як розв'язок задачі \eqref{directProblem} для $\Gamma_1$. Вона є неперервною в $\overline{W}^{*}$ і задовольняє граничні умови на $\partial W^{*}$. Ця гранична умова випливає з того, що кожна точка з $W^{*}$ належить або $\Gamma_1$, або $\partial W\cap\tilde{\Gamma}_1$. Для $x\in\Gamma_1$ маємо $u(x)=0$ як наслідок граничних умов для $u$, для $x\in\tilde{\Gamma}_1$ маємо $u(x)=\tilde{u}(x)$ і тому $u(x)=0$ як наслідок граничних умов для $\tilde{u}$. Тоді за принципом максимуму $u=0$ в $W^{*}$ і тому $u=0$ в $D$. Це суперечить тому, що $g\neq 0, q\neq 0$.
 
 \end{proof}
 
@@ -139,10 +148,11 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 % 2 // Теореми %
 \setcounter{secnumdepth}{1}
 \chapter{Загальні положення}
+\label{chapter1}
 
 \section{Зведення до ІР}
 
-Фундаментальний роз'вязок бігармонійного рівняння має вигляд
+Фундаментальний розв'язок бігармонійного рівняння в $\mathbb{R}^2$ має вигляд
  \begin{equation}
  	G(x, y)=\frac{1}{8\pi}|x-y|^2\ln|x-y|, \quad x,\ y \in \mathbb{R}^2.
  \end{equation}
@@ -153,12 +163,12 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 	 	u(x)=\int_{\Gamma}\bigg(G(x,y)\varphi(y)+\frac{\partial G(x,y)}{\partial n_y}\psi(y)\bigg)d\sigma_y, \quad x\in \Omega. \nonumber
 \end{equation}
 
-\begin{theorem}
-Розв'язок прямої крайової задачі \eqref{directProblem} можна подати у вигляді
+\begin{theorem}[Існування і єдиність розв'язку прямої задачі]
+Існує єдиний розв'язок прямої крайової задачі \eqref{directProblem}, який можна подати у вигляді
 	 \begin{equation}
 	 	u(x)=\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x), \quad x\in \Omega,
 	 \end{equation}
-	 де $\omega(x) = \alpha_0+\alpha_1x_1+\alpha_2x_2 \ ((\alpha_0,\alpha_1,\alpha_2)\in R^3), \varphi_k,\psi_k\in C(\Gamma_k), k=1,2$, і невідомі густини визначаються із системи інтегральних рівнянь
+	 де $\omega(x) = \alpha_0+\alpha_1x_1+\alpha_2x_2 \ ((\alpha_0,\alpha_1,\alpha_2)\in R^3), \varphi_k,\psi_k\in C(\Gamma_k), k=1,2$, і невідомі густини визначаються з системи інтегральних рівнянь
 	 \begin{equation}
 	 \left\{
 	 	\begin{split}
@@ -176,7 +186,9 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 	для заданих $(A_0,A_1,A_2)\in R^3$.
  \end{theorem}
  
- З умови \eqref{dataEq} маємо
+ Константи $A_0, A_1, A_2$ вибираються довільним чином, однак є некоректним брати за значення нулі.
+ 
+ З умови \eqref{dataEq} маємо наступне інтегральне рівняння
  \begin{equation}
  \label{dataEq1}
 	\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(G(x,y)\varphi_k(y)+\frac{\partial G(x,y)}{\partial n_y}\psi_k(y)\bigg)d\sigma_y+\omega(x)=f(x), \ x\in\Gamma_2.
@@ -202,7 +214,6 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 	-\frac{(1+\nu)n(y)\cdot(x-y)}{4\pi|x-y|^2}.
  \end{gather*}
 
-
 \begin{theorem}
 Обернена крайова задача \eqref{directProblem}-\eqref{dataEq} еквівалентна системі інтегральних рівнянь \eqref{system}-\eqref{dataEq1}.
 \end{theorem}
@@ -214,6 +225,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 \begin{itemize}
   \item Для заданого початкового наближення $\Gamma_1$ розв'язуємо пряму задачу для \eqref{system} і знаходимо невідомі густини.
   \item Лінеаризуємо рівняння \eqref{dataEq1} і покращуємо $\Gamma_1$, розв'язуючи лінеаризоване рівняння \eqref{dataEq1} для фіксованих густин, які є відомими з \eqref{system}.
+  \item Умовою зупинки може бути $||q||_2  <\epsilon$, де $q$ - функція, що задає покращення  $\Gamma_1$, $\epsilon$ - задана точність.
 \end{itemize}
 
 
@@ -229,8 +241,8 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
  \begin{equation}
  	\Gamma_l=\left\{x_l(s)=(x_1{_l}(s),x_2{_l}(s)) \ : \ s\in [0,2\pi]\right\},
   \end{equation}
- де $x_l \ (l=1,2)$ - аналітична й $2\pi$-періодична функція, $|x'(s)|>0.$
- Тоді систему можна записати 
+ де $x_l \ (l=1,2)$ - аналітична, $2\pi$-періодична функція, $|x'(s)|>0.$
+ Тоді систему \eqref{system} можна подати у вигляді
  
  \begin{equation}
  		\left\{
@@ -265,8 +277,7 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 	\tilde{H}_{ll}(s, \sigma)=\tilde{H}^{(1)}_{ll}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+\tilde{H}^{(2)}_{ll}(s, \sigma), \\
 	\tilde{\tilde{H}}_l{_l}(s, \sigma)=\tilde{\tilde{H}}^{(1)}_{ll}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+\tilde{\tilde{H}}^{(2)}_{ll}(s, \sigma), \\
 	\hat{H}_l{_l}(s, \sigma)=\hat{H}^{(1)}_{ll}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+\hat{H}^{(2)}_{ll}(s, \sigma), \\ 
-	\hat{\hat{H}}_l{_l}(s, \sigma)=\hat{\hat{H}}^{(1)}_{ll}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+\hat{\hat{H}}^{(2)}_{ll}(s, \sigma), \\
-	\bar{H}_l{_l}(s, \sigma)=\bar{H}^{(1)}_{ll}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+\bar{H}^{(2)}_{ll}(s, \sigma),
+	\hat{\hat{H}}_l{_l}(s, \sigma)=\hat{\hat{H}}^{(1)}_{ll}(s, \sigma)\ln\bigg(\frac{4}{e}\sin^2\frac{s-\sigma}{2}\bigg)+\hat{\hat{H}}^{(2)}_{ll}(s, \sigma).
  \end{gather}
  де 
 \begin{gather*}
@@ -289,10 +300,27 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 	\bar{H}_{ll}(s,s)=\frac{1-3\nu}{4}\frac{n(x_l(s))\cdot x_l^{''}(s)}{|x_l^{'}(s)|^2}.
  \end{gather*}
  
+ Параметризований розв'язок прямої задачі \eqref{paramSystem} має вигляд
+ 
+  \begin{equation}
+ \begin{split}
+	\tilde{u}(x)=\sum_{k=1}^{2}\int_{\Gamma_k}\bigg(H_{k}(x, \sigma)\varphi_k(\sigma)+\tilde{H}_{k}(x, \sigma)\psi_k(\sigma)\bigg)d\sigma_y+\omega(x), \ x=(x_1,x_2)\in\Omega,\\
+\end{split}
+ \end{equation}
+ де
+ 
+ \begin{equation*}
+ \begin{split}
+	&H_{l}(x, \sigma) = \frac{1}{8\pi}|x-x_l(\sigma)|^2\ln|x-x_l(\sigma)|,\\
+	&\tilde{H}_{l}(x, \sigma) = \frac{1}{8\pi}n(x_l(\sigma))\cdot(x-x_l(\sigma))(1+2\ln|x-x_l(\sigma)|), \ l=1, 2.
+\end{split}
+ \end{equation*}
+ 
+ 
 % 3.2 // Чисельне розв'язування %
 \section{Метод Нистрьома}
 
-Для чисельного розв'язування отриманої системи інтегральних рівнянь використуємо метод Нистрьома, який полягає у заміні інтегралу вiдповiдною квадратурною формулою з певними ваговими функцiями \cite{kress}. Виберемо тригонометричні квадратури та рівновіддалений поділ,
+Для чисельного розв'язування отриманої системи інтегральних рівнянь \eqref{paramSystem} використуємо метод Нистрьома, який полягає у заміні інтегралу вiдповiдною квадратурною формулою з певними ваговими функцiями \cite{kress}. Виберемо тригонометричні квадратури та рівновіддалений поділ,
 
 \begin{gather}
  	\frac{1}{2\pi}\int_{0}^{2\pi}f(\sigma)d\sigma\approx\frac{1}{2m}\sum_{j=0}^{2m-1}f(s_j), \\
@@ -307,7 +335,9 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
  	R_k(s)=-\frac{1}{m}\bigg(\frac{1}{2}+\sum_{j=1}^{m-1}\frac{1}{j}\cos \frac{jk\pi}{m}+ \frac{(-1)^k}{2m}\bigg).
   \end{gather}
 
-Застосувавши даний метод до параметризованої системи інтегральних рівнянь \eqref{paramSystem} із врахованими логарифмічними особливостями ядер, отримаємо повністю дискретизовану систему лінійних рівнянь,
+Вибір даних квадратур дає експоненційну збіжність, якщо підінтегральна функція $f$ є аналітичною \cite{kress}.
+
+Застосувавши даний метод до параметризованої системи інтегральних рівнянь \eqref{paramSystem} із врахованими логарифмічними особливостями ядер, отримаємо повністю дискретизовану систему лінійних рівнянь
 
   \begin{equation} 
   \label{discreteSystem}
@@ -341,15 +371,9 @@ W:=\Omega_2\setminus(\Omega_1\cup\tilde{\Omega}_1), \quad \Gamma_2\subset\delta 
 
 \chapter{Чисельне розв'язування некоректного ІР}
 
-%\begin{gather}
-%	\sum_{j=0}^{2m-1}\bigg(\frac{1}{2m}H_{21}(s_i, s_j)\varphi_{1j} +(H^{(1)}_{22}(s_i, s_j)R_{|i-j|}+\frac{1}{2m}H^{(2)}_{22}(s_i, s_j))\varphi_{2j}+\frac{1}{2m}\tilde{H}_{12}(s_i, s_j)\psi_{1j} \nonumber \\
-%	+(\tilde{H}^{(1)}_{22}(s_i, s_j)R_{|i-j|}+\frac{1}{2m}\tilde{H}^{(2)}_{22}(s_i, s_j))\psi_{2j}\bigg) + \omega_{2i}%=f_{2i},
-%\end{gather}
-
-%де $i=0,...,2m-1$.
-
 Ми припускаємо, що крива $\Gamma_1$ належить класу так званих "зіркових" кривих. Таким чином, параметризація задається як
-$x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \}$, де $c(t)=(\cos (t), \sin (t))$ і $\ r : \mathbb{R} \to (0, \infty)$ є $2\pi$-періодичною функцією, яка задає радіус.
+$$x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \},$$
+де $c(t)=(\cos (t), \sin (t))$ і $\ r : \mathbb{R} \to (0, \infty)$ є $2\pi$-періодичною функцією, яка задає радіус від початку координат.
 
 Тоді рівняння \eqref{dataEq1} можна записати як
 
@@ -373,14 +397,14 @@ $x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \}$, де $c(t)=(\cos (t), \sin (t))$ і $\ r 
 	S_{1}\varphi_1+\tilde{S}_{1}\psi_1+S_{2}\varphi_2+\tilde{S}_{2}\psi_2+\omega=f \quad \textrm{на } \Gamma_2. \\ 
  \end{equation}
  
- Лінеаризоване рівняння матиме вигляд
+ Для лінеаризації необхідно обрахувати похідні Фреше. Після застосування метода Ньютона лінеаризоване рівняння матиме вигляд
  \begin{equation}
   \label{lineriazed}
    \begin{multlined}
 	(S_1^{'}[r,\varphi]q)(s) + (\tilde{S}_1^{'}[r,\psi]q)(s)=\\f(s)-(S_{1}\varphi_1)(s)-(\tilde{S}_{1}\psi_1)(s)-(S_{2}\varphi_2)(s)-(\tilde{S}_{2}\psi_2)(s)-\omega(s),
  \end{multlined}
  \end{equation}
- де $q$ - радіальна функція, що задає покращення для $\Gamma_1$, $(S_1^{'}[r,\varphi]q)(s)$, $(\tilde{S}_1^{'}[r,\psi]q)(s)$ - похідні Фреше операторів $S$ i $\tilde{S}$ відповідно, і мають наступний вигляд
+ де $q$ - радіальна функція, що задає покращення для $\Gamma_1$, $(S_1^{'}[r,\varphi]q)(s)$, $(\tilde{S}_1^{'}[r,\psi]q)(s)$ - похідні Фреше операторів $S_1$ i $\tilde{S}_1$ відповідно, і мають наступний вигляд
  
  \begin{equation}
 	(S_1^{'}[r,\varphi]q)(s)=\frac{1}{8\pi}\int_{0}^{2\pi}q(\sigma)N_{r}(s, \sigma)\varphi(\sigma)d\sigma, 
@@ -397,7 +421,7 @@ $x_1(t)=\{r(t)c(t) : t\in[0,2\pi] \}$, де $c(t)=(\cos (t), \sin (t))$ і $\ r 
 q_n(s)=\sum_{i=0}^{2n}q_{ni}l_i(s), \quad n\in N, \ n>m, \nonumber
  \end{equation}
  
- де $l_i(s)=\cos is$, коли $i=0,...,n$ i $l_i(t)=\sin(n-i)s$ для $i=n+1,...,2n$.
+ де $l_i(s)=\cos is$, коли $i=0,...,n$ i $l_i(s)=\sin(n-i)s$ для $i=n+1,...,2n$.
  
  Тоді необхідно розв'язати таку систему лінійних рівнянь
  \begin{equation}
@@ -413,28 +437,161 @@ A_{ij}=\frac{1}{8m}\sum_{k=0}^{2m-1}\Big(l_{j}(s_k)N_r(s_i,s_k)\varphi_{1m}(s_k)
  і 
  \begin{equation}
  \begin{multlined}
- b_i=f(t_i)-w(t_i)-\sum_{k=0}^{2m-1}\Big(\frac{1}{2m}H_{21}(t_i,t_k)\varphi_{1n}(t_k)+\frac{1}{2m}\tilde{H}_{21}(t_i,t_k)\psi_{1n}(t_k)+\\\big(R_j(t_i)H_{22}^{(1)}(t_i,t_k)+\frac{1}{2m}H_{22}^{(2)}(t_i,t_k)\big)\varphi_{2n}(t_k)+\big(R_j(t_i)\tilde{H}_{22}^{(1)}(t_i,t_k)+\frac{1}{2m}\tilde{H}_{22}^{(2)}(t_i,t_k)\big)\psi_{2n}(t_k)\Big). \nonumber
+ b_i=f(s_i)-w(s_i)-\sum_{k=0}^{2m-1}\Big(\frac{1}{2m}H_{21}(s_i,s_k)\varphi_{1n}(s_k)+\frac{1}{2m}\tilde{H}_{21}(s_i,s_k)\psi_{1n}(s_k)+\\\big(R_j(s_i)H_{22}^{(1)}(s_i,s_k)+\frac{1}{2m}H_{22}^{(2)}(s_i,s_k)\big)\varphi_{2n}(s_k)+\big(R_j(s_i)\tilde{H}_{22}^{(1)}(s_i,s_k)+\frac{1}{2m}\tilde{H}_{22}^{(2)}(s_i,s_k)\big)\psi_{2n}(s_k)\Big). \nonumber
  \end{multlined}
  \end{equation} 
  
- Оскільки система \eqref{illSys} є погано обумовленою і перевизначеною, то для знаходження її розв'язку застосуємо метод найменших квадратів і регуляризацію Тихонова. Тоді розв'язок матиме такий вигляд
+ Оскільки система \eqref{illSys} є погано обумовленою і перевизначеною, то для знаходження її розв'язку застосуємо метод найменших квадратів і регуляризацію Тихонова з параметром регуляризації $\lambda$. Тоді розв'язок матиме такий вигляд
  
  \begin{equation}
-q=(A^T A+\lambda I)^{-1}A^T b.
+\tilde{q}=(A^T A+\lambda I)^{-1}A^T b, \quad \tilde{q}=(q_{n,1}, ..., q_{n,2n})^T .
  \end{equation} 
  
- Нове наближення радіальної функції $r$ обчислюється як $r=r+q$.
+ Нове наближення радіальної функції $r$ обчислюється як $r=r+q_n$.
+ \\
  
  Отже, можна сформулювати наступний ітераційний процес.
 \begin{enumerate}
   \item Вибрати початкове наближення для $r$.
-  \item Розв'язати дискретизовану систему лінійних рівнянь для знаходження невідомих густин $\varphi_k,\psi_k, \ k=1,2$.
-  \item Для фіксованих $r, \varphi_k,\psi_k, \ k=1,2$ розв'язати лінеаризоване рівняння \eqref{lineriazed} відносно функції $q$, що задає покращення для $\Gamma_1$.
-  \item Обрахувати нове наближення для радіальної функції $r=r+q$.
+  \item Сформувати і розв'язати дискретизовану систему лінійних рівнянь для знаходження невідомих густин $\varphi_k,\psi_k, \ k=1,2$, і констант $a_0,a_1, a_2$.
+  \item Для фіксованих $r, a_0,a_1, a_2, \varphi_k,\psi_k, \ k=1,2$ розв'язати лінеаризоване рівняння \eqref{lineriazed} відносно функції $q$, що задає покращення для $\Gamma_1$.
+  \item Обрахувати нове наближення для радіальної функції $r=r+q_n$.
   \item Якщо $||q||_2<\epsilon$, то наближення до $\Gamma_1$ знайдено. Інакше перейти до кроку 2.
 \end{enumerate}
 
 \chapter{Чисельні експерименти}
+
+Розглянемо приклади чисельного наближення розв'язку прямої крайової задачі \eqref{directProblem} для різних областей, параметрів $A_0,A_1,A_2,\nu$ та заданих функцій $f, q$.
+
+\subsection{Приклад 1}
+Розглянемо випадок, коли розв'язок задачі є невідомим.
+
+Нехай на $\Gamma_2$ задано функції
+  \begin{gather*}
+	g(x_1, x_2) = x_1-x_2,\\
+	q(x_1, x_2) = x_1 +x_2.
+ \end{gather*}
+ 
+ \begin{figure}[h!]
+\centering
+	\vspace*{-4cm}
+	\includegraphics[scale=.5]{sample1.pdf}
+	\vspace*{-3.5cm}
+\end{figure}
+
+ Параметричне задання області має вигляд
+  \begin{equation*}
+ \begin{split}
+ 	&\Gamma_1= \{x(s)=(r(s)\cos(s), r(s)\sin(s)),\ s\in[0,2\pi]\},\\
+	&\Gamma_2= \{x(s)=(2\cos(s),2\sin(s)),\ s\in[0,2\pi]\},
+ \end{split}
+ \end{equation*}
+ де $r(s)=1+0.15\cos(3s)$.
+ 
+ Розв'язок шукатимемо в точці $x=(1, -1.5)\in \Omega$.
+ 
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+\hline
+      \multicolumn{3}{|l|}{\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad $\tilde{u}(x)$} \tabularnewline
+ \hline
+ m & \shortstack{$A_0=A_1=A_2=1, \nu=0.5$}  & \shortstack{$A_0=0.1, A_1= 1,A_2=0, \nu=0.9$}  \\ 
+ \hline
+ 4 & 2.1772 & 1.9093 \\ 
+ 8 & 2.2293 & 1.9261 \\ 
+16 & 2.2374 & 1.9296 \\ 
+32 & 2.2369 & 1.9295 \\ 
+64 & 2.2369 & 1.9295 \\ 
+128 & 2.2369 & 1.9295 \\
+ \hline
+\end{tabular}
+ \captionof{table}{Наближення розв'язку при збільшенні $m$ і зміні основних параметрів}
+ \end{center}
+
+\subsection{Приклад 2}
+Розглянемо крайову задачу з точним розв'язком
+$$u(x)=G(x,y^*),$$
+де $G(x,y^*)$ - звуження фундаментального розв'язку бігармонійного рівняння, $y^*\notin\Omega$.
+
+Функції, що задані на $\Gamma_2$, мають вигляд
+
+ \begin{gather*}
+	g(x) = \frac{\partial G(x,y^*)}{\partial n},\\
+	q(x) = M_xG(x,y^*).
+ \end{gather*}
+
+
+\subsubsection{Приклад 2.1}
+\begin{figure}[h!]
+\centering
+	\vspace*{-4cm}
+	\includegraphics[scale=.5]{sample2.pdf}
+	\vspace*{-4cm}
+\end{figure}
+
+ Параметричне задання області має вигляд
+  \begin{equation*}
+ \begin{split}
+ 	&\Gamma_1= \{x(s)=(3\cos(s) + 2\cos(2s) - 0.75, 3\sin(s)),\ s\in[0,2\pi]\},\\
+	&\Gamma_2= \{x(s)=(2\cos(s)+\cos(2s),1.5\sin(s)),\ s\in[0,2\pi]\}.
+ \end{split}
+ \end{equation*}
+ 
+ Розв'язок шукатимемо в точці $x=(0, -2)\in \Omega$.
+ 
+\begin{center}
+\begin{tabular}{ |c|c| } 
+\hline
+ & $|\tilde{u}-u_{ex}|$ \\
+ \hline
+ m & \shortstack{$A_0=A_1=A_2=1, \nu=0.5$}  \\
+ \hline
+ 4 & 0.00100300  \\ 
+ 8 & 0.00001130  \\ 
+16 & 7.0444e-08  \\ 
+32 & 5.4863e-11 \\ 
+64 & 6.5824e-15 \\ 
+128 & 6.5824e-17 \\
+ \hline
+\end{tabular}
+%\caption{Приклад 2} 
+\end{center}
+
+\subsubsection{Приклад 2.2}
+
+  \begin{equation*}
+ \begin{split}
+ 	&\Gamma_1= \{x(s)=(3\cos(s) + 2\cos(2s) - 0.75, 3\sin(s)),\ s\in[0,2\pi]\},\\
+	&\Gamma_2= \{x(s)=(2\cos(s)+\cos(2s),1.5\sin(s)),\ s\in[0,2\pi]\}.
+ \end{split}
+ \end{equation*}
+ 
+\begin{figure}[h!]
+\centering
+	\vspace*{-4cm}
+	\includegraphics[scale=.5]{sample3.pdf}
+	\vspace*{-4cm}
+\end{figure}
+
+ Розв'язок шукатимемо в точці $x=(0, -2)\in \Omega$.
+ 
+\begin{center}
+\begin{tabular}{ |c|c| } 
+\hline
+ & $|\tilde{u}-u_{ex}|$ \\
+ \hline
+ m & \shortstack{$A_0=A_1=A_2=1, \nu=0.5$}  \\
+ \hline
+ 4 & 0.00100300  \\ 
+ 8 & 0.00001130  \\ 
+16 & 7.0444e-08  \\ 
+32 & 5.4863e-11 \\ 
+64 & 6.5824e-15 \\ 
+128 & 6.5824e-17 \\
+ \hline
+\end{tabular}
+%\caption{Приклад 3} 
+\end{center}
 
 \chapter*{Висновки}
 \addcontentsline{toc}{chapter}{Висновки}
