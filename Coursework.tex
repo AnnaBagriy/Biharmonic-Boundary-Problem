@@ -117,7 +117,7 @@
 де 
 $$\Delta^{2}u(x)=\frac{\partial^{4}}{\partial x_1^4}u(x)+2\frac{\partial^{4}}{\partial x_1^2\partial x_2^2}u(x)+\frac{\partial^{4}}{\partial x_2^4}u(x) \textrm{ - бігармонійний оператор,}
 $$
- $$u(x)=u(x_1,x_2) \in C^2(\Omega)\cap C(\overline{\Omega}) \textrm{ - функція, що задовольняє рівняння і крайові умови}, $$
+ $$u(x)=u(x_1,x_2) \in C^2(\Omega)\cap C^1(\overline{\Omega}) \textrm{ - функція, що задовольняє рівняння і крайові умови}, $$
  $$n=(n_1, n_2) \textrm{ - зовнішня нормаль до }\Gamma,$$ 
  $$Mu=\nu\Delta u+(1-\nu)(u_{x_1 x_1}n_1^2+2u_{x_1 x_2}n_1 n_2+u_{x_2 x_2}n_2^2) \textrm{ - згинальний момент пластини } \Omega,
  $$ 
@@ -444,7 +444,7 @@ A_{ij}=\frac{1}{8m}\sum_{k=0}^{2m-1}\Big(l_{j}(s_k)N_r(s_i,s_k)\varphi_{1m}(s_k)
  Оскільки система \eqref{illSys} є погано обумовленою і перевизначеною, то для знаходження її розв'язку застосуємо метод найменших квадратів і регуляризацію Тихонова з параметром регуляризації $\lambda$. Тоді розв'язок матиме такий вигляд
  
  \begin{equation}
-\tilde{q}=(A^T A+\lambda I)^{-1}A^T b, \quad \tilde{q}=(q_{n,1}, ..., q_{n,2n})^T .
+\tilde{q}=(A^T A+\lambda I)^{-1}A^T b, \quad \tilde{q}=(q_{n,1}, ..., q_{n,2n})^T.
  \end{equation} 
  
  Нове наближення радіальної функції $r$ обчислюється як $r=r+q_n$.
@@ -474,9 +474,9 @@ A_{ij}=\frac{1}{8m}\sum_{k=0}^{2m-1}\Big(l_{j}(s_k)N_r(s_i,s_k)\varphi_{1m}(s_k)
  
  \begin{figure}[h!]
 \centering
-	\vspace*{-4cm}
+	\vspace*{-4.5cm}
 	\includegraphics[scale=.5]{sample1.pdf}
-	\vspace*{-3.5cm}
+	\vspace*{-4cm}
 \end{figure}
 
  Параметричне задання області має вигляд
@@ -510,7 +510,7 @@ A_{ij}=\frac{1}{8m}\sum_{k=0}^{2m-1}\Big(l_{j}(s_k)N_r(s_i,s_k)\varphi_{1m}(s_k)
 
 \subsection{Приклад 2}
 Розглянемо крайову задачу з точним розв'язком
-$$u(x)=G(x,y^*),$$
+$$u(x)=G(x,y^*), \ x=(x_1, x_2)\in\Omega,$$
 де $G(x,y^*)$ - звуження фундаментального розв'язку бігармонійного рівняння, $y^*\notin\Omega$.
 
 Функції, що задані на $\Gamma_2$, мають вигляд
@@ -520,8 +520,6 @@ $$u(x)=G(x,y^*),$$
 	q(x) = M_xG(x,y^*).
  \end{gather*}
 
-
-\subsubsection{Приклад 2.1}
 \begin{figure}[h!]
 \centering
 	\vspace*{-4cm}
@@ -540,6 +538,7 @@ $$u(x)=G(x,y^*),$$
  Розв'язок шукатимемо в точці $x=(0, -2)\in \Omega$.
  
 \begin{center}
+\vspace*{0.3cm}
 \begin{tabular}{ |c|c| } 
 \hline
  & $|\tilde{u}-u_{ex}|$ \\
@@ -554,10 +553,22 @@ $$u(x)=G(x,y^*),$$
 128 & 6.5824e-17 \\
  \hline
 \end{tabular}
-%\caption{Приклад 2} 
+\captionof{table}{Абсолютна похибка при збільшенні $m$}
 \end{center}
 
-\subsubsection{Приклад 2.2}
+\subsection{Приклад 3}
+
+Нехай точний розв'язок має вигляд
+$$u(x)=x_1^2-x_2^2, \ (x_1, x_2)\in\Omega.$$
+
+Тоді крайові функці на $\Gamma_2$ можна обчислити як
+
+ \begin{gather*}
+	g(x) = \frac{\partial u(x)}{\partial n},\\
+	q(x) = M_xu(x).
+ \end{gather*}
+
+Розглянемо наступну область
 
   \begin{equation*}
  \begin{split}
@@ -573,7 +584,7 @@ $$u(x)=G(x,y^*),$$
 	\vspace*{-4cm}
 \end{figure}
 
- Розв'язок шукатимемо в точці $x=(0, -2)\in \Omega$.
+ Розв'язок шукатимемо в точці $x=(1, 1)\in \Omega$.
  
 \begin{center}
 \begin{tabular}{ |c|c| } 
@@ -582,43 +593,51 @@ $$u(x)=G(x,y^*),$$
  \hline
  m & \shortstack{$A_0=A_1=A_2=1, \nu=0.5$}  \\
  \hline
- 4 & 0.00100300  \\ 
- 8 & 0.00001130  \\ 
-16 & 7.0444e-08  \\ 
-32 & 5.4863e-11 \\ 
-64 & 6.5824e-15 \\ 
-128 & 6.5824e-17 \\
+ 4 & 0.0009048  \\ 
+ 8 & 0.0000119  \\ 
+16 & 3.0234e-06  \\ 
+32 & 1.4993e-07 \\ 
+64 & 2.5824e-09 \\ 
+128 & 1.3324e-14 \\
  \hline
 \end{tabular}
-%\caption{Приклад 3} 
+\captionof{table}{Абсолютна похибка при збільшенні $m$}
 \end{center}
+
+Отже, очевидно, що вибір допоміжних констант $A_0,A_1,A_2$ впливає на наближення розв'язку. Також вибраний метод для чисельного розв'язування прямої задачі показує необхідну збіжність.
 
 \chapter*{Висновки}
 \addcontentsline{toc}{chapter}{Висновки}
+
+\quad В роботі було розглянуто чисельне розв'язування оберненої крайової задачі для бігармонійного рівняння у випадку двозв'язної області методом нелінійних інтегральних рівнянь, що ґрунтується на потенціалах. Було розроблено ітераційний процес для наближеного розв'язування отриманих інтегральних рівнянь. Знайдено похідні Фреше відповідних операторів для лінеаризації рівняння. Для повної дискретизації був застосований метод тригонометричних квадратур. Отриману некоректну систему лінійних рівнянь було розв'язано метод найменших квадратів із застосуванням регуляризації Тихонова.
+
+Була показана розв'язність прямої крайової задачі методом інтегральних рівнянь. Отримана система iнтегральних рiвнянь була параметризована з видiленням особливостей на межах областi. До iнтегральних рiвнянь з видiленою особливiстю був застосований метод Нистрьома, який базується на використаннi тригонометричних формул з вiдокрем- леннмя вагових функцiй. В результатi ми отримали дискретну систему лiнiйних рiвнянь, з якої були знайденi невiдомi коефiцiєнти додаткової функцiї в рiвняннi для знаходжен- ня наближеного розв’язку. Пiсля того ми провели такий самий процес параметризацiї i дискретизацiї для формули пошуку розв’язку, отримали повнiстю дискретний метод для розв’язування задачi.
+
+Були проведенi чисельнi експерименти, які демонструють коректність прямої задачі, а також експоненційну збіжність вибраного методу.
 
 \begin{thebibliography}{99}
  \addcontentsline{toc}{chapter}{Література}
 
 \bibitem{chapko} 
-Chapko R. Integral Equations for Biharmonic Data Completion / Roman Chapko, B. Tomas Johansson. - Inverse Problems and Imaging - 2019. - 16 p.
+R. Chapko and B. T. Johansson, Integral equations for biharmonic data completion, Inverse Problems and Imaging, Vol. 130 : P.1-12 (2019)
  
 \bibitem{NonLinearIE} 
-Chapko R. On The Non-Linear Integral Equation Method For The Reconstruction of The Inclusion in The Elastic Body / Roman Chapko, Vasyl Vavrychuk, Olha Ivanyshyn Yaman. - Lviv, 2019. - 17 p.
+ R. Chapko, V. Vavrychuk and O. I. Yaman, On the non-linear integral equation method for the reconstruction of the inclusion in the elastic body, Journal of Numerical and Applied Mathematics, Vol. 122 : P.1-17 (2019)
  
 \bibitem{Uniqeness} 
-Kress R. Inverse Dirichlet Problem and Conformal Mapping / Rainer Kress. - 2004. - 255-265 p.
+R. Kress, Inverse dirichlet problem and conformal mapping, Mathematics and Computers in Simulation, P.255-265 (2004)
  
 \bibitem{Holmgren} 
-Hedenmalm H. On the uniqueness theorem of Holmgren / Haakan Hedenmalm. - 2013. - 14 p.
+H. Hedenmalm, On the uniqueness theorem of Holmgren, Mathematische Zeitschrift, Vol. 281, P.2 (2013)
 
 \bibitem{ChapkoNonLinearIE} 
-Chapko R. On a Hybrid Method For Shape Reconstruction of a Buried Object in an Elastostatic Half Plane / Roman Chapko. - Lviv, 2009. - 199-210 p.
+R. Chapko, On a hybrid method for shape reconstruction of a buried object in an elastostatic half plane, Inverse Problems and Imaging, 3 (2) : P.199-210 (2009)
 
 \bibitem{KressNonLinearIE} 
-Kress R. An Inverse Boundary Value Problem for the Oseen Equation / Rainer Kress, Sascha Meyer. - 18 p.
+R. Kress and S. Meyer, An inverse boundary value problem for the Oseen equation, P.13-15 (1994)
  
 \bibitem{kress} 
-Kress R. Linear Integral Equations / Rainer Kress. - New York : Springer, 1989. - 412 p.
+R. Kress, Linear integral equations, Applied Mathematical Sciences, Third Edition, New York (2014) 
 
 \end{thebibliography}
 
