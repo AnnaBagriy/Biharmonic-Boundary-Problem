@@ -464,6 +464,11 @@ classdef Calculator < handle
 
             x_i = obj.x1(jj);
             y_i = obj.y1(jj);
+            
+%             if ii == jj
+%                 res = 0;
+%                 return;
+%             end
         end
         if l1 == 1 && l2 == 2
             n_1c = obj.n1_on_1(ii);
@@ -494,10 +499,15 @@ classdef Calculator < handle
 
             x_i = obj.x2(jj);
             y_i = obj.y2(jj);
+            
+%             if ii == jj
+%                 res = 0;
+%                 return;
+%             end
         end
 
         res = (1 + 3 * nu) / 4 + ((1 - nu) * (n_1c * (x_c - x_i) +...
-            n_2c * (y_c - y_i))^2) / ( 4 * pi * obj.r2(l1, l2, ii, jj)^2) +...
+            n_2c * (y_c - y_i))^2) / ( 2 * obj.r2(l1, l2, ii, jj)^2) +...
             ((1 + nu) * log(obj.r2(l1, l2, ii, jj)^2)) / 4;
 
         end
@@ -632,10 +642,10 @@ classdef Calculator < handle
                 ((n_1c * n_1i + n_2c * n_2i) * (n_1c *...
                 (x_c - x_i) + n_2c * (y_c - y_i))) /...
                 obj.r2(l1, l2, ii, jj)^2) -...
-                ((1 + nu) * (n_1i *(x_c - x_i) + n_2i * (y_c - y_i)) /...
+                ((1 + nu) * (n_1i * (x_c - x_i) + n_2i * (y_c - y_i)) /...
                 (2 * obj.r2(l1, l2, ii, jj)^2));
         end
-
+        
         end
         
         function res = R(obj, k, m)
@@ -670,7 +680,6 @@ classdef Calculator < handle
         
         function res = l(obj, ii, k, m)
 
-%         disp(['ii = ', num2str(ii), 'm = ', num2str(m)]);
         if ii <= m + 1
             res = cos((ii - 1) * obj.s(k));
         else

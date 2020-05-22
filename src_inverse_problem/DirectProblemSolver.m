@@ -94,14 +94,11 @@ classdef DirectProblemSolver < handle
    methods (Access = public)
       
       % Initialization 
-      function obj = DirectProblemSolver(m, g, q, A0, A1, A2, nu)
+      function obj = DirectProblemSolver(m, A0, A1, A2, nu)
          obj.m = m;
          
          obj.h = pi / m;
          obj.s = (0:2 * m - 1) * obj.h;
-         
-         obj.g = g;
-         obj.q = q;
          
          obj.A0 = A0;
          obj.A1 = A1;
@@ -111,6 +108,16 @@ classdef DirectProblemSolver < handle
          
          obj.file_manager = FileManager();
          obj.calc = Calculator(obj.s);
+      end
+      
+      function SetBoundaryFunctions(obj, g, q)
+          
+         obj.g = g;
+         obj.q = q;
+         
+          obj.g_k = obj.g(obj.x2, obj.y2);
+          obj.q_k = obj.q(obj.x2, obj.y2);
+          
       end
       
       function SetBoundary1(obj, x, y)
@@ -140,9 +147,6 @@ classdef DirectProblemSolver < handle
           
           obj.x2 = x(obj.s);
           obj.y2 = y(obj.s);
-          
-          obj.g_k = obj.g(obj.x2, obj.y2);
-          obj.q_k = obj.q(obj.x2, obj.y2);
           
           obj.calc.SetBoundary2(obj.x2, obj.y2);
           
@@ -217,6 +221,16 @@ classdef DirectProblemSolver < handle
           
       end
        
+      function U = FindExactU(obj, x1, x2, y1, y2)
+          
+          r_2 = sqrt((x1 - y1).^2 + (x2 - y2).^2);
+
+          %U = r_2^2 * log(r_2) / (8 * pi);
+          U = x1^2 - x2^2;
+          %U = x1 + x2;
+          
+      end
+      
       function U_approx = FindU(obj, x, y)
           
           U_approx = 0;
@@ -226,17 +240,17 @@ classdef DirectProblemSolver < handle
 
           H11 =  r_1.^2 .* log(r_1) ./ 4;
           H21 =  -(obj.n1_on_1 .* (x - obj.x1) .* (1 + 2 .* log(r_1)) +...
-                     obj.n2_on_1 .* (y - obj.y1) .* (1 + 2 .* log(r_1))) ./ 4;
+                   obj.n2_on_1 .* (y - obj.y1) .* (1 + 2 .* log(r_1))) ./ 4;
 
           H12 =  r_2.^2 .* log(r_2) ./ 4;
           H22 =  -(obj.n1_on_2 .* (x - obj.x2) .* (1 + 2 .* log(r_2)) +...
-                     obj.n2_on_2 .* (y - obj.y2) .* (1 + 2 .* log(r_2))) ./ 4;
+                   obj.n2_on_2 .* (y - obj.y2) .* (1 + 2 .* log(r_2))) ./ 4;
 
           for ii = 1:2 * obj.m
 
-              U_approx = U_approx + obj.fi_func_1(ii) *...
-                  H11(ii) + obj.psi_func_1(ii) * H21(ii) +...
-                       obj.fi_func_2(ii) * H12(ii) + obj.psi_func_2(ii) * H22(ii);
+              U_approx = U_approx +...
+                  obj.fi_func_1(ii) * H11(ii) + obj.psi_func_1(ii) * H21(ii) +...
+                  obj.fi_func_2(ii) * H12(ii) + obj.psi_func_2(ii) * H22(ii);
 
           end
           
@@ -319,7 +333,12 @@ classdef DirectProblemSolver < handle
                 obj.A(3 + ii + 6 * obj.m, jj) = obj.calc.H5(2, 1, ii, jj, obj.nu) / (2 * obj.m);
                 obj.A(3 + ii + 6 * obj.m, jj + 2 * obj.m) = obj.calc.H5_1(2, ii, jj, obj.nu) * obj.calc.R(abs(jj - ii), obj.m) + obj.calc.H5_2(2, ii, jj, obj.nu) / (2 * obj.m);
                 obj.A(3 + ii + 6 * obj.m, jj + 4 * obj.m) = obj.calc.H6(2, 1, ii, jj, obj.nu) / (2 * obj.m);
-                obj.A(3 + ii + 6 * obj.m, jj + 6 * obj.m) = obj.calc.H6(2, 2, ii, jj, obj.nu) / (2 * obj.m);
+                
+                if ii == jj
+                    obj.A(3 + ii + 6 * obj.m, jj + 6 * obj.m) = obj.calc.H6(2, 2, ii, jj, obj.nu) / (2 * obj.m) + 0.5;
+                else
+                    obj.A(3 + ii + 6 * obj.m, jj + 6 * obj.m) = obj.calc.H6(2, 2, ii, jj, obj.nu) / (2 * obj.m);
+                end
             end
 
             %---------------------------%

@@ -153,7 +153,7 @@ classdef IncorrectEquationSolver < handle
 
                     for k = 1:2 * obj.m
 
-                        a_ij = a_ij + obj.calc.l(jj, k, obj.n) * (obj.calc.N_r_1(ii, k) * obj.fi_func_1(k) -...
+                        a_ij = a_ij + obj.calc.l(jj, k, obj.m) * (obj.calc.N_r_1(ii, k) * obj.fi_func_1(k) -...
                                                                   obj.calc.N_r_2(ii, k) * obj.psi_func_1(k));
                     end
 
@@ -171,7 +171,6 @@ classdef IncorrectEquationSolver < handle
             obj.InitializeMatrix();
             obj.InitializeRightVector();
             
-%             obj.q = linsolve(obj.A, obj.b);
             AT_A = transpose(obj.A) * obj.A;
             obj.q = (AT_A + obj.lambda * eye(size(AT_A)))^(-1) * transpose(obj.A) * obj.b;
             
@@ -187,6 +186,10 @@ classdef IncorrectEquationSolver < handle
 
                 q_m_k = 0;
 
+                if ii == 1
+                   disp(obj.calc.l(1, ii, obj.n)) 
+                end
+                
                 for jj = 1:2 * obj.n + 1
                     q_m_k = q_m_k + obj.q(jj) * obj.calc.l(jj, ii, obj.n);
                 end
